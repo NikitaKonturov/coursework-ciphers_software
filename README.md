@@ -61,23 +61,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 add_executable(project_name src/main.cpp)
 
 ```
-`cmake_minimum_required(VERSION 3.10)` в этой строчке мы объявляем версию CMake которую мы используем для сборки для проекта
-`project(project_name)` эта функция объявляет основной модуль нашей программы
-`set(CMAKE_CXX_STANDARD 20)` задаём стандарт с++ который используем при сборке
-`set(CMAKE_CXX_STANDARD_REQUIRED TRUE)` выставляем флаг на обязательное использование определённого стандарта языка C++ в проекте
-`add_executable(project_name src/main.cpp)` указываем на необходимость создание исполняемого файла где `project_name` имя будущего .exe файла, `src/main.cpp` путь к ресурсным файлам
++ `cmake_minimum_required(VERSION 3.10)` в этой строчке мы объявляем версию CMake которую мы используем для сборки для проекта
++ `project(project_name)` эта функция объявляет основной модуль нашей программы
++ `set(CMAKE_CXX_STANDARD 20)` задаём стандарт с++ который используем при сборке
++ `set(CMAKE_CXX_STANDARD_REQUIRED TRUE)` выставляем флаг на обязательное использование определённого стандарта языка C++ в проекте
++ `add_executable(project_name src/main.cpp)` указываем на необходимость создание исполняемого файла где `project_name` имя будущего .exe файла, `src/main.cpp` путь к ресурсным файлам
 
 Так как нам придёться создавать многофайловый проект то нам необходимо в каждой папке классе прописывать свой CMakeLists.txt "как MODEULE.bazel в Bazel"
 Он отличаеться от основного CMakeLists.txt 
 
-Мы попрежнему прописываем `cmake_minimum_required(VERSION 3.10)`
-далее создаём библиотеку `add_library(library_name library_file.cpp)`
-указываем директорию для поиска заголовочных файлов `target_include_directories(library_name PUBLIC{CMAKE_CURRENT_SOURCE_DIR})`
++ Мы попрежнему прописываем `cmake_minimum_required(VERSION 3.10)`
++ далее создаём библиотеку `add_library(library_name library_file.cpp)`
++ указываем директорию для поиска заголовочных файлов `target_include_directories(library_name PUBLIC{CMAKE_CURRENT_SOURCE_DIR})`
 
 Для подключения этой библиотеки в другой CMaleLists.txt в том числе и к главному модулю
 необходимо добавить строчки 
-`add_subdirectory("path\to\library\folder" "${CMAKE_BINARY_DIR}/library_name")` добавляем поддиректорию в основной проект в которых находяться свои собственные CMakeLists.txt, путь к основной папке библиотеке указываеться относительно той папки в которой применяеться эта команда
-`target_link_libraries(this_module library_module)` эта строка подключает библиотеку непосредственно к самому модулю где вместо `this_module` мы прописываем название того модуля к которому подключаем библиотеку, в `library_module` название модуля подключаемой библиотеки 
++ `add_subdirectory("path\to\library\folder" "${CMAKE_BINARY_DIR}/library_name")` добавляем поддиректорию в основной проект в которых находяться свои собственные CMakeLists.txt, путь к основной папке библиотеке указываеться относительно той папки в которой применяеться эта команда
++ `target_link_libraries(this_module library_module)` эта строка подключает библиотеку непосредственно к самому модулю где вместо `this_module` мы прописываем название того модуля к которому подключаем библиотеку, в `library_module` название модуля подключаемой библиотеки 
 
 
 
