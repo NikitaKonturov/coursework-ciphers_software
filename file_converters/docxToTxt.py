@@ -1,4 +1,3 @@
-import sys
 import os
 
 from docx import Document
@@ -7,8 +6,8 @@ def check_file_path(file_path : str):
     if os.path.exists(file_path):
         print(f'The file {file_path} exists, continuing work...')
     else:
-        print(f'The file {file_path} does not exist')
-        sys.exit(0)
+        raise Exception(f'The file {file_path} does not exist')
+        
 
 def docx_to_txt(docxFile : str, txtFile):
     

@@ -1,5 +1,5 @@
 import os.path
-import sys
+
 
 from docx import Document # Импорт класса Document в программу
 
@@ -7,8 +7,7 @@ def check_file_path(file_path : str):
     if os.path.exists(file_path):
         print(f'The file {file_path} exists, continuing work...')
     else:
-        print(f'The file {file_path} does not exist')
-        sys.exit(0)
+        raise Exception(f'The file {file_path} does not exist')        
     
 def txt_to_docx(txtFile : str, docxFile): # Определение будущей функции
     
