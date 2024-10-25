@@ -9,7 +9,7 @@ def check_file_path(file_path : str):
     else:
         raise Exception(f'The file {file_path} does not exist')        
     
-def txt_to_docx(txtFile : str, docxFile): # Определение будущей функции
+def txt_to_docx(txtFile : str, docxFile : str): # Определение будущей функции
     
     check_file_path(file_path)
     
@@ -23,14 +23,13 @@ def txt_to_docx(txtFile : str, docxFile): # Определение будуще�
             
             if everyNewLine == '':
                 doc.add_paragraph()
-                doc.save
+                doc.save('D:/Git/coursework-ciphers_software/file_converters/outputu.docx')
             
             else:
                 doc.add_paragraph(line.rstrip())
-                doc.save
+                doc.save('D:/Git/coursework-ciphers_software/file_converters/outputu.docx')
                     
-    doc.save(docxFile)
 
 file_path = r'D:/VsCode/PythonProjects/test.txt'
 
-txt_to_docx(file_path, 'outputu.docx')
+txt_to_docx(file_path, 'D:/Git/coursework-ciphers_software/file_converters/outputu.docx')
