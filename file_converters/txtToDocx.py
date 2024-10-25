@@ -24,12 +24,14 @@ def txt_to_docx(txtFile : str, docxFile): # Определение будуще�
             
             if everyNewLine == '':
                 doc.add_paragraph()
+                doc.save
             
             else:
                 doc.add_paragraph(line.rstrip())
+                doc.save
                     
     doc.save(docxFile)
 
-file_path = r'D:/VsCode/PythonProjects/testu.txt'
+file_path = r'D:/VsCode/PythonProjects/test.txt'
 
 txt_to_docx(file_path, 'outputu.docx')
