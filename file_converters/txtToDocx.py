@@ -1,17 +1,16 @@
 import os.path
 
-
 from docx import Document # Импорт класса Document в программу
 
-def check_file_path(file_path : str):
-    if os.path.exists(file_path):
-        print(f'The file {file_path} exists, continuing work...')
+def check_file_path(filePath : str):
+    if os.path.exists(filePath):
+        print(f'The file {filePath} exists, continuing work...')
     else:
-        raise Exception(f'The file {file_path} does not exist')        
+        raise Exception(f'The file {filePath} does not exist')        
     
 def txt_to_docx(txtFile : str, docxFile : str): # Определение будущей функции
     
-    check_file_path(file_path)
+    check_file_path(filePath)
     
     doc = Document()
     
@@ -30,6 +29,6 @@ def txt_to_docx(txtFile : str, docxFile : str): # Определение буд�
                 doc.save('D:/Git/coursework-ciphers_software/file_converters/outputu.docx')
                     
 
-file_path = r'D:/VsCode/PythonProjects/test.txt'
+filePath = r'D:/VsCode/PythonProjects/test.txt'
 
-txt_to_docx(file_path, 'D:/Git/coursework-ciphers_software/file_converters/outputu.docx')
+txt_to_docx(filePath, 'D:/Git/coursework-ciphers_software/file_converters/outputu.docx')

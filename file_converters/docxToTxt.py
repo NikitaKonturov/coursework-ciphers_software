@@ -1,4 +1,5 @@
 import os
+import re
 
 from docx import Document
 
@@ -10,7 +11,7 @@ def check_file_path(file_path : str):
         
 def docx_to_txt(docxFile : str, txtFile):
     
-    check_file_path(file_path)
+    check_file_path(filePath)
     
     # Открываем документ .docx
     doc = Document(docxFile)
@@ -18,8 +19,11 @@ def docx_to_txt(docxFile : str, txtFile):
     # Записываем текст в файл .txt поблочно
     with open(txtFile, 'w', encoding='utf-8') as txt_file:
         for para in doc.paragraphs:
-            txt_file.write(para.text + '\n')
+            cleanedText = ''.join(re.findall(r'[А-Яа-я]', para.text)).upper()
+            
+            if cleanedText:
+                txt_file.write(cleanedText)
 
-file_path = r'D:/VsCode/PythonProjects/test.docx'
+filePath = r'D:/download/Tolstoy_Anna_Karenina.docx'
 
-docx_to_txt(file_path, 'outputu.txt')
+docx_to_txt(filePath, 'outputu.txt')
