@@ -3,7 +3,9 @@
 #include "../include/nlohmann/json.hpp"
 #include <vector>
 #include <map>
+#include <regex>
 #include <string>
+#include <iostream>
 
 // функция зашифрования о.т., сигнатура и название должны строго соблюдаться, 
 // возвращает в качестве значения std::map где ключ для map это ключ зашифрования о.т. а сам ш.т. это значение map
@@ -19,5 +21,7 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
 std::vector<std::string> gen_keys(std::string keyPropertys, size_t count);
 // фунция возвращающая шаблон заапроса на шифрование в формате .json, также записанный в строку  
 std::string get_key_propertys();
+// функция проверки строку на корректное шаблон
+void chekRequest(nlohmann::json keyPropertys);
 
 #endif //HPC_CIPHER
