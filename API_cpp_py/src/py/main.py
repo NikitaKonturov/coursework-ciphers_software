@@ -19,9 +19,9 @@ print(api.get_ciphers_dict())
 print(jsonable_encoder(api.get_key_propertys('HPC_cipher').body))
 
 # # print(test.body.decode())
-print(api.encript_telegrams("HPC_cipher", ["Hello world!!!"], [" It's me"]))
+print(api.encript_telegrams("HPC_cipher", ["Hello world!!!"], None, {"permutation_size": 5}))
 
-print(api.decript_telegrams("HPC_cipher", api.encript_telegrams("HPC_cipher", ["Hello world!!!"], [" It's me"])))
+#print(api.decript_telegrams("HPC_cipher", api.encript_telegrams("HPC_cipher", ["Hello world!!!"], [" It's me"])))
 # print(api.encript_telegram("Hello world!!!", 19, "SHPZ-cipher")), 
 
 

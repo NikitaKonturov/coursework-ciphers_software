@@ -28,17 +28,35 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
 
 std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
+    nlohmann::json prop;
+    try{
+    std::replace(keyPropertys.begin(), keyPropertys.end(), '\'', '\"');
+    std::cout << keyPropertys << std::endl;
 
-// конвертация строки в формат .json для удобства работы, крайне рекомендую для использования
-    nlohmann::json prop = nlohmann::json::parse(keyPropertys);
-    
-    return std::vector<std::string>(count, prop["params"].dump(1));
+    prop = nlohmann::json::parse(keyPropertys);
+
+    chekRequest(prop);
+    } catch(nlohmann::json::parse_error &err) {
+        throw std::invalid_argument(err.what());
+    }
+    return std::vector<std::string>(count, prop["permutation_size"].dump());
 }
 
 std::string get_key_propertys()
 {
 // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "permutation_size", "min": 1, "max": null "type": "number", "default": 0, "label": "Permutation Size"}]})");
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "permutation_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Permutation Size"}]})");
    
     return keyProp.dump();
+}
+
+void chekRequest(nlohmann::json keyPropertys)
+{
+    try {
+        if(!keyPropertys.at("permutation_size").is_number()) {
+            throw std::invalid_argument("Key permutation_size must has int value...");
+        }
+    } catch (nlohmann::json::type_error &err) {
+        throw std::invalid_argument(err.what());
+    }
 }

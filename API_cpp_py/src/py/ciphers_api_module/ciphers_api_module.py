@@ -2,6 +2,7 @@ import importlib
 import importlib.util
 from fastapi.responses import JSONResponse
 from fastapi.requests import Request
+from typing import Optional
 import platform
 import sys
 import os
@@ -57,7 +58,7 @@ class CppCiphers:
         if(not os.path.exists(pathToCiphersDir)):
             raise  FileExistsError(f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
         if(not os.path.isdir(pathToCiphersDir)):
-            raise  FileExistsError(f"Path to ciphers is not directory was not found. Path: {pathToCiphersDir}")
+            raise  FileExistsError(f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
         self.__pathToCiphersDir = os.path.abspath(pathToCiphersDir)
         self.__cipherTitles = {}
 
@@ -70,47 +71,51 @@ class CppCiphers:
     # Зашифрование телерам по ключам или с генерацией ключей
     # для включения генерации шифров нужно установить keysGeneration флаг в True
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
-    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] = [], keyPropertys: dict = {}, keysGeneration: bool = False) -> dict[str, str]:
+    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyPropertys: dict | None) -> dict[str, str] | None:
         try:
-            if (cipher in sys.modules) :
-                if (keysGeneration):
-                    keys = sys.modules[cipher].gen_keys(str(keyPropertys), len(openTexts)) 
-                if(len(openTexts) <= len(keys)):
-                    return sys.modules[cipher].encript(openTexts, keys)
+            res: Optional[dict[str, str]]
+            res = None
+            if (keys == None):
+                keys = sys.modules[cipher].gen_keys(str(keyPropertys), len(openTexts)) 
+            if(len(openTexts) <= len(keys)):
+                res = sys.modules[cipher].encript(openTexts, keys)
             else:
-                raise AttributeError(f"Ciphers {cipher} was not found....")
+                raise AttributeError("Keys count must be not less than open text count...")
+            
         except TypeError as err:
             print(err)
-            return {}
+            
         except RuntimeError as err:
             print(err)
-            return {}
+            
+        return res    
+            
             
     # Функция получения шаблона свойств ключа 
-    def get_key_propertys(self, cipher: str) -> JSONResponse:
+    def get_key_propertys(self, cipher: str) -> JSONResponse | None:
+        res : Optional[JSONResponse] = None
         try:
-            if (cipher in sys.modules):
-                res: JSONResponse = JSONResponse("")
-                res.body = sys.modules[cipher].get_key_propertys()
-                return res
-            else:
-                raise AttributeError(f"Ciphers {cipher} was not found....")
-        except TypeError as err:
+            res = JSONResponse("")
+            res.body = sys.modules[cipher].get_key_propertys()
+        except KeyError as err:
             print(err)
-            return JSONResponse("Null")
+        
+        return res
         
     # Функция расшифрования, в keysAndCipherText {ключ расшифровавние: о.т.}
     # cipher назание модуля шифра в текущей сесси python
-    def decript_telegrams(self, cipher:str, keusAndCipherText: dict[str, str]) -> dict[str, str]:
+    def decript_telegrams(self, cipher:str, keusAndCipherText: dict[str, str]) -> dict[str, str] | None:
+        res: Optional[dict[str, str]]
+        res = None
         try:
             if(cipher in sys.modules):
-                return sys.modules[cipher].decript(keusAndCipherText)
+                res = sys.modules[cipher].decript(keusAndCipherText)
             else:
                 raise TypeError(f"Cipher {cipher} was not found....")
         except TypeError as err:
             print(err)
-            return ""
-    
+            
+        return res
     
         
         

@@ -7,5 +7,3 @@ add_library(HPC-cipher_lib HPC-cipher.cpp)
 target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Добавляем директорию для поиска файлов библиотеки nlohmann::json
 target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
-
-
