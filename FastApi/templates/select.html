@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="setting">
+      <button id="Setting">Настройки</button>
+    </div> 
+ 
+    <select>
+      <option>Шифр простой замены</option>
+      <option>Шифр горизонтальной перестановки</option>
+      <option>Шифр Плейфера</option>
+      <option>Шифр Виженера</option>
+      <option>Омофонный шифр</option>
+      <option>ADFGVX</option>
+      <option>Гамирование с повтором гаммы</option>
+      <option>Решётка Кардано</option>
+    </select>
+  
+    <div class="main-block">
+      <form method="post" enctype="multipart/form-data">
+        <label class="input-file">
+          <input type="file" name="file">
+        </label>
+      </form>
+
+      <label for="lenght">Размер телеграмм:</label>
+
+      <input type="text" name="lenght"  placeholder="Введите размер телеграмм" />
+
+      <label for="number">Количество телеграмм:</label>
+
+      <input type="text" name="number"  placeholder="Введите количество телеграмм" />
+    </div>
+
+    <div class="button-container">
+      <button id="encrypt">Зашифровать</button>
+      <button id="decrypt">Расшифровать</button>
+    </div>
+  </body>
+</html>

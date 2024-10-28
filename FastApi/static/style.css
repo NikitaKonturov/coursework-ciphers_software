@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    background-color: #9db7f7;
+    margin: 0;
+    padding: 0;
+  }
+.setting{
+  position: fixed;       
+  bottom: 600px;         
+  width: 100%;                  
+  justify-content: center;    
+}
+
+
+  button {
+    margin-right: 20px;
+    float: right;
+    padding: 20px 10px;    
+    font-size: 16px;       
+    background-color: #082ea1; 
+    color: #fff;           
+    border: none;         
+    border-radius: 5px;    
+    cursor: pointer;      
+  }
+  
+  button:hover {
+    background-color: #5989be; 
+  }
+
+  .main-block{
+    width: 50%;                   
+    padding: 90px;       
+    margin-top: 50px; 
+    margin-left: 200px;      
+    background-color: #39369c;    
+    border-radius: 10px; 
+  }
+
+  form{
+    margin-left:5px;     
+    margin-top: 5px;
+    padding: 1px;
+    font-size: 16px;
+  }
+
+  .input-file{
+    width: 80%;                
+    padding: 0px;              
+    margin-bottom: 10px;              
+    font-size: 14px;            
+    box-sizing: border-box;     
+  }
+
+  select{
+    margin-left:50px;     
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #333;
+  }
+
+  div label {
+    display: block;            
+    margin-bottom: 8px;        
+    font-size: 16px;           
+    color: #f1f3f5;               
+    font-weight: bold;          
+}
+
+div input {
+    width: 60%;                
+    padding: 10px;              
+    margin-bottom: 15px;        
+    border: 1px solid #ccc;     
+    border-radius: 5px;         
+    font-size: 14px;            
+    box-sizing: border-box;     
+}
+
+
+.button-container {
+  position: fixed;       
+  bottom: 20px;         
+  width: 100%;           
+  display: flex;         
+  justify-content: right; 
+  gap: 20px;             
+}
+
+button {
+  padding: 10px 20px;    
+  font-size: 16px;       
+  background-color: #082ea1; 
+  color: #fff;           
+  border: none;          
+  border-radius: 5px;    
+  cursor: pointer;      
+}
+
+button:hover {
+  background-color: #5989be; 
+}
