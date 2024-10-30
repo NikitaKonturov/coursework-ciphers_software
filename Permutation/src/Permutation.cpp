@@ -11,15 +11,15 @@ Permutation::Permutation(uint32_t initSize)
 { 
     for (uint32_t i = 0; i < initSize; ++i)
     {
-        map.insert({ i, i });
+        SourcePermut.insert({ i, i });
     }
 }
 
 Permutation::Permutation(const Permutation& rhs)
 {
-    for (auto pair : rhs.map)
+    for (auto pair : rhs.SourcePermut)
     {
-        this->map.insert({pair.first, pair.second });
+        this->SourcePermut.insert({pair.first, pair.second });
     }
 }
 
@@ -28,7 +28,7 @@ Permutation::Permutation(const std::vector<uint32_t>& rhs)
 {
     for (uint32_t i = 0; i < rhs.size(); ++i)
     {
-        this->map.insert({i,( rhs[i] - 1)});
+        this->SourcePermut.insert({i,( rhs[i] - 1)});
     }
     this->checkPermutation();
 }
@@ -47,9 +47,9 @@ Permutation::~Permutation() {}
 void Permutation::checkPermutation()
 {
     std::multiset<uint32_t> check;
-    for (const auto& [key, object] : map)
+    for (const auto& [key, object] : SourcePermut)
     {
-        if (map.count(object) == 0 ) throw std::invalid_argument("Row elements are different!!!");  // Проверка совместимости строк перестановки
+        if (SourcePermut.count(object) == 0 ) throw std::invalid_argument("Row elements are different!!!");  // Проверка совместимости строк перестановки
         check.find(object) == check.end()? check.insert(object) : throw std::invalid_argument("Row elements are different!!!"); // Проверка повторяющихся символов во второй строке
     } 
 }
@@ -68,18 +68,18 @@ void Permutation::apply(std::string& string)
     }
 
     // Проверяем, что количество элементов делится на размер перестановки
-    if(parts.size() % map.size() != 0) 
+    if(parts.size() % SourcePermut.size() != 0) 
         throw std::invalid_argument("The size of the string is not a multiple of the size of the permutation!");
 
     std::string openText;
 
-    uint32_t blockCount = parts.size() / map.size(); // Количество блоков
+    uint32_t blockCount = parts.size() / SourcePermut.size(); // Количество блоков
     for (uint32_t i = 0; i < blockCount; ++i)
     {
-        for (uint32_t j = 0; j < map.size(); ++j)
+        for (uint32_t j = 0; j < SourcePermut.size(); ++j)
         {
             // Индекс в parts: (i * размер блока) + новый индекс по подстановке
-            openText += parts[i * map.size() + map.at(j)] + ' ';
+            openText += parts[i * SourcePermut.size() + SourcePermut.at(j)] + ' ';
         }
     }
 
@@ -98,33 +98,33 @@ void Permutation::apply(std::string& string)
 
 void Permutation::operator*(const Permutation& rhs)
 {
-    for (auto& [up, down] : this->map)
+    for (auto& [up, down] : this->SourcePermut)
     {
-        down = rhs.map.at(up);
+        down = rhs.SourcePermut.at(up);
     }
 }
 
 void Permutation::compose(const Permutation& rhs)
 {
-    Permutation temp(this->map.size()); 
+    Permutation temp(this->SourcePermut.size()); 
 
     // Композиция перестановок: сначала rhs (справа), затем this (слева)
-    for (const auto& [up, down] : rhs.map)  
+    for (const auto& [up, down] : rhs.SourcePermut)  
     {
-        temp.map[up] = this->map.at(down);
+        temp.SourcePermut[up] = this->SourcePermut.at(down);
     }
 
-    this->map = temp.map;  
+    this->SourcePermut = temp.SourcePermut;  
 }
 
 std::ostream& operator<<(std::ostream& out, const Permutation& obj)
 {
-    for (const auto& pair : obj.map)
+    for (const auto& pair : obj.SourcePermut)
     {
         out << pair.first + 1 << '\t';
     }
     out << '\n';
-    for (const auto& pair : obj.map)
+    for (const auto& pair : obj.SourcePermut)
     {
         out << pair.second + 1 << '\t';
     }
@@ -134,10 +134,10 @@ std::ostream& operator<<(std::ostream& out, const Permutation& obj)
 std::istream& operator>>(std::istream& in, Permutation& obj)
 {
     uint32_t Second;
-    for (uint32_t i = 0; i < obj.map.size(); ++i)
+    for (uint32_t i = 0; i < obj.SourcePermut.size(); ++i)
     {
         in >> Second;
-        obj.map[i] = Second - 1;
+        obj.SourcePermut[i] = Second - 1;
     }
     obj.checkPermutation();
     return in;
