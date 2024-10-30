@@ -10,7 +10,7 @@
 class Permutation
 {
 private:
-    std::map<uint32_t, uint32_t> map;
+    std::map<uint32_t, uint32_t> SourcePermut;
 public:
     // Констуркторы
     Permutation();
