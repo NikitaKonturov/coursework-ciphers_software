@@ -5,6 +5,7 @@
 #include <map>
 #include <regex>
 #include <string>
+#include <exception>
 #include <iostream>
 
 // функция зашифрования о.т., сигнатура и название должны строго соблюдаться, 
@@ -23,5 +24,39 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count);
 std::string get_key_propertys();
 // функция проверки строку на корректное шаблон
 void chekRequest(nlohmann::json keyPropertys);
+
+
+class KeyPropertyError : public std::exception  
+{
+protected:
+    std::string message;
+public:
+    /*============== Конструкторы ==============*/
+    KeyPropertyError() noexcept;
+    KeyPropertyError(const char* mes) noexcept;
+    KeyPropertyError(const KeyPropertyError& source) noexcept;
+    /*============== Деструктор ===============*/
+    ~KeyPropertyError() noexcept = default;
+    /*============ Переопределение ============*/
+    inline const char* what() const noexcept override;
+};
+
+
+class InvalidKey : public std::exception  
+{
+protected:
+    std::string message;
+public:
+    /*============== Конструкторы ==============*/
+    InvalidKey() noexcept;
+    InvalidKey(const char* mes) noexcept;
+    InvalidKey(const InvalidKey& source) noexcept;
+    /*============== Деструктор ===============*/
+    ~InvalidKey() noexcept = default;
+    /*============ Переопределение ============*/
+    inline const char* what() const noexcept override;
+};
+
+
 
 #endif //HPC_CIPHER

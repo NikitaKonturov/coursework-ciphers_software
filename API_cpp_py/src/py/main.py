@@ -1,10 +1,5 @@
 import ciphers_api_module.ciphers_api_module as cipher_api
-from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from fastapi.requests import Request
-import platform
-from telegrams_sliser import telegrams_slicer_module
-import sys
 import os
 
 
@@ -19,7 +14,7 @@ print(api.get_ciphers_dict())
 print(jsonable_encoder(api.get_key_propertys('HPC_cipher').body))
 
 # # print(test.body.decode())
-print(api.encript_telegrams("HPC_cipher", ["Hello world!!!"], None, {"permutation_size": 5}))
+print(api.encript_telegrams("HPC_cipher", ["Hello world!!!"], None, {"permutation_size": 13}))
 
 #print(api.decript_telegrams("HPC_cipher", api.encript_telegrams("HPC_cipher", ["Hello world!!!"], [" It's me"])))
 # print(api.encript_telegram("Hello world!!!", 19, "SHPZ-cipher")), 
