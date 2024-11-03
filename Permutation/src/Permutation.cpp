@@ -37,6 +37,29 @@ Permutation::Permutation(const std::vector<int32_t>& rhs)
 }
 
 
+Permutation::Permutation(const std::string& rhs)
+{
+    std::istringstream iss(rhs);
+    int32_t value;
+    uint32_t index = 0;
+    std::multiset<uint32_t> check;  // Для проверки дубликатов
+    
+    // Разбираем строку на числа
+    while (iss >> value)
+    {
+        if (value <= 0) 
+            throw std::invalid_argument("Numbers must be positive and not zero!!!");
+        
+        if (check.find(value - 1) != check.end()) 
+            throw std::invalid_argument("Row elements are different!!!");
+        
+        check.insert(value - 1);
+        this->SourcePermut.insert({ index++, value - 1 });
+    }
+    
+    this->checkPermutation();
+}
+
 Permutation::~Permutation() {}
 
 
