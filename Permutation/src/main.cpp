@@ -4,10 +4,11 @@ int main()
 {
 	try
 	{
-		std::string a("");
-		std::getline(std::cin, a);
-		Permutation A(a);
-		std::cout << A;	
+		Permutation A(5);
+		std::cin >> A;
+		std::string str("HelloWorld");
+		A.apply(str);
+		std::cout << str;
 	}
 	catch (std::exception& e)
 	{
