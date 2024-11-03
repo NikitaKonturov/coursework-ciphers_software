@@ -101,11 +101,29 @@ void Permutation::apply(std::string& str)
     str = permutedStr;
 }
 
+void Permutation::inverse()
+{
+    Permutation inversePermut(SourcePermut.size());
 
+    // Строим обратную перестановку
+    for (const auto& [key, value] : SourcePermut) {
+        inversePermut.SourcePermut[value] = key;
+    }
 
-/*================================================================================*/
-/*==================================== Функции ===================================*/
-/*================================================================================*/
+    SourcePermut = inversePermut.SourcePermut;
+}
+
+uint32_t Permutation::operator()(int32_t& index)
+{
+    // Проверка на допустимый индекс
+    if (SourcePermut.find(index) == SourcePermut.end()) 
+        throw std::out_of_range("Index is out of range for the permutation.");
+    if (index <= 0) 
+            throw std::invalid_argument("Numbers must be positive and not zero!!!");
+    // Возвращаем элемент по индексу
+    return SourcePermut.at(index);
+}
+
 
 void Permutation::operator*(const Permutation& rhs)
 {
