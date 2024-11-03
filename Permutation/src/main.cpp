@@ -4,15 +4,10 @@ int main()
 {
 	try
 	{
-		std::vector<uint32_t> f({3,1,4,2});
-		std::vector<uint32_t> g({3,4,1,2});
-
-		Permutation F(f);
-		Permutation G(g);
-		std::cout << F << " * \n\n" << G << "=\n";
-		F.compose(G);
-		std::cout << F;
-		
+		std::string a("");
+		std::getline(std::cin, a);
+		Permutation A(a);
+		std::cout << A;	
 	}
 	catch (std::exception& e)
 	{

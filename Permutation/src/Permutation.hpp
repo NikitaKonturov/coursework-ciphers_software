@@ -17,6 +17,7 @@ public:
     Permutation(uint32_t);
     Permutation(const std::vector<int32_t>&);
     Permutation(const Permutation&);
+    Permutation(const std::string&);
     ~Permutation();
 
     // Функция
