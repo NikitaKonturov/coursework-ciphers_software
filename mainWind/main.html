@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="main-block">
+    <div class="settings-section">
+      <button id="Setting">Settings</button>
+      <select id="cipher-select">
+        <option>Simple substitution cipher</option>
+        <option>Horizontal transposition cipher</option>
+        <option>Playfair cipher</option>
+        <option>Vigenère cipher</option>
+        <option>Homophonic cipher</option>
+        <option>ADFGVX cipher</option>
+        <option>Gamma cipher with repeated gamma</option>
+        <option>Cardano grille cipher</option>
+      </select>
+    </div>
+    <form method="get" enctype="multipart/form-data" accept=".doc,.docx,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+      <label class="input-file">
+        <span id="custom-file-label">Choose file</span>
+        <input type="file" name="file" id="file" style="display: none;" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;">
+      </label>
+      <label id="file-validity"></label>
+    </form>
+
+    <label for="length">Telegram size:</label>
+    <input type="number" name="length" placeholder="Enter telegram size" />
+
+    <label for="number">Number of telegrams:</label>
+    <input type="number" name="number" placeholder="Enter number of telegrams" />
+  </div>
+
+  <div class="button-container">
+    <form><button id="encrypt">Encryption settings</button></form>
+    <form><button id="decrypt">Decryption settings</button></form>
+  </div>
+</body>
+</html>
