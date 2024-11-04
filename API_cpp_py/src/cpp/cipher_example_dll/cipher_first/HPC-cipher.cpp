@@ -20,7 +20,7 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
         text = openTexts[i];
         Permutation permut(keys[i]);
         if(text.size() % permut.size() != 0) {
-            text.append(text.size() - text.size() % permut.size(), 'A');
+            text.append(text.size() - text.size() % permut.size(), 'A'); // или throw InvalidOpenText();
         }
 
         permut.apply(text);

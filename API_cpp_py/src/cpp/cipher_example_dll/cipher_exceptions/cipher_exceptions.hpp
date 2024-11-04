@@ -37,6 +37,25 @@ public:
 };
 
 
+class InvalidOpenText : public std::exception  
+{
+protected:
+    std::string message;
+public:
+    /*============== Конструкторы ==============*/
+    InvalidOpenText() noexcept;
+    InvalidOpenText(const char* mes) noexcept;
+    InvalidOpenText(const InvalidOpenText& source) noexcept;
+    /*============== Деструктор ===============*/
+    ~InvalidOpenText() noexcept = default;
+    /*============ Переопределение ============*/
+    inline const char* what() const noexcept override;
+};
+
+
+
+
+
 
 
 #endif // CIPHER_EXCEPTIONS

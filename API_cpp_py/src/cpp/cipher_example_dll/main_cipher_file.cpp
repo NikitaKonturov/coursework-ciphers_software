@@ -14,6 +14,7 @@ PYBIND11_MODULE(HPC_cipher, m) {
     m.def("get_key_propertys", &get_key_propertys); // аналогично
     m.def("decript", &decript); // аналогично
     pybind11::register_exception<KeyPropertyError>(m, "keyPropertyError"); // регистрация класса ошибки валидности свойств ключа
-    pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки не валидного ключа
+    pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки валидности ключа
+    pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста
 }
 

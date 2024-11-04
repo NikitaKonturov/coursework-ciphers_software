@@ -28,7 +28,7 @@ const char *InvalidKey::what() const noexcept
 
 
 /*==============================================================================*/
-/*=========================== Не валидные параметры ============================*/
+/*======================== Не валидные параметры ключа =========================*/
 /*==============================================================================*/
 
 KeyPropertyError::KeyPropertyError() noexcept : std::exception()
@@ -47,6 +47,32 @@ KeyPropertyError::KeyPropertyError(const KeyPropertyError& source) noexcept : st
 }
 
 const char *KeyPropertyError::what() const noexcept
+{
+    return this->message.c_str();
+}
+
+
+/*===============================================================================*/
+/*========================= Не валидный открытый текст ==========================*/
+/*===============================================================================*/
+
+
+InvalidOpenText::InvalidOpenText() noexcept : std::exception()
+{
+    this->message = "Key property error";
+}
+
+InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception(mes)
+{
+    this->message = mes;
+}
+
+InvalidOpenText::InvalidOpenText(const InvalidOpenText& source) noexcept : std::exception() 
+{
+    this->message = source.message;
+}
+
+const char *InvalidOpenText::what() const noexcept
 {
     return this->message.c_str();
 }
