@@ -1,12 +1,18 @@
 #ifndef HPC_CIPHER
 #define HPC_CIPHER
 #include "../include/nlohmann/json.hpp"
-#include <vector>
-#include <map>
-#include <regex>
-#include <string>
+#include "../Permutation/src/Permutation.hpp"
+#include "../cipher_exceptions/cipher_exceptions.hpp"
+#include "../permutation_generator/permutation_generator.hpp"
 #include <exception>
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <time.h>
+#include <vector>
+#include <cmath>
+#include <regex>
+#include <map>
 
 // функция зашифрования о.т., сигнатура и название должны строго соблюдаться, 
 // возвращает в качестве значения std::map где ключ для map это ключ зашифрования о.т. а сам ш.т. это значение map
@@ -15,7 +21,7 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
 // функция рашифрование ш.т., сигнатура и название должны строго соблюдаться,
 // возвращает в качестве значение std::map где ключ map ключ расшифрование ш.т. а сам о.т. значение map
 // ketsAndCipherText map где ключ для map это ключ расшифрования ш.т. значение сам ш.т.
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndCipherText);
+std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText);
 // функция генерации ключей по параметрам ключа, возвращает вектор строк, сигнатура и названия строго  соблюдаются
 // keyPropertys строка в которой записаны параметры в формате .json, должны быть заполнены все поля влияющие на генерацию ключа
 // count числовой параметр обозначающий количество ключей 
@@ -24,39 +30,6 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count);
 std::string get_key_propertys();
 // функция проверки строку на корректное шаблон
 void chekRequest(nlohmann::json keyPropertys);
-
-
-class KeyPropertyError : public std::exception  
-{
-protected:
-    std::string message;
-public:
-    /*============== Конструкторы ==============*/
-    KeyPropertyError() noexcept;
-    KeyPropertyError(const char* mes) noexcept;
-    KeyPropertyError(const KeyPropertyError& source) noexcept;
-    /*============== Деструктор ===============*/
-    ~KeyPropertyError() noexcept = default;
-    /*============ Переопределение ============*/
-    inline const char* what() const noexcept override;
-};
-
-
-class InvalidKey : public std::exception  
-{
-protected:
-    std::string message;
-public:
-    /*============== Конструкторы ==============*/
-    InvalidKey() noexcept;
-    InvalidKey(const char* mes) noexcept;
-    InvalidKey(const InvalidKey& source) noexcept;
-    /*============== Деструктор ===============*/
-    ~InvalidKey() noexcept = default;
-    /*============ Переопределение ============*/
-    inline const char* what() const noexcept override;
-};
-
 
 
 #endif //HPC_CIPHER

@@ -1,6 +1,7 @@
 import ciphers_api_module.ciphers_api_module as cipher_api
 from fastapi.encoders import jsonable_encoder
 import os
+import sys
 
 
 pathToLibs = os.path.join(os.path.dirname(__file__), "include_ciphers")
@@ -14,7 +15,12 @@ print(api.get_ciphers_dict())
 print(jsonable_encoder(api.get_key_propertys('HPC_cipher').body))
 
 # # print(test.body.decode())
-print(api.encript_telegrams("HPC_cipher", ["Hello world!!!"], None, {"permutation_size": 13}))
+
+keysAndCipherTexts = api.encript_telegrams("HPC_cipher", ["HelloWorld", "WorldHello"], None, {"permutation_size": 5})
+
+print(keysAndCipherTexts)
+
+print(api.decript_telegrams("HPC_cipher", keysAndCipherTexts))
 
 #print(api.decript_telegrams("HPC_cipher", api.encript_telegrams("HPC_cipher", ["Hello world!!!"], [" It's me"])))
 # print(api.encript_telegram("Hello world!!!", 19, "SHPZ-cipher")), 

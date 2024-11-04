@@ -1,50 +1,85 @@
 #include "HPC-cipher.hpp"
+#include <random>
 
 /*================================================================*/
 /*=============== Реализация примерных функций ===================*/
 /*================================================================*/
+
 /*все алгоритмы лишь пример, и не один из них не являеться шифром*/
-
-
-
-
 
 std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
 {
     if(keys.empty()) {
         throw InvalidKey("Keys not found...");
     }
-
-    std::map<std::string, std::string> result;
-    for (size_t i = 0; i < openTexts.size(); ++i) {
-        result[openTexts[i]] = keys[i];
-    }
-    return result;
-}
-
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndCipherText)
-{
-    for (auto &pair: keysAndCipherText) {
-        pair.second = "decript_complite";
-    }
     
-    return keysAndCipherText;
+    std::string text = "";
+    std::map<std::string, std::string> keysAndCipherTexts;
+    
+    for (size_t i = 0; i < openTexts.size(); ++i) {
+        text = openTexts[i];
+        Permutation permut(keys[i]);
+        if(text.size() % permut.size() != 0) {
+            text.append(text.size() - text.size() % permut.size(), 'A');
+        }
+
+        permut.apply(text);
+        keysAndCipherTexts[keys[i]] = text;
+    }
+
+    
+    return keysAndCipherTexts;
 }
+
+std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText)
+{
+    for (auto& [key, text]: keysAndText) {
+        Permutation keyPermut(key);
+        if(text.size() % keyPermut.size() != 0) {
+            throw InvalidKey("Lenght cipher text must be multiple of the size permutation...");
+        }
+        keyPermut.inverse();
+        keyPermut.apply(text);
+    }
+
+    return keysAndText;
+}
+
 
 std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
     nlohmann::json prop;
     try{
-    std::replace(keyPropertys.begin(), keyPropertys.end(), '\'', '\"');
-    std::cout << keyPropertys << std::endl;
+        std::replace(keyPropertys.begin(), keyPropertys.end(), '\'', '\"');
+        std::cout << keyPropertys << std::endl;
 
-    prop = nlohmann::json::parse(keyPropertys);
+        prop = nlohmann::json::parse(keyPropertys);
+        chekRequest(prop);
+      
 
-    chekRequest(prop);
+        int32_t permut_size = prop["permutation_size"];
+        std::vector<int32_t> trivial_permut(permut_size);
+        for (size_t i = 0; i < permut_size; ++i) {
+            trivial_permut[i] = i + 1;
+        }
+        
+        setRand(static_cast<uint64_t>(time(NULL)));
+        std::vector<std::vector<int32_t>> all_permut(count);
+        for (size_t i = 0; i < count; ++i) {
+            all_permut[i] = generat_permutation(trivial_permut);
+        }
+
+        std::vector<std::string> result;
+        for (auto permut: all_permut) {
+            std::ostringstream oss;
+            std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(oss, " "));
+            result.push_back(oss.str().substr(0, oss.str().size() - 1));
+        }
+        
+        return result;
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
     }
-    return std::vector<std::string>(count, prop["permutation_size"].dump());
 }
 
 std::string get_key_propertys()
@@ -61,56 +96,10 @@ void chekRequest(nlohmann::json keyPropertys)
         if(!keyPropertys.at("permutation_size").is_number()) {
             throw KeyPropertyError("Key permutation_size must has int value...");
         }
+        if(keyPropertys["permutation_size"] <= 0) {
+            throw InvalidKey("Value permutation_size must be natural...");
+        }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
     }
-}
-
-/*==============================================================================*/
-/*============================= Не валидный ключ ===============================*/
-/*==============================================================================*/
-
-InvalidKey::InvalidKey() noexcept : std::exception()
-{
-    this->message = "Key property error";
-}
-
-InvalidKey::InvalidKey(const char* mes) noexcept : std::exception(mes)
-{
-    this->message = mes;
-}
-
-InvalidKey::InvalidKey(const InvalidKey& source) noexcept : std::exception() 
-{
-    this->message = source.message;
-}
-
-const char *InvalidKey::what() const noexcept
-{
-    return this->message.c_str();
-}
-
-
-/*==============================================================================*/
-/*=========================== Не валидные параметры ============================*/
-/*==============================================================================*/
-
-KeyPropertyError::KeyPropertyError() noexcept : std::exception()
-{
-    this->message = "Key property error";
-}
-
-KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception(mes)
-{
-    this->message = mes;
-}
-
-KeyPropertyError::KeyPropertyError(const KeyPropertyError& source) noexcept : std::exception() 
-{
-    this->message = source.message;
-}
-
-const char *KeyPropertyError::what() const noexcept
-{
-    return this->message.c_str();
 }
