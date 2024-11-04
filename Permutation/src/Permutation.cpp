@@ -37,6 +37,29 @@ Permutation::Permutation(const std::vector<int32_t>& rhs)
 }
 
 
+Permutation::Permutation(const std::string& rhs)
+{
+    std::istringstream iss(rhs);
+    int32_t value;
+    uint32_t index = 0;
+    std::multiset<uint32_t> check;  // Для проверки дубликатов
+    
+    // Разбираем строку на числа
+    while (iss >> value)
+    {
+        if (value <= 0) 
+            throw std::invalid_argument("Numbers must be positive and not zero!!!");
+        
+        if (check.find(value - 1) != check.end()) 
+            throw std::invalid_argument("Row elements are different!!!");
+        
+        check.insert(value - 1);
+        this->SourcePermut.insert({ index++, value - 1 });
+    }
+    
+    this->checkPermutation();
+}
+
 Permutation::~Permutation() {}
 
 
@@ -57,46 +80,50 @@ void Permutation::checkPermutation()
 }
 
 // Функция применения перестановки к строке
-void Permutation::apply(std::string& string)
+void Permutation::apply(std::string& str) 
 {
-    std::vector<std::string> parts;
-    std::istringstream iss(string);
-    std::string element;
+    size_t permSize = SourcePermut.size();
 
-    // Считываем все элементы строки в вектор
-    while (iss >> element) 
-    {
-        parts.push_back(element);
+    // Проверка: длина строки должна быть кратна размеру перестановки
+    if (str.size() % permSize != 0) {
+        throw std::invalid_argument("The length of the string must be a multiple of the size of the permutation!");
     }
 
-    // Проверяем, что количество элементов делится на размер перестановки
-    if(parts.size() % SourcePermut.size() != 0) 
-        throw std::invalid_argument("The size of the string is not a multiple of the size of the permutation!");
-
-    std::string openText;
-
-    uint32_t blockCount = parts.size() / SourcePermut.size(); // Количество блоков
-    for (uint32_t i = 0; i < blockCount; ++i)
-    {
-        for (uint32_t j = 0; j < SourcePermut.size(); ++j)
-        {
-            // Индекс в parts: (i * размер блока) + новый индекс по подстановке
-            openText += parts[i * SourcePermut.size() + SourcePermut.at(j)] + ' ';
+    // Создание нового порядка символов
+    std::string permutedStr = str;
+    for (size_t i = 0; i < str.size(); i += permSize) {
+        for (size_t j = 0; j < permSize; ++j) {
+            permutedStr[i + j] = str[i + SourcePermut.at(j)];
         }
     }
 
-    if (!openText.empty()) 
-    {
-        openText.pop_back();
-    }
-
-    string = openText;
+    // Замена исходной строки на переставленную
+    str = permutedStr;
 }
 
+void Permutation::inverse()
+{
+    Permutation inversePermut(SourcePermut.size());
 
-/*================================================================================*/
-/*==================================== Функции ===================================*/
-/*================================================================================*/
+    // Строим обратную перестановку
+    for (const auto& [key, value] : SourcePermut) {
+        inversePermut.SourcePermut[value] = key;
+    }
+
+    SourcePermut = inversePermut.SourcePermut;
+}
+
+uint32_t Permutation::operator()(int32_t& index)
+{
+    // Проверка на допустимый индекс
+    if (SourcePermut.find(index) == SourcePermut.end()) 
+        throw std::out_of_range("Index is out of range for the permutation.");
+    if (index <= 0) 
+            throw std::invalid_argument("Numbers must be positive and not zero!!!");
+    // Возвращаем элемент по индексу
+    return SourcePermut.at(index);
+}
+
 
 void Permutation::operator*(const Permutation& rhs)
 {

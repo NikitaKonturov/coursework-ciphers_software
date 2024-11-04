@@ -17,15 +17,18 @@ public:
     Permutation(uint32_t);
     Permutation(const std::vector<int32_t>&);
     Permutation(const Permutation&);
+    Permutation(const std::string&);
     ~Permutation();
 
     // Функция
     void checkPermutation();
     void apply(std::string&);
+    void inverse();
 
     // Перегрузка операторов
     void operator*(const Permutation&); // Умножение
     void compose(const Permutation&);   // Композиция
+    uint32_t operator()(int32_t&);          // Применение подстановки к числу
     friend std::ostream& operator<<(std::ostream&, const Permutation&);
     friend std::istream& operator>>(std::istream&, Permutation&);
 };
