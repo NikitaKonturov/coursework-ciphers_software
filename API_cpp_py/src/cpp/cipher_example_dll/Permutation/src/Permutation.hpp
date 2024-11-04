@@ -24,6 +24,7 @@ public:
     void checkPermutation();
     void apply(std::string&);
     void inverse();
+    size_t size();
 
     // Перегрузка операторов
     void operator*(const Permutation&); // Умножение

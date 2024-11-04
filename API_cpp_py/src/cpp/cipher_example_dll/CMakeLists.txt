@@ -33,21 +33,16 @@ set_target_properties(HPC_cipher PROPERTIES
     OUTPUT_NAME "HPC_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
 )
 
-
-
 # обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
 if(WIN32)
     set_target_properties(HPC_cipher PROPERTIES SUFFIX ".pyd")
     set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python311/python311.dll")
-
     # Копируем python311.dll в папку сборки библиотеки
     add_custom_command(TARGET HPC_cipher POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${PYTHON_DLL_PATH}"
         "$<TARGET_FILE_DIR:HPC_cipher>"
     )
-
-
 elseif(APPLE)
     set_target_properties(HPC_cipher PROPERTIES SUFFIX "dylib")
 else()

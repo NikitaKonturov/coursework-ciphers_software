@@ -113,6 +113,11 @@ void Permutation::inverse()
     SourcePermut = inversePermut.SourcePermut;
 }
 
+size_t Permutation::size()
+{
+    return this->SourcePermut.size();
+}
+
 uint32_t Permutation::operator()(int32_t& index)
 {
     // Проверка на допустимый индекс
