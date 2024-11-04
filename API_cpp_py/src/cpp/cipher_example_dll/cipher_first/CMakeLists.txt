@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Создаём статическую библиотеку HPC-cipher
-add_library(HPC-cipher_lib HPC-cipher.cpp)
+add_library(HPC-cipher_lib STATIC HPC-cipher.cpp)
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../Permutation" "${CMAKE_BINARY_DIR}/cipher_first/Permutation")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../cipher_exceptions" "${CMAKE_BINARY_DIR}/cipher_first/cipher_exceptions")
