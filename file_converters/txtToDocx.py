@@ -8,7 +8,7 @@ def check_file_path(filePath : str):
     else:
         raise Exception(f'The file {filePath} does not exist')        
     
-def txt_to_docx(txtFile : str, docxFile : str): # Определение будущей функции
+def txt_to_docx(txtFile : str, docxFile : str):
     
     check_file_path(filePath)
     
