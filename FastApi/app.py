@@ -54,10 +54,6 @@ class SelectOptions(BaseModel):
     length: int
     number: int
     
-@app.get('/', response_class=HTMLResponse)
-async def main(request: Request):
-    return templates.TemplateResponse(request=request, name='main.html')
-
 @app.post('/selectCipher')
 async def select_cipher(option: str = Form(...), file: UploadFile = File(...), length: int = Form(...), number: int = Form(...)):
     return JSONResponse(
@@ -69,7 +65,7 @@ async def select_cipher(option: str = Form(...), file: UploadFile = File(...), l
         }
     )
 
-@app.get('/select', response_class=HTMLResponse)
+@app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
     return templates.TemplateResponse(request=request, name='select.html')
 
