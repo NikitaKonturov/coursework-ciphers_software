@@ -44,4 +44,4 @@ def docx_to_txt(language : str, docxFile : str, txtFile):
 
 filePath = r'D:/download/testi.docx'
 
-docx_to_txt('eng', filePath, 'output.txt')
+docx_to_txt('ru', filePath, 'output.txt')
