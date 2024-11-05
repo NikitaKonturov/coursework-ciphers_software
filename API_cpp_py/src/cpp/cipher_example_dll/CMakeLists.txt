@@ -3,12 +3,12 @@ project(dynamicLib)
 
 set(CMAKE_CXX_STANDARD 20) 
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(pybind11_DIR "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pybind11\\share\\cmake\\pybind11")
+set(pybind11_DIR "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pybind11\\share\\cmake\\pybind11")
 # Чтобы получить путь устанавливаем через pip install pybind11
 # И выполняем команду python pip -m pybind11 --cmakedir она вернёт нам путь к папке который мы и подставляем в set(pybind11_DIR <path>)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 # путь заменить на свой 
-set(Python3_LIBRARY "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\libs\\python311.lib")
+set(Python3_LIBRARY "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\libs\\python312.lib")
 find_package(pybind11 REQUIRED)
 # добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
 add_subdirectory("cipher_first" "${CMAKE_BINARY_DIR}/cipher_first")
@@ -36,7 +36,7 @@ set_target_properties(HPC_cipher PROPERTIES
 # обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
 if(WIN32)
     set_target_properties(HPC_cipher PROPERTIES SUFFIX ".pyd")
-    set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python311/python311.dll")
+    set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python312.dll")
     # Копируем python311.dll в папку сборки библиотеки
     add_custom_command(TARGET HPC_cipher POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
