@@ -11,6 +11,9 @@ build/
 # Prerequisites
 *.d
 
+# pycash
+__pycache__/
+
 # Compiled Object files
 *.slo
 *.lo
