@@ -1,47 +1,52 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
  <head>
   <meta charset="utf-8"/>
   <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>
-   Select
+   Document
   </title>
   <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet"/>
  </head>
  <body>
-  <div class="setting">
-   <button id="Setting">
-    Настройки
-   </button>
-  </div>
-  <form action="/selectCipher" enctype="multipart/form-data" method="POST">
-   <select id="option" name="option">
-    <option value="HPC_cipher">
-     HPC_cipher
-    </option>
-   </select>
-   <div class="main-block">
+  <div class="main-block">
+   <div class="settings-section">
+    <button id="Setting">
+     Settings
+    </button>
+   </div>
+   <form action="/selectCipher" enctype="multipart/form-data" method="POST">
+    <select id="option" name="option">
+     <option value="HPC_cipher">
+      HPC_cipher
+     </option>
+    </select>
     <label class="input-file">
-     <input accept="application/msword, text/plain" id="file" name="file" required="" type="file"/>
+     <span id="custom-file-label">
+      Choose file
+     </span>
+     <input accept=".doc,.docx,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" id="file" name="file" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
     </label>
-    <label for="lenght">
-     Размер телеграмм:
+    <label id="file-validity">
     </label>
-    <input id="length" name="length" placeholder="Введите размер телеграмм" required="" type="number"/>
+    <label for="length">
+     Telegram size:
+    </label>
+    <input name="length" placeholder="Enter telegram size" type="number"/>
     <label for="number">
-     Количество телеграмм:
+     Number of telegrams:
     </label>
-    <input id="number" name="number" placeholder="Введите количество телеграмм" required="" type="number"/>
-   </div>
-   <div class="button-container">
-    <button id="encrypt">
-     Зашифровать
-    </button>
-    <button id="decrypt">
-     Расшифровать
-    </button>
-   </div>
-  </form>
+    <input name="number" placeholder="Enter number of telegrams" type="number"/>
+    <div class="button-container">
+     <button id="encrypt">
+      Encryption settings
+     </button>
+     <button id="decrypt">
+      Decryption settings
+     </button>
+    </div>
+   </form>
+  </div>
  </body>
 </html>
