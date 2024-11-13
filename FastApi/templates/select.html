@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Document
+  </title>
+  <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="main-block">
+   <div class="settings-section">
+    <button id="Setting">
+     Settings
+    </button>
+   </div>
+   <form action="/selectCipher" enctype="multipart/form-data" method="POST">
+    <select id="option" name="option">
+     <option value="HPC_cipher">
+      HPC_cipher
+     </option>
+    </select>
+    <label class="input-file">
+     <span id="custom-file-label">
+      Choose file
+     </span>
+     <input accept=".doc,.docx,application/msword, text/plain" id="file" name="file" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
+    </label>
+    <label id="file-validity">
+    </label>
+    <label for="length">
+     Telegram size:
+    </label>
+    <input name="length" placeholder="Enter telegram size" type="number"/>
+    <label for="number">
+     Number of telegrams:
+    </label>
+    <input name="number" placeholder="Enter number of telegrams" type="number"/>
+    <div class="button-container">
+     <button id="encrypt">
+      Encryption settings
+     </button>
+     <button id="decrypt">
+      Decryption settings
+     </button>
+    </div>
+   </form>
+  </div>
+ </body>
+</html>
