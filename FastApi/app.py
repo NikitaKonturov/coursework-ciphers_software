@@ -1,17 +1,18 @@
-from fastapi import FastAPI, Form, File, UploadFile
+import threading
+import time
+from pathlib import Path
+
+import uvicorn
+import webview
+from bs4 import BeautifulSoup
+from ciphers_api_module.ciphers_api_module import CppCiphers
+from pydantic import BaseModel
+
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pathlib import Path
-import uvicorn
-import webview
-import time
-import threading
-from pydantic import BaseModel
-from bs4 import BeautifulSoup
-from ciphers_api_module.ciphers_api_module import CppCiphers
-
 
 app = FastAPI()
 
@@ -37,7 +38,7 @@ for i in all_ciphers:
     new_option = settings_select_html.new_tag('option', value=i)
     new_option.string = all_ciphers[i]
     select_tag.append(new_option)
-    
+
 with open(str(Path(BASE_DIR, 'templates')) + '\\select.html', "w", encoding="utf-8") as file:
     file.write(settings_select_html.prettify())
 
@@ -46,14 +47,17 @@ file.close()
 
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
-app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
+app.mount(
+    '/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
+
 
 class SelectOptions(BaseModel):
     option: str
     file: UploadFile
     length: int
     number: int
-    
+
+
 @app.post('/selectCipher')
 async def select_cipher(option: str = Form(...), file: UploadFile = File(...), length: int = Form(...), number: int = Form(...)):
     return JSONResponse(
@@ -65,17 +69,21 @@ async def select_cipher(option: str = Form(...), file: UploadFile = File(...), l
         }
     )
 
+
 @app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
     return templates.TemplateResponse(request=request, name='select.html')
 
+
 def start_server():
     uvicorn.run("__main__:app", host="127.0.0.1", port=8000, reload=False)
+
 
 def start_webview():
     time.sleep(1)
     webview.create_window("FastAPI Desktop App", "http://127.0.0.1:8000")
     webview.start()
+
 
 if __name__ == "__main__":
     server_thread = threading.Thread(target=start_server)
