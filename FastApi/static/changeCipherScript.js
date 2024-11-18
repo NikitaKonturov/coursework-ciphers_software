@@ -52,9 +52,6 @@ async function addBlockOfKeysSettings() {
 
 
 
-
-
-
 async function changeCipher() {
     try {
         let selectKyesTypeBlock = document.createElement("div")
