@@ -1,18 +1,18 @@
-from fastapi import FastAPI, Form, File, UploadFile
-from fastapi.requests import Request
+from ciphers_api_module.ciphers_api_module import CppCiphers
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, Form, File, UploadFile
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from starlette.responses import Response
+from fastapi.requests import Request
+from pydantic import BaseModel
+from bs4 import BeautifulSoup
 from pathlib import Path
+import threading
 import uvicorn
 import webview
 import time
-import threading
-from pydantic import BaseModel
-from bs4 import BeautifulSoup
-from ciphers_api_module.ciphers_api_module import CppCiphers
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
 
 
 app = FastAPI()
@@ -59,8 +59,6 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
         response.headers["Cache-Control"] = "no-store"
         return response
-
-
 
 
 app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
