@@ -16,7 +16,7 @@ BoolMatrix::BoolMatrix(int32_t init_n)
     b_matrix = tempMatrix;
 }
 
-BoolMatrix::BoolMatrix(std::vector<std::vector<bool>>& init_matrix) : b_matrix(init_matrix) {}
+BoolMatrix::BoolMatrix(std::vector<std::vector<bool>>& init_matrix) : b_matrix(init_matrix) {this->check();}
 
 BoolMatrix::BoolMatrix(BoolMatrix& rhs) : b_matrix(rhs.b_matrix) {}
 
@@ -36,6 +36,7 @@ BoolMatrix::BoolMatrix(const std::string& str)        // !!! Добавить п
     }
     m_size = size;
     b_matrix = tempMatrix;
+    this->check();
 }                      
 
 BoolMatrix::~BoolMatrix() {}
@@ -178,5 +179,6 @@ std::istream& operator>>(std::istream& in, BoolMatrix& obj)
             obj.b_matrix[i][j] = temp;       
         }
     }
+    obj.check();
     return in;
 }
