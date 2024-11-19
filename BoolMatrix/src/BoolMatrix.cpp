@@ -20,7 +20,7 @@ BoolMatrix::BoolMatrix(std::vector<std::vector<bool>>& init_matrix) : b_matrix(i
 
 BoolMatrix::BoolMatrix(BoolMatrix& rhs) : b_matrix(rhs.b_matrix) {}
 
-BoolMatrix::BoolMatrix(const std::string& str)        // !!! Добавить проверку на повторное "открытие одинаковых ячеек"
+BoolMatrix::BoolMatrix(const std::string& str)      
 {
     uint32_t size = uint32_t(sqrt(str.length()));
 
