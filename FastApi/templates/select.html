@@ -13,20 +13,20 @@
  </head>
  <body>
   <div class="main-block" id="main-block">
-   <div class="settings-section">
-    <button id="Setting">
-     Settings
-    </button>
-   </div>
    <form action="/startEncoder" enctype="multipart/form-data">
-    <select id="ciphersList" name="ciphersList">
-     <option disabled="True" selected="True" value="Empty_tag">
-      Change cipher
-     </option>
-     <option value="HPC_cipher">
-      HPC_cipher
-     </option>
-    </select>
+    <div class="settings-section">
+     <button id="Setting">
+      Settings
+     </button>
+     <select id="ciphersList" name="ciphersList">
+      <option disabled="True" selected="True" value="Empty_tag">
+       Change cipher
+      </option>
+      <option value="HPC_cipher">
+       HPC_cipher
+      </option>
+     </select>
+    </div>
     <label class="input-file">
      <span id="custom-file-label">
       Choose file
