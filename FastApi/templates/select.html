@@ -19,7 +19,7 @@
     </button>
    </div>
    <form action="/startEncoder" enctype="multipart/form-data">
-    <select id="ciphersList" name="ciphersList" onchange="changeCipher()">
+    <select id="ciphersList" name="ciphersList">
      <option disabled="True" selected="True" value="Empty_tag">
       Change cipher
      </option>
@@ -31,20 +31,20 @@
      <span id="custom-file-label">
       Choose file
      </span>
-     <input accept=".doc,.docx,application/msword, text/plain" id="file" name="file" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
+     <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="text_file" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
     </label>
     <label id="file-validity">
     </label>
     <label for="length">
      Telegram size:
     </label>
-    <input name="length" placeholder="Enter telegram size" type="number"/>
+    <input id="lenght-of-tg" name="length" placeholder="Enter telegram size" type="number"/>
     <label for="number">
      Number of telegrams:
     </label>
-    <input name="number" placeholder="Enter number of telegrams" type="number"/>
+    <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
     <div class="button-container">
-     <button id="encrypt">
+     <button id="encrypt" onclick="encriptSettings()">
       Encryption settings
      </button>
      <button id="decrypt">
