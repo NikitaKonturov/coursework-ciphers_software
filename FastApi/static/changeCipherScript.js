@@ -17,10 +17,11 @@ async function addBlockOfKeysSettings() {
 
         const keysSettingBlock = document.createElement("div");
         keysSettingBlock.id = "keys-settings-block"
-        
+        keysSettingBlock.className = "keys-settings-block-class"
+
         
         let blockName = document.createElement("label");
-        blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties')
+        blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties:')
         keysSettingBlock.appendChild(blockName)
 
         settingsOfKeys.params.forEach(param => {
@@ -29,7 +30,7 @@ async function addBlockOfKeysSettings() {
             let nameLabel = document.createElement("label")
             nameLabel.id = param.name + "Label"
             nameLabel.htmlFor = param.name
-            nameLabel.textContent = param.label
+            nameLabel.textContent = param.label + ':'
             let inputLabel = document.createElement("input")
             inputLabel.type = param.type
             inputLabel.name = param.name
@@ -38,15 +39,24 @@ async function addBlockOfKeysSettings() {
                 inputLabel.min = param.min
                 inputLabel.max = param.max
             }
+            let blockConfirmKey = document.createElement("div")
+            blockConfirmKey.id = "keys-choose-block"
+            blockConfirmKey.className = "keys-choose-block-class"
+            let buttonConfirm = document.createElement("button")
+            buttonConfirm.textContent = "Confirm"
+            blockConfirmKey.appendChild(buttonConfirm)    
+
             divParametr.appendChild(nameLabel)
             divParametr.appendChild(inputLabel)
             keysSettingBlock.appendChild(divParametr)
+            keysSettingBlock.appendChild(blockConfirmKey)
         });
 
         
-        if(document.getElementById("keys-choose-block") != null) {
-            document.getElementById("keys-choose-block").remove()
-        }
+        Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
+        Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
+
+
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
     } catch (error) {
@@ -58,25 +68,50 @@ async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
         blockWithChooseKey.id = "keys-choose-block"
+        blockWithChooseKey.className = "keys-choose-block-class"
         
+        let formChooseKeysFile = document.createElement("div")
+        formChooseKeysFile.enctype="multipart/form-data"
+        formChooseKeysFile.className = "keys-choose-block"
+
         let labelChooseElement = document.createElement("label")
-        labelChooseElement.id = "choose-keys-label"
-        labelChooseElement.textContent = "Choose file with keys"
-        labelChooseElement.htmlFor = "input-keys"
+        labelChooseElement.id = "input-file"
+
+        let spanUsersKeys = document.createElement("span")
+        spanUsersKeys.id = "custom-file-label-keys"
+        spanUsersKeys.textContent = "Choose file with keys"
 
         let inputUsersKeys = document.createElement("input")
         inputUsersKeys.id = "keys-file"
-        inputUsersKeys.name = "keys_file"
-        inputUsersKeys.type = "file"
         inputUsersKeys.addEventListener('change', function(){document.getElementById('choose-keys-label').textContent = this.files[0].name}, true)
         inputUsersKeys.accept = ".doc,.docx,application/msword, text/plain"
+        inputUsersKeys.name = "keys_file"
+        inputUsersKeys.addEventListener('change', function() {
+            document.getElementById('custom-file-label-keys').textContent = this.files[0].name;
+        })
+        inputUsersKeys.required = ""
+        inputUsersKeys.style = "display: none;"
+        inputUsersKeys.type = "file"
         
-        blockWithChooseKey.appendChild(labelChooseElement)
-        blockWithChooseKey.appendChild(inputUsersKeys)
+        let blockConfirmKey = document.createElement("div")
+        blockConfirmKey.id = "keys-choose-block"
+        blockConfirmKey.className = "keys-choose-block-class"
+
+        let buttonConfirm = document.createElement("button")
+        buttonConfirm.textContent = "Confirm"
+
+        labelChooseElement.appendChild(spanUsersKeys)
+        labelChooseElement.appendChild(inputUsersKeys)
+        formChooseKeysFile.appendChild(labelChooseElement)
+        blockConfirmKey.appendChild(buttonConfirm)
+        formChooseKeysFile.appendChild(blockConfirmKey)
+        blockWithChooseKey.appendChild(formChooseKeysFile)
+
+
         
-        if(document.getElementById("keys-settings-block") != null) {
-            document.getElementById("keys-settings-block").remove()
-        }
+        Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
+        Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
+
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
         console.error(error)
@@ -94,7 +129,8 @@ async function encriptSettings() {
                 alert("Count of telegrmas and size of telegrams must be nutural")
             }
             let selectKyesTypeBlock = document.createElement("div")
-            selectKyesTypeBlock.id = "select-type-keys-block"
+            selectKyesTypeBlock.id = "button-container"
+            selectKyesTypeBlock.className = "button-container"
             let autoGenKeysButton = document.createElement("button")
             autoGenKeysButton.textContent = "Auto keys generation"
             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
@@ -105,13 +141,11 @@ async function encriptSettings() {
             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
             selectKyesTypeBlock.appendChild(getUserKeysButton)
 
-
-
             let rigthBlock = document.createElement("div")
             rigthBlock.id = "main-keys-block"
             rigthBlock.appendChild(selectKyesTypeBlock)
-                
-
+            
+            
             document.body.appendChild(rigthBlock)
 
         }
