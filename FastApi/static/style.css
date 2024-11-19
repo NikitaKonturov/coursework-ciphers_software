@@ -70,12 +70,18 @@ button:hover {
   flex-direction: column;
 }
 
+#main-keys-block button:hover{
+  background-color: #8d7ec2;
+}
+
 .keys-choose-block-class{
   display: flex;
   justify-content: center;
 }
 
-
+ .keys-choose-block-class button:hover{
+  background-color: #8d7ec2;
+}
 
 #main-keys-block button{
   padding: 12px 24px;
@@ -211,6 +217,10 @@ div input {
   justify-content: center;
   gap: 50px;
   left: 10%;
+}
+
+#button-container button:hover{
+  background-color: #8d7ec2;
 }
 
 #button-container button {
