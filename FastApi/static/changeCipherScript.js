@@ -124,10 +124,11 @@ async function encriptSettings() {
     try {
         if(document.getElementById("ciphersList").value == "Empty_tag") {
             alert("Сhoose a cipher!")
-        } else {
-            if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
+        } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
                 alert("Count of telegrmas and size of telegrams must be nutural")
-            }
+        } else if(Array.from(document.getElementById("text-file").files).length == 0) {
+                alert("Choose file with text")
+        }else {
             let selectKyesTypeBlock = document.createElement("div")
             selectKyesTypeBlock.id = "button-container"
             selectKyesTypeBlock.className = "button-container"
