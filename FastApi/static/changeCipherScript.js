@@ -143,9 +143,10 @@ async function encriptSettings() {
 
             let rigthBlock = document.createElement("div")
             rigthBlock.id = "main-keys-block"
+            rigthBlock.className = "main-keys-block-class"
             rigthBlock.appendChild(selectKyesTypeBlock)
             
-            
+            Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
             document.body.appendChild(rigthBlock)
 
         }
