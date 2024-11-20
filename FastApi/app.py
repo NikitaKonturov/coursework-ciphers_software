@@ -62,8 +62,7 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         return response
 
 
-app.mount(
-    '/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
+app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
 app.add_middleware(NoCacheMiddleware)
 
 
