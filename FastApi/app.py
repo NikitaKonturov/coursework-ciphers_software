@@ -30,10 +30,13 @@ file.close()
 # Создаем объект BeautifulSoup
 settings_select_html = BeautifulSoup(html_content, 'html.parser')
 
+
 select_tag = settings_select_html.find('select', {'id': "ciphersList"})
+
 
 for option in select_tag.find_all('option'):
     option.decompose()
+
 
 empty_option = settings_select_html.new_tag('option', value="Empty_tag")
 empty_option.string = "Change cipher"
@@ -41,10 +44,12 @@ empty_option["disabled"] = True
 empty_option["selected"] = True
 select_tag.append(empty_option)
 
+
 for i in all_ciphers:
     new_option = settings_select_html.new_tag('option', value=i)
     new_option.string = all_ciphers[i]
     select_tag.append(new_option)
+
 
 with open(str(Path(BASE_DIR, 'templates')) + '\\select.html', "w", encoding="utf-8") as file:
     file.write(settings_select_html.prettify())
@@ -74,16 +79,19 @@ class SelectOptions(BaseModel):
 
 
 @app.post('/startEncoder')
-async def startEncoder(ciphersList: str = Form(...), text_file: UploadFile = File(...), length: int = Form(...), number: int = Form(...)):
+async def startEncoder(req: Request):
+    print(dict(req.headers))
+    print(await req.body())
+    
+    form = await req.form()
+    print("Form data:", dict(form))  # Логируем данные формы
+
+    
     return JSONResponse(
         {
-            "cipher": ciphersList,
-            "file": text_file.filename,
-            "length": length,
-            "number": number
+            "cipher": "df"
         }
     )
-
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):

@@ -15,11 +15,12 @@ async function addBlockOfKeysSettings() {
 
         const settingsOfKeys = await serverResponse.json()
 
-        const keysSettingBlock = document.createElement("div");
+        const keysSettingBlock = document.createElement("form");
         keysSettingBlock.id = "keys-settings-block"
         keysSettingBlock.className = "keys-settings-block-class"
-
+        keysSettingBlock.enctype = "multipart/form-data"
         
+
         let blockName = document.createElement("label");
         blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties:')
         keysSettingBlock.appendChild(blockName)
@@ -44,6 +45,7 @@ async function addBlockOfKeysSettings() {
             blockConfirmKey.className = "keys-choose-block-class"
             let buttonConfirm = document.createElement("button")
             buttonConfirm.textContent = "Confirm"
+            buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys-settings")}, true);
             blockConfirmKey.appendChild(buttonConfirm)    
 
             divParametr.appendChild(nameLabel)
@@ -64,13 +66,34 @@ async function addBlockOfKeysSettings() {
     }
 }
 
+async function sendEncriptRequest(formID, dataType) {
+    let dataFromKeyForm = new FormData(document.getElementById(formID))
+    let allData = new FormData(document.getElementById("slice-telegrmas-form"))
+
+    dataFromKeyForm.forEach((value, key) => {allData.append(key, value); console.log(key, " ", value)})    
+
+    allData.forEach((value, key) => {console.log(key, " ", value)})
+    
+    
+    let serverResponse = await fetch("http://127.0.0.1:8000/startEncoder", 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            body: allData
+    });
+}
+
+
+
 async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
         blockWithChooseKey.id = "keys-choose-block"
         blockWithChooseKey.className = "keys-choose-block-class"
         
-        let formChooseKeysFile = document.createElement("div")
+        let formChooseKeysFile = document.createElement("form")
         formChooseKeysFile.enctype="multipart/form-data"
         formChooseKeysFile.className = "keys-choose-block"
 
@@ -99,6 +122,7 @@ async function addBlockOfGetUsersKeys() {
 
         let buttonConfirm = document.createElement("button")
         buttonConfirm.textContent = "Confirm"
+        buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users-keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
         labelChooseElement.appendChild(inputUsersKeys)
@@ -111,13 +135,17 @@ async function addBlockOfGetUsersKeys() {
         
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-
+        
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
         console.error(error)
     }
 }
 
+
+async function preventActionButton() {
+    event.preventDefault()
+}
 
 
 async function encriptSettings() {
