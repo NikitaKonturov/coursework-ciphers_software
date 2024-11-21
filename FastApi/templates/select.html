@@ -13,7 +13,7 @@
  </head>
  <body>
   <div class="main-block" id="main-block">
-   <form action="/startEncoder" enctype="multipart/form-data" method="submit">
+   <form enctype="multipart/form-data" id="slice-telegrmas-form">
     <div class="settings-section">
      <button id="Setting">
       Settings
@@ -44,10 +44,10 @@
     </label>
     <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
     <div class="button-container">
-     <button id="encrypt" onclick="encriptSettings()">
+     <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
       Encryption settings
      </button>
-     <button id="decrypt">
+     <button id="decrypt" onclick="preventActionButton();">
       Decryption settings
      </button>
     </div>
