@@ -70,11 +70,22 @@ async function sendEncriptRequest(formID, dataType) {
     let dataFromKeyForm = new FormData(document.getElementById(formID))
     let allData = new FormData(document.getElementById("slice-telegrmas-form"))
 
-    dataFromKeyForm.forEach((value, key) => {allData.append(key, value); console.log(key, " ", value)})    
+    dataFromKeyForm.forEach((value, key) => {allData.append(key, value);})    
+    
+    let keysToReq = [] 
+    
+    allData.forEach((value, key) => {console.log(key, " ", value); keysToReq.push(key);})
 
-    allData.forEach((value, key) => {console.log(key, " ", value)})
-    
-    
+
+    let formCipherConfig = await fetch("http://127.0.0.1:8000/startEncoder/formCipherConfig",
+        {method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: keysToReq
+    }
+    )
+
     let serverResponse = await fetch("http://127.0.0.1:8000/startEncoder", 
         {
             method: "POST",
