@@ -1,21 +1,43 @@
-from ciphers_api_module.ciphers_api_module import CppCiphers
-from starlette.middleware.base import BaseHTTPMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi import FastAPI, Form, File, UploadFile
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from starlette.responses import Response
-from fastapi.requests import Request
-from pydantic import BaseModel
-from bs4 import BeautifulSoup
-from pathlib import Path
 import threading
+import time
+from pathlib import Path
+
 import uvicorn
 import webview
-import time
+from bs4 import BeautifulSoup
+from ciphers_api_module.ciphers_api_module import CppCiphers
+from pydantic import BaseModel, ConfigDict
+from pydantic_settings import BaseSettings
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 
+from fastapi import FastAPI, File, Form, UploadFile
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
+
+class NoCacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response: Response = await call_next(request)
+        response.headers["Cache-Control"] = "no-store"
+        return response
+
+
+class CipherConfig(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    ciphersList: str
+    text_file: UploadFile
+    length: int
+    number: int
+
+
+class Settings():
+    pass
+
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -60,38 +82,31 @@ file.close()
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 
-class NoCacheMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        response: Response = await call_next(request)
-        response.headers["Cache-Control"] = "no-store"
-        return response
+app.mount(
+    '/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
 
-
-app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
 app.add_middleware(NoCacheMiddleware)
 
 
-class SelectOptions(BaseModel):
-    option: str
-    file: UploadFile
-    length: int
-    number: int
-
-
-@app.post('/startEncoder')
-async def startEncoder(req: Request):
-    print(dict(req.headers))
-    print(await req.body())
-    
-    form = await req.form()
-    print("Form data:", dict(form))  # Логируем данные формы
-
-    
+@app.post("/startEncoder/formCipherConfig")
+async def startEncoder(CipherConfigReq: Request):
+    print(await CipherConfigReq.json())
     return JSONResponse(
         {
             "cipher": "df"
         }
     )
+
+
+@app.post('/startEncoder')
+async def startEncoder(req: CipherConfig):
+    print(req.length)
+    return JSONResponse(
+        {
+            "cipher": "df"
+        }
+    )
+
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
