@@ -7,7 +7,7 @@ import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
 from pydantic import BaseModel, ConfigDict
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
@@ -29,10 +29,6 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
 
 class CipherConfig(BaseModel):
     model_config = ConfigDict(extra="allow")
-    ciphersList: str
-    text_file: UploadFile
-    length: int
-    number: int
 
 
 class Settings(BaseSettings):
@@ -93,19 +89,21 @@ app.mount(
 app.add_middleware(NoCacheMiddleware)
 
 
+requestConfig: CipherConfig = None
+
+
 @app.post("/startEncoder/formCipherConfig")
 async def startEncoder(CipherConfigReq: Request):
-    # print(await CipherConfigReq.json())
+    print(await CipherConfigReq.json())
     return JSONResponse(
         {
-            "cipher": "df"
+            "Status": 200
         }
     )
 
 
 @app.post('/startEncoder')
-async def startEncoder(req: CipherConfig):
-    print(req.length)
+async def startEncoder(requestConfig):
     return JSONResponse(
         {
             "cipher": "df"
