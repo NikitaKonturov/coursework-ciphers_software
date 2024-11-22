@@ -7,7 +7,7 @@ import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
 from pydantic import BaseModel, ConfigDict
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
@@ -29,6 +29,10 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
 
 class CipherConfig(BaseModel):
     model_config = ConfigDict(extra="allow")
+    ciphersList: str
+    text_file: UploadFile
+    length: int
+    number: int
 
 
 class Settings(BaseSettings):
@@ -40,7 +44,6 @@ BASE_DIR = Path(__file__).resolve().parent
 
 settings = Settings(_env_file=str(Path(BASE_DIR, 'Config.env')),
                     _env_file_encoding='utf-8')
-
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 all_ciphers = ciphers_obj.get_ciphers_dict()
