@@ -7,7 +7,7 @@ import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
 from pydantic import BaseModel, ConfigDict
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
@@ -35,11 +35,16 @@ class CipherConfig(BaseModel):
     number: int
 
 
-class Settings():
-    pass
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file='.env', env_file_encoding='utf-8', extra="allow")
 
 
 BASE_DIR = Path(__file__).resolve().parent
+
+settings = Settings(_env_file=str(Path(BASE_DIR, 'Config.env')),
+                    _env_file_encoding='utf-8')
+
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 all_ciphers = ciphers_obj.get_ciphers_dict()
@@ -90,7 +95,7 @@ app.add_middleware(NoCacheMiddleware)
 
 @app.post("/startEncoder/formCipherConfig")
 async def startEncoder(CipherConfigReq: Request):
-    print(await CipherConfigReq.json())
+    # print(await CipherConfigReq.json())
     return JSONResponse(
         {
             "cipher": "df"
@@ -115,6 +120,7 @@ async def select_cipher(reqToKeyProperty: Request):
 
 @app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
+    print(settings.model_dump())
     return templates.TemplateResponse(request=request, name='select.html')
 
 
