@@ -29,14 +29,6 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         return response
 
 
-class TelegramCuttingData(BaseModel):
-    cipher: str
-    textFile: UploadFile
-    length: int
-    number: str
-    keysType: str
-
-
 BASE_DIR = Path(__file__).resolve().parent
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
