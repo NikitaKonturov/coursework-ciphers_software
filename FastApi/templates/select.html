@@ -18,7 +18,7 @@
      <button id="Setting">
       Settings
      </button>
-     <select id="ciphersList" name="ciphersList">
+     <select id="ciphersList" name="cipher">
       <option disabled="True" selected="True" value="Empty_tag">
        Change cipher
       </option>
@@ -31,7 +31,7 @@
      <span id="custom-file-label">
       Choose file
      </span>
-     <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="text_file" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
+     <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
     </label>
     <label id="file-validity">
     </label>

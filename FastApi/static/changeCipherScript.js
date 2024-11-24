@@ -45,7 +45,7 @@ async function addBlockOfKeysSettings() {
             blockConfirmKey.className = "keys-choose-block-class"
             let buttonConfirm = document.createElement("button")
             buttonConfirm.textContent = "Confirm"
-            buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys-settings")}, true);
+            buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
             blockConfirmKey.appendChild(buttonConfirm)    
 
             divParametr.appendChild(nameLabel)
@@ -66,34 +66,32 @@ async function addBlockOfKeysSettings() {
     }
 }
 
-async function sendEncriptRequest(formID, dataType) {
-    let dataFromKeyForm = new FormData(document.getElementById(formID))
-    let allData = new FormData(document.getElementById("slice-telegrmas-form"))
-
-    dataFromKeyForm.forEach((value, key) => {allData.append(key, value);})    
+async function sendEncriptRequest(formID, keysType) {
+    //let dataFromKeyForm = new FormData(document.getElementById(formID))
+    let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
     
-    let keysToReq = [] 
-    
-    allData.forEach((value, key) => {console.log(key, " ", value); keysToReq.push(key);})
+    dataToSliceTelegams.append("keysType", keysType)
+
+    dataToSliceTelegams.forEach((fieldValue, key) => {
+        console.log(key, fieldValue)
+    })    
 
 
-    let formCipherConfig = await fetch("http://127.0.0.1:8000/startEncoder/formCipherConfig",
-        {method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: keysToReq
-    }
-    )
-
-    let serverResponse = await fetch("http://127.0.0.1:8000/startEncoder", 
+    let telegramCuttingResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushTelegramsCuttingData",
         {
             method: "POST",
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            body: allData
-    });
+            body: dataToSliceTelegams
+        }
+    )
+
+    // let serverResponse = await fetch("http://127.0.0.1:8000/startEncoder", 
+    //     {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "multipart/form-data"
+    //         },
+    //         body: dataToSliceTelegams
+    // });
 }
 
 
