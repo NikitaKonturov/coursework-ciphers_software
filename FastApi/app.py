@@ -1,6 +1,7 @@
 import threading
 import time
 from pathlib import Path
+import logging
 
 import uvicorn
 import webview
@@ -19,6 +20,7 @@ from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
+logging.basicConfig(format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
@@ -27,12 +29,12 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         return response
 
 
-class CipherConfig(BaseModel):
-    model_config = ConfigDict(extra="allow")
-    
-
-class Settings():
-    pass
+class TelegramCuttingData(BaseModel):
+    cipher: str
+    textFile: UploadFile
+    length: int
+    number: str
+    keysType: str
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -78,28 +80,20 @@ file.close()
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 
-app.mount(
-    '/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
+app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
 
 app.add_middleware(NoCacheMiddleware)
 
 
-requestConfig: CipherConfig = None
-
-
-@app.post("/startEncoder/formCipherConfig")
-async def startEncoder(CipherConfigReq: Request):
-    fieldsOfClass = {}
-    for key in ((await CipherConfigReq.body()).decode("utf-8")).split(","):
-        fieldsOfClass[key] = None
+@app.post("/startEncoder/pushTelegramsCuttingData")
+async def startEncoder(cipher: str = Form(...), 
+                       textFile: UploadFile = File(...), 
+                       length: int = Form(...), 
+                       number: int = Form(...), 
+                       keysType: str = Form(...)):
     
-    requestConfig = CipherConfig(**fieldsOfClass)
-    print(requestConfig.model_dump())
-    return JSONResponse(
-        {
-            "Status": 200
-        }
-    )
+    
+    return JSONResponse({"Status": 200})
 
 
 @app.post('/startEncoder')
