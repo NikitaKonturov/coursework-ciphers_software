@@ -4,6 +4,7 @@
 #include <set>
 #include <random>
 #include <algorithm>
+#include "telgrams_cutter.hpp"
 
 //функция для проверки файла
 void checkFile(std::ifstream& fileIn)
