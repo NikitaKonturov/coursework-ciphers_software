@@ -3,12 +3,13 @@ import threading
 import time
 from pathlib import Path
 import logging
+from typing import Annotated
 
 import uvicorn
 import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
-from pydantic import BaseModel, ConfigDict, create_model
+from pydantic import BaseModel, ConfigDict, create_model, AfterValidator, ValidationError, PlainValidator
 from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
@@ -30,51 +31,44 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         response.headers["Cache-Control"] = "no-store"
         return response
 
+def checkCipher(sourceCipher: str):
+    if((sourceCipher != "None") and (sourceCipher not in sys.modules.keys())):
+        raise ValidationError(f"The cipher ${sourceCipher} was not found")     
+    return sourceCipher
 
-class RequToSliceAndEncript:
-    cipher: str
-    textFile: UploadFile 
-    lengthTelegram: int
-    numberOfTelegram: int 
-    keysType: str
-    fileWithUsersKeys: UploadFile
-    keysProperties: dict
+def checkLenghtTelegram(tgLength: int):
+    if(tgLength < 0 or tgLength == 0):
+        raise ValidationError(f"The length of the telegram must be natural. Current length ${tgLength}")
+    return tgLength
 
+def checkNumbersOfTelegrams(tgNumbers: int):
+    if(tgNumbers < 0 or tgNumbers == 0):
+        raise ValidationError(f"The size of the telegram must be natural. Current length ${tgNumbers}")
+    return tgNumbers
 
-    def __init__(self):
-        self.cipher: str = "" 
-        self.lengthTelegram: int = 0
-        self.numberOfTelegram: int = 0
-        self.keysType: str = ""
-        self.keysProperties: dict = {}
+def checkKeysType(sourceKeysType: str):
+    if(sourceKeysType != "keys_settings" and sourceKeysType != "users_keys"):
+        raise ValidationError(f"Keys type must be users_keys or keys_settings")
+    return sourceKeysType
 
-                        
-    def configurationDataAboutSlice(self, sourceCipher: str, sourceTextFile: UploadFile, sourceLengthTelegram: int, sourceNumberOfTelegram: int, sourceKeysType: str):
-        if(sourceCipher not in sys.modules.keys()):
-            #throw exception
-            pass
-        self.cipher = sourceCipher
-        self.textFile = sourceTextFile
-        if(sourceLengthTelegram <= 0):
-            #throw exception
-            pass
-        self.lengthTelegram = sourceLengthTelegram
-        if(sourceNumberOfTelegram <= 0):
-            #throw exception
-            pass
-        self.numberOfTelegram = sourceNumberOfTelegram
-        
-        if(sourceKeysType != "keys_settings" or sourceKeysType != "users_keys"):
-            #throw exception
-            pass        
-        self.keysType = sourceKeysType
+def preventValidator(file):
+    return
+
+class RequToSliceAndEncript(BaseModel):
+    selfCipher: Annotated[str, AfterValidator(checkCipher)]
+    selfTextFile: UploadFile 
+    selfLengthTelegram: Annotated[int, AfterValidator(checkLenghtTelegram)]
+    selfNumberOfTelegram: Annotated[int, AfterValidator(checkNumbersOfTelegrams)]
+    selfKeysType: Annotated[str, AfterValidator(checkKeysType)]
+    selfFileWithUsersKeys: Annotated[UploadFile, PlainValidator(preventValidator)]
+    selfKeysProperties: dict
 
 
 BASE_DIR = Path(__file__).resolve().parent
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 all_ciphers = ciphers_obj.get_ciphers_dict()
-requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript()
+
 
 with open(str(Path(BASE_DIR, 'templates')) + '\\select.html', "r", encoding="utf-8") as file:
     html_content = file.read()
@@ -127,24 +121,27 @@ async def catchTelegramsCuttinngData(
     number: int = Form(...), 
     keysType: str = Form(...)
 ):
-    requestToSliceAndEncript.configurationDataAboutSlice(cipher, textFile, length, number, keysType)
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = RequToSliceAndEncript(
+        selfCipher = cipher, 
+        selfKeysProperties = {},
+        selfKeysType = keysType, 
+        selfTextFile = textFile, 
+        selfLengthTelegram = length, 
+        selfNumberOfTelegram = number, 
+        selfFileWithUsersKeys = None
+        )
 
+    print(requestToSliceAndEncript.selfCipher)
     return JSONResponse({"Status": 200})
 
 @app.post("/startEncoder/pushKeysProperties")
 async def catchKeysProperties(keyPropReq: Request):
-    print((await keyPropReq.json()))
+    keyPropDict = (await keyPropReq.json())
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
+    print(requestToSliceAndEncript.selfKeysProperties)
     return JSONResponse({"Status": 200})
-
-
-@app.post('/startEncoder')
-async def startEncoder(requestConfig):
-    return JSONResponse(
-        {
-            "cipher": "df"
-        }
-    )
-
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):

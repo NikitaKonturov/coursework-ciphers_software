@@ -66,8 +66,16 @@ async function addBlockOfKeysSettings() {
     }
 }
 
+function checkNumber(elementValue) {
+    if(Number(elementValue) == NaN) {
+        return elementValue
+    }  else {
+        return Number(elementValue)
+    }
+}
+
+
 async function sendEncriptRequest(formID, keysType) {
-    let dataFromKeyForm = new FormData(document.getElementById(formID))
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
     
     dataToSliceTelegams.append("keysType", keysType)
@@ -91,20 +99,16 @@ async function sendEncriptRequest(formID, keysType) {
     } 
 
 
-    let dataFromKeyFormInDict = {}
-
-    dataFromKeyForm.forEach((value, field) => {
-        dataFromKeyFormInDict[field] = value
-        console.log(field, value)
-    })
+    let dataFromKeyForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
+    console.log(dataFromKeyForm)
 
     let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dataFromKeyFormInDict)
+         {
+             method: "POST",
+             headers: {
+                 "Content-Type": "application/json"
+             },
+             body: JSON.stringify(dataFromKeyForm)
     });
 
 }
