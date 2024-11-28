@@ -1,3 +1,4 @@
+import sys
 import threading
 import time
 from pathlib import Path
@@ -12,11 +13,12 @@ from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile, status
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
 
 app = FastAPI()
 
@@ -29,10 +31,50 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         return response
 
 
+class RequToSliceAndEncript:
+    cipher: str
+    textFile: UploadFile 
+    lengthTelegram: int
+    numberOfTelegram: int 
+    keysType: str
+    fileWithUsersKeys: UploadFile
+    keysProperties: dict
+
+
+    def __init__(self):
+        self.cipher: str = "" 
+        self.lengthTelegram: int = 0
+        self.numberOfTelegram: int = 0
+        self.keysType: str = ""
+        self.keysProperties: dict = {}
+
+                        
+    def configurationDataAboutSlice(self, sourceCipher: str, sourceTextFile: UploadFile, sourceLengthTelegram: int, sourceNumberOfTelegram: int, sourceKeysType: str):
+        if(sourceCipher not in sys.modules.keys()):
+            #throw exception
+            pass
+        self.cipher = sourceCipher
+        self.textFile = sourceTextFile
+        if(sourceLengthTelegram <= 0):
+            #throw exception
+            pass
+        self.lengthTelegram = sourceLengthTelegram
+        if(sourceNumberOfTelegram <= 0):
+            #throw exception
+            pass
+        self.numberOfTelegram = sourceNumberOfTelegram
+        
+        if(sourceKeysType != "keys_settings" or sourceKeysType != "users_keys"):
+            #throw exception
+            pass        
+        self.keysType = sourceKeysType
+
+
 BASE_DIR = Path(__file__).resolve().parent
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 all_ciphers = ciphers_obj.get_ciphers_dict()
+requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript()
 
 with open(str(Path(BASE_DIR, 'templates')) + '\\select.html', "r", encoding="utf-8") as file:
     html_content = file.read()
@@ -78,13 +120,20 @@ app.add_middleware(NoCacheMiddleware)
 
 
 @app.post("/startEncoder/pushTelegramsCuttingData")
-async def startEncoder(cipher: str = Form(...), 
-                       textFile: UploadFile = File(...), 
-                       length: int = Form(...), 
-                       number: int = Form(...), 
-                       keysType: str = Form(...)):
-    
-    
+async def catchTelegramsCuttinngData(
+    cipher: str = Form(...), 
+    textFile: UploadFile = File(...), 
+    length: int = Form(...), 
+    number: int = Form(...), 
+    keysType: str = Form(...)
+):
+    requestToSliceAndEncript.configurationDataAboutSlice(cipher, textFile, length, number, keysType)
+
+    return JSONResponse({"Status": 200})
+
+@app.post("/startEncoder/pushKeysProperties")
+async def catchKeysProperties(keyPropReq: Request):
+    print((await keyPropReq.json()))
     return JSONResponse({"Status": 200})
 
 

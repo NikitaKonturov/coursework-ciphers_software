@@ -72,12 +72,12 @@ class CppCiphers:
     # Зашифрование телерам по ключам или с генерацией ключей
     # для включения генерации шифров нужно установить keysGeneration флаг в True
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
-    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyPropertys: dict | None) -> dict[str, str] | None:
+    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
         try:
             res: Optional[dict[str, str]]
             res = None
             if (keys == None):
-                keys = sys.modules[cipher].gen_keys(str(keyPropertys), len(openTexts)) 
+                keys = sys.modules[cipher].gen_keys(str(keyProperties), len(openTexts)) 
             if(len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
