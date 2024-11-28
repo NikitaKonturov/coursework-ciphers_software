@@ -67,7 +67,7 @@ async function addBlockOfKeysSettings() {
 }
 
 async function sendEncriptRequest(formID, keysType) {
-    //let dataFromKeyForm = new FormData(document.getElementById(formID))
+    let dataFromKeyForm = new FormData(document.getElementById(formID))
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
     
     dataToSliceTelegams.append("keysType", keysType)
@@ -84,14 +84,29 @@ async function sendEncriptRequest(formID, keysType) {
         }
     )
 
-    // let serverResponse = await fetch("http://127.0.0.1:8000/startEncoder", 
-    //     {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "multipart/form-data"
-    //         },
-    //         body: dataToSliceTelegams
-    // });
+    if (!telegramCuttingResponse.ok) {
+        console.error(telegramCuttingResponse.statusText)
+
+        return
+    } 
+
+
+    let dataFromKeyFormInDict = {}
+
+    dataFromKeyForm.forEach((value, field) => {
+        dataFromKeyFormInDict[field] = value
+        console.log(field, value)
+    })
+
+    let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataFromKeyFormInDict)
+    });
+
 }
 
 
@@ -131,7 +146,7 @@ async function addBlockOfGetUsersKeys() {
 
         let buttonConfirm = document.createElement("button")
         buttonConfirm.textContent = "Confirm"
-        buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users-keys")} ,true)
+        buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users_keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
         labelChooseElement.appendChild(inputUsersKeys)
