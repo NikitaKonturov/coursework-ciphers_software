@@ -2,6 +2,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   color: #333;
   background-color: #9db7f7;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   margin: 0;
   padding: 0;
 }
@@ -28,6 +31,7 @@ body {
 .main-block button:hover {
   background-color: #8d7ec2;
 }
+
 button {
   padding: 12px 24px;
   font-size: 20px;
@@ -44,7 +48,7 @@ button:hover {
 }
 
 .main-block {
-  width: 100%;
+  width: 60%;
   max-width: 700px;
   padding: 50px  60px;
   margin: 80px auto 20px;
@@ -53,9 +57,56 @@ button:hover {
   color: #fff;
 }
 
+#main-keys-block {
+  width: 60%;
+  max-width: 350px;
+  padding: 50px  60px;
+  margin: 80px auto 20px;
+  background-color: #39369c;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#main-keys-block button:hover{
+  background-color: #8d7ec2;
+}
+
+.keys-choose-block-class{
+  display: flex;
+  justify-content: center;
+}
+
+ .keys-choose-block-class button:hover{
+  background-color: #8d7ec2;
+}
+
+#main-keys-block button{
+  padding: 12px 24px;
+  font-size: 15px;
+  background-color: #e7e9f1;
+  color: #0a0707;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 form {
   margin: 10px 0;
   font-size: 1px;
+  padding: 10px;
+}
+
+.form-choose-keys-file{
+  display: flex;
+  margin: 10px 0;
+  font-size: 1px;
+  padding: 10px;
+  justify-content: center;
+
 }
 
 .input-file {
@@ -66,13 +117,33 @@ form {
   border: 2px solid white;
   border-radius: 5px; 
   color: black;
+  text-shadow: none
 }
 
 .input-file:hover {
   background-color: #928ee3;
 }
 
+#input-file {
+  display: inline-block;
+  padding: 12px;
+  cursor: pointer;
+  background-color: #f0f0f0; 
+  border: 2px solid white;
+  border-radius: 5px; 
+  color: black;
+  text-shadow: none;
+}
+
+#input-file:hover {
+  background-color: #928ee3;
+}
+
 #custom-file-label {
+  display: inline-block;
+}
+
+#custom-file-label-keys {
   display: inline-block;
 }
 
@@ -92,6 +163,11 @@ div label {
   font-size: 1rem;
   color: #f1f3f5;
   font-weight: bold;
+  text-shadow: 
+  -1px -1px 0 #000,  
+  1px -1px 0 #000,
+  -1px  1px 0 #000,
+  1px  1px 0 #000;
 }
 
 div input {
@@ -107,13 +183,56 @@ div input {
 .button-container {
   position: relative;
   bottom: 10px;
-  width: 90%;
+  width: 80%;
   max-width: 200px;
+  margin: 10px;
+  min-width: 50%;
   display: flex;
-  justify-content:right;
+  justify-content: center;
   gap: 50px;
-  left: 80%;
-  transform: translateX(-50%);
+  left: 10%;
+  padding-left: 8%;
+}
+
+.button-container button {
+  padding: 12px 24px;
+  font-size: 15px;
+  background-color: #e7e9f1;
+  color: #0a0707;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto;
+  transition: background-color 0.3s ease;
+}
+
+#button-container {
+  position: relative;
+  bottom: 10px;
+  width: 80%;
+  max-width: 200px;
+  margin: 10px;
+  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  left: 10%;
+}
+
+#button-container button:hover{
+  background-color: #8d7ec2;
+}
+
+#button-container button {
+  padding: 12px 24px;
+    font-size: 15px;
+    background-color: #e7e9f1;
+    color: #0a0707;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    transition: background-color 0.3s ease;
 }
 
 /* Responsive styles */

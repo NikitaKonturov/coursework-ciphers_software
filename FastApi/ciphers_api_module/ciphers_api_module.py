@@ -1,11 +1,16 @@
 import importlib
 import importlib.util
-import os
+from bs4 import BeautifulSoup
+from fastapi import UploadFile
+from fastapi.responses import JSONResponse
+from pathlib import Path
+from typing import Optional
 import platform
 import sys
-from typing import Optional
+import json
+import os
+from pydantic import BaseModel
 
-from fastapi.responses import JSONResponse
 
 # ===================================================================================#
 # ============== Класс обеспечивающий взаимодействие с модулями шифров ==============#
@@ -79,13 +84,13 @@ class CppCiphers:
     # Зашифрование телерам по ключам или с генерацией ключей
     # для включения генерации шифров нужно установить keysGeneration флаг в True
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
-    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyPropertys: dict | None) -> dict[str, str] | None:
+    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
         try:
             res: Optional[dict[str, str]]
             res = None
             if (keys == None):
                 keys = sys.modules[cipher].gen_keys(
-                    str(keyPropertys), len(openTexts))
+                    str(keyProperties), len(openTexts))
             if (len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
@@ -105,8 +110,12 @@ class CppCiphers:
     def get_key_propertys(self, cipher: str) -> JSONResponse | None:
         res: Optional[JSONResponse] = None
         try:
-            res = JSONResponse("")
-            res.body = sys.modules[cipher].get_key_propertys()
+            bodyContent: str = sys.modules[cipher].get_key_propertys()
+            bodyContent = bodyContent.strip('\\')
+            bodyContentDict: dict = json.loads(bodyContent)
+            print(bodyContentDict)
+            res = JSONResponse(content=bodyContentDict)
+            print(res.body)
         except KeyError as err:
             print(err)
 
@@ -126,3 +135,73 @@ class CppCiphers:
             print(err)
 
         return res
+
+
+class RequestToSliceAndEncript:
+    cipher: str
+    textFile: UploadFile
+    lengthTelegram: int
+    numberOfTelegram: int
+    keysType: str
+    fileWithUsersKeys: UploadFile
+    keysProperties: dict
+
+    def __init__(self):
+        self.cipher: str = ""
+        self.lengthTelegram: int = 0
+        self.numberOfTelegram: int = 0
+        self.keysType: str = ""
+        self.keysProperties: dict = {}
+
+    def configurationDataAboutSlice(self, sourceCipher: str, sourceTextFile: UploadFile, sourceLengthTelegram: int, sourceNumberOfTelegram: int, sourceKeysType: str):
+        if (sourceCipher not in sys.modules.keys()):
+            # throw exception
+            pass
+        self.cipher = sourceCipher
+        self.textFile = sourceTextFile
+        if (sourceLengthTelegram <= 0):
+            # throw exception
+            pass
+        self.lengthTelegram = sourceLengthTelegram
+        if (sourceNumberOfTelegram <= 0):
+            # throw exception
+            pass
+        self.numberOfTelegram = sourceNumberOfTelegram
+
+        if (sourceKeysType != "keys_settings" or sourceKeysType != "users_keys"):
+            # throw exception
+            pass
+        self.keysType = sourceKeysType
+
+
+def formCipherSelectOptions(ciphers_obj: CppCiphers, dir: Path):
+    all_ciphers = ciphers_obj.get_ciphers_dict()
+
+    with open(str(Path(dir, 'templates')) + '\\select.html', "r", encoding="utf-8") as file:
+        html_content = file.read()
+
+    file.close()
+
+    # Создаем объект BeautifulSoup
+    settings_select_html = BeautifulSoup(html_content, 'html.parser')
+
+    select_tag = settings_select_html.find('select', {'id': "ciphersList"})
+
+    for option in select_tag.find_all('option'):
+        option.decompose()
+
+    empty_option = settings_select_html.new_tag('option', value="Empty_tag")
+    empty_option.string = "Change cipher"
+    empty_option["disabled"] = True
+    empty_option["selected"] = True
+    select_tag.append(empty_option)
+
+    for i in all_ciphers:
+        new_option = settings_select_html.new_tag('option', value=i)
+        new_option.string = all_ciphers[i]
+        select_tag.append(new_option)
+
+    with open(str(Path(dir, 'templates')) + '\\select.html', "w", encoding="utf-8") as file:
+        file.write(settings_select_html.prettify())
+
+    file.close()
