@@ -3,12 +3,14 @@ import threading
 import time
 from pathlib import Path
 import logging
-from typing import Annotated
+from typing import Annotated, BinaryIO
 
 import uvicorn
 import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
+
+
 from pydantic import BaseModel, ConfigDict, create_model, AfterValidator, ValidationError, PlainValidator
 from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -19,6 +21,8 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+
 
 
 app = FastAPI()
@@ -56,11 +60,11 @@ def preventValidator(file):
 
 class RequToSliceAndEncript(BaseModel):
     selfCipher: Annotated[str, AfterValidator(checkCipher)]
-    selfTextFile: UploadFile 
+    selfTextFile: Annotated[BinaryIO, PlainValidator(preventValidator)]
     selfLengthTelegram: Annotated[int, AfterValidator(checkLenghtTelegram)]
     selfNumberOfTelegram: Annotated[int, AfterValidator(checkNumbersOfTelegrams)]
     selfKeysType: Annotated[str, AfterValidator(checkKeysType)]
-    selfFileWithUsersKeys: Annotated[UploadFile, PlainValidator(preventValidator)]
+    selfFileWithUsersKeys: Annotated[BinaryIO, PlainValidator(preventValidator)]
     selfKeysProperties: dict
 
 
@@ -112,6 +116,15 @@ app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name=
 
 app.add_middleware(NoCacheMiddleware)
 
+requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
+    selfCipher = 'None',
+    selfFileWithUsersKeys = None,
+    selfKeysType = 'users_keys',
+    selfTextFile = None,
+    selfLengthTelegram = 1,
+    selfNumberOfTelegram = 1,
+    selfKeysProperties = {}
+)
 
 @app.post("/startEncoder/pushTelegramsCuttingData")
 async def catchTelegramsCuttinngData(
@@ -126,13 +139,13 @@ async def catchTelegramsCuttinngData(
         selfCipher = cipher, 
         selfKeysProperties = {},
         selfKeysType = keysType, 
-        selfTextFile = textFile, 
+        selfTextFile = textFile.file, 
         selfLengthTelegram = length, 
         selfNumberOfTelegram = number, 
         selfFileWithUsersKeys = None
         )
 
-    print(requestToSliceAndEncript.selfCipher)
+    print(textFile.filename)
     return JSONResponse({"Status": 200})
 
 @app.post("/startEncoder/pushKeysProperties")
@@ -140,12 +153,18 @@ async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
-    print(requestToSliceAndEncript.selfKeysProperties)
+    
+    return JSONResponse({"Status": 200})
+
+@app.post("/startEncoder/pushUserKeys")
+async def catchUsersKeys(keys_file: UploadFile = File(...)):
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': keys_file.file})
     return JSONResponse({"Status": 200})
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
-    return ciphers_obj.get_key_propertys(dict(await reqToKeyProperty.json())["cipher"])
+    return ciphers_obj.get_key_propertys(dict(await reqToKeyProperty.json())['cipher'])
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -154,16 +173,16 @@ async def select(request: Request):
 
 
 def start_server():
-    uvicorn.run("__main__:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run('__main__:app', host='127.0.0.1', port=8000, reload=False)
 
 
 def start_webview():
     time.sleep(1)
-    webview.create_window("FastAPI Desktop App", "http://127.0.0.1:8000")
+    webview.create_window('FastAPI Desktop App', 'http://127.0.0.1:8000')
     webview.start()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     server_thread = threading.Thread(target=start_server)
     server_thread.daemon = True
     server_thread.start()

@@ -27,10 +27,10 @@ void checkFile(std::ifstream& fileIn)
 
 
 // функция для генерации случайных непересекающихся телеграмм
-std::vector<std::string> generateTelegrams(const std::string& filename, int telegramLength, int telegramCount)
+std::vector<std::string> generateTelegrams(std::ifstream& file , int telegramLength, int telegramCount)
 {
     // открываем файл в режиме чтения в бинарном режиме, чтобы считать размер
-    std::ifstream file(filename, std::ios::binary | std::ios::ate);
+    
     checkFile(file);
 
     // вычисляем размер файла
