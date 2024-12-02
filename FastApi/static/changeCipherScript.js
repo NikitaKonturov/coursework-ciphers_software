@@ -94,23 +94,40 @@ async function sendEncriptRequest(formID, keysType) {
 
     if (!telegramCuttingResponse.ok) {
         console.error(telegramCuttingResponse.statusText)
-
         return
     } 
 
+    if(keysType == 'keys_settings') {
+        let dataFromKeySettingForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
+        console.log(dataFromKeySettingForm)
 
-    let dataFromKeyForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
-    console.log(dataFromKeyForm)
+        let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataFromKeySettingForm)
+            });
 
-    let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
-         {
-             method: "POST",
-             headers: {
-                 "Content-Type": "application/json"
-             },
-             body: JSON.stringify(dataFromKeyForm)
-    });
+        if (!keyPropertiesResponse.ok) {
+            console.error(keyPropertiesResponse.statusText) 
+            return
+        }
+    } else if (keysType == 'users_keys') {
+        let dataFromUserKeysForm = new FormData(document.getElementById(formID))
+        Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)})
+        let userKeysResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushUserKeys",
+            {
+                method: "POST",
+                body: dataFromUserKeysForm
+            })
 
+        if(!userKeysResponse.ok) {
+            console.error(userKeysResponse.statusText)
+            return
+        }
+    } 
 }
 
 
@@ -118,12 +135,12 @@ async function sendEncriptRequest(formID, keysType) {
 async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
-        blockWithChooseKey.id = "keys-choose-block"
         blockWithChooseKey.className = "keys-choose-block-class"
         
         let formChooseKeysFile = document.createElement("form")
         formChooseKeysFile.enctype="multipart/form-data"
         formChooseKeysFile.className = "keys-choose-block"
+        formChooseKeysFile.id = "keys-choose-block"
 
         let labelChooseElement = document.createElement("label")
         labelChooseElement.id = "input-file"
@@ -145,7 +162,6 @@ async function addBlockOfGetUsersKeys() {
         inputUsersKeys.type = "file"
         
         let blockConfirmKey = document.createElement("div")
-        blockConfirmKey.id = "keys-choose-block"
         blockConfirmKey.className = "keys-choose-block-class"
 
         let buttonConfirm = document.createElement("button")
