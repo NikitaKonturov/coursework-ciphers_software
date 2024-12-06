@@ -2,6 +2,7 @@ import os
 from typing import BinaryIO
 from pathlib import Path
 import re
+from docx import Document
 
 class FileLanguageError(Exception):
     def __init__(self, errorLanguage: str, message: str = "Invalid language in file..."):
@@ -12,8 +13,6 @@ class FileLanguageError(Exception):
     def __str__(self):
         return f"{self.message} (Language: {self.errorLanguage})"
 
-
-from docx import Document
 
 def check_file_path(filePath : str):
     if not os.path.exists(filePath):

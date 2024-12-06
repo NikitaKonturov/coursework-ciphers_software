@@ -7,6 +7,7 @@
 
 /*все алгоритмы лишь пример, и не один из них не являеться шифром*/
 
+
 std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
 {
     if(keys.empty()) {
