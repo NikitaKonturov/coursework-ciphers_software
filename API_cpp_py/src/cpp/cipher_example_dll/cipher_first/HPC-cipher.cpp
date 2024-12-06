@@ -5,9 +5,6 @@
 /*=============== Реализация примерных функций ===================*/
 /*================================================================*/
 
-/*все алгоритмы лишь пример, и не один из них не являеться шифром*/
-
-
 std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
 {
     if(keys.empty()) {
@@ -17,15 +14,18 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
     std::string text = "";
     std::map<std::string, std::string> keysAndCipherTexts;
     
+    Permutation permut;
     for (size_t i = 0; i < openTexts.size(); ++i) {
+        std::stringstream tempss;
         text = openTexts[i];
-        Permutation permut(keys[i]);
+        permut = Permutation((keys[i]));
         if(text.size() % permut.size() != 0) {
             text.append(text.size() - text.size() % permut.size(), 'A'); // или throw InvalidOpenText();
         }
-
         permut.apply(text);
-        keysAndCipherTexts[keys[i]] = text;
+        tempss << permut;
+        keysAndCipherTexts[tempss.str()] = text;
+        tempss.clear();
     }
 
     

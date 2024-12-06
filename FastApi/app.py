@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
 from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
 from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
+from file_converters.saveToDocx import save_to_docx
 
 
 from pydantic import BaseModel, ConfigDict, create_model, AfterValidator, ValidationError, PlainValidator
@@ -35,7 +36,7 @@ app = FastAPI()
 logging.basicConfig(format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
 
 BASE_DIR = Path(__file__).resolve().parent
-SAVE_DIR = Path(BASE_DIR,"/encriptResualt")
+SAVE_DIR = Path(BASE_DIR,"encript_resualts")
 
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
@@ -129,11 +130,16 @@ app.add_middleware(NoCacheMiddleware)
 def startEncrypt(reqToSileAndEncript: RequToSliceAndEncript):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
     
+    
     enc_resualt: dict = ciphers_obj.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
     
-    save_file: Path = Path(SAVE_DIR, "/resualt.docx")
+    print(enc_resualt)
+    print(SAVE_DIR)
+    print(BASE_DIR)
     
+    save_file: Path = Path(SAVE_DIR, "resualt.docx")
     
+    save_to_docx(enc_resualt, save_file)
     
     return
 
