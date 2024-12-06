@@ -1,6 +1,7 @@
 import sys
 import re
 import threading
+import docx
 import time
 from pathlib import Path
 import logging
@@ -124,14 +125,15 @@ app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name=
 
 app.add_middleware(NoCacheMiddleware)
 
+
 def startEncrypt(reqToSileAndEncript: RequToSliceAndEncript):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
     
-    print(telegrams)
-    
     enc_resualt: dict = ciphers_obj.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
     
-    print(enc_resualt)
+    save_file: Path = Path(SAVE_DIR, "/resualt.docx")
+    
+    
     
     return
 
