@@ -1,4 +1,5 @@
 import sys
+import re
 import threading
 import time
 from pathlib import Path
@@ -9,12 +10,15 @@ import uvicorn
 import webview
 from bs4 import BeautifulSoup
 from ciphers_api_module.ciphers_api_module import CppCiphers
+from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
+from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
 
 
 from pydantic import BaseModel, ConfigDict, create_model, AfterValidator, ValidationError, PlainValidator
 from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
+from telegrams_cutter import cut_telegrams
 
 from fastapi import FastAPI, File, Form, UploadFile, status
 from fastapi.requests import Request
@@ -28,6 +32,10 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 
 logging.basicConfig(format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
+
+BASE_DIR = Path(__file__).resolve().parent
+SAVE_DIR = Path(BASE_DIR,"/encriptResualt")
+
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
@@ -55,20 +63,20 @@ def checkKeysType(sourceKeysType: str):
         raise ValidationError(f"Keys type must be users_keys or keys_settings")
     return sourceKeysType
 
-def preventValidator(file):
-    return
+def pathValidator(pathToCheck: Path):
+    if pathToCheck != None and not pathToCheck.exists():
+        raise ValidationError(f'The file {pathToCheck} does not exist')        
+    return pathToCheck
 
 class RequToSliceAndEncript(BaseModel):
     selfCipher: Annotated[str, AfterValidator(checkCipher)]
-    selfTextFile: Annotated[BinaryIO, PlainValidator(preventValidator)]
+    selfTextFile: Annotated[Path, PlainValidator(pathValidator)]
+    selfNameTextFile: str
     selfLengthTelegram: Annotated[int, AfterValidator(checkLenghtTelegram)]
     selfNumberOfTelegram: Annotated[int, AfterValidator(checkNumbersOfTelegrams)]
     selfKeysType: Annotated[str, AfterValidator(checkKeysType)]
-    selfFileWithUsersKeys: Annotated[BinaryIO, PlainValidator(preventValidator)]
+    selfFileWithUsersKeys: Annotated[Path, PlainValidator(pathValidator)]
     selfKeysProperties: dict
-
-
-BASE_DIR = Path(__file__).resolve().parent
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 all_ciphers = ciphers_obj.get_ciphers_dict()
@@ -116,12 +124,24 @@ app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name=
 
 app.add_middleware(NoCacheMiddleware)
 
+def startEncrypt(reqToSileAndEncript: RequToSliceAndEncript):
+    telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
+    
+    print(telegrams)
+    
+    enc_resualt: dict = ciphers_obj.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
+    
+    print(enc_resualt)
+    
+    return
+
 requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfCipher = 'None',
     selfFileWithUsersKeys = None,
     selfKeysType = 'users_keys',
     selfTextFile = None,
     selfLengthTelegram = 1,
+    selfNameTextFile = "",
     selfNumberOfTelegram = 1,
     selfKeysProperties = {}
 )
@@ -134,18 +154,25 @@ async def catchTelegramsCuttinngData(
     number: int = Form(...), 
     keysType: str = Form(...)
 ):
+    extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
+    pathToOpenText: Path = Path(BASE_DIR, "fullOpenText.txt")
+    if(extension == '.txt'):
+        save_open_text_as_txt_file("en", textFile.file, pathToOpenText)
+    elif(extension == '.docx'):
+        save_open_text_docx_as_txt("en", textFile.file, pathToOpenText)
+    
     global requestToSliceAndEncript
     requestToSliceAndEncript = RequToSliceAndEncript(
         selfCipher = cipher, 
         selfKeysProperties = {},
         selfKeysType = keysType, 
-        selfTextFile = textFile.file, 
+        selfTextFile = pathToOpenText, 
         selfLengthTelegram = length, 
-        selfNumberOfTelegram = number, 
+        selfNumberOfTelegram = number,
+        selfNameTextFile = textFile.filename, 
         selfFileWithUsersKeys = None
         )
 
-    print(textFile.filename)
     return JSONResponse({"Status": 200})
 
 @app.post("/startEncoder/pushKeysProperties")
@@ -153,13 +180,20 @@ async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
-    
+    startEncrypt(requestToSliceAndEncript)
     return JSONResponse({"Status": 200})
 
 @app.post("/startEncoder/pushUserKeys")
 async def catchUsersKeys(keys_file: UploadFile = File(...)):
+    pathToUsersKeysFile: Path = Path(BASE_DIR, "/usersKeys.txt")
+    extension: str = re.search(".[A-Za-z]+$", keys_file.filename).group()
+    if(extension == '.txt'):
+        save_as_txt_file(keys_file.file, pathToUsersKeysFile)
+    elif(extension == '.docx'):
+        save_docx_as_txt(keys_file.file, pathToUsersKeysFile)
+    
     global requestToSliceAndEncript
-    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': keys_file.file})
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': pathToUsersKeysFile})
     return JSONResponse({"Status": 200})
 
 @app.post('/selectCipher')
@@ -183,7 +217,7 @@ def start_webview():
 
 
 if __name__ == '__main__':
-    server_thread = threading.Thread(target=start_server)
+    server_thread = threading.Thread(target = start_server)
     server_thread.daemon = True
     server_thread.start()
     start_webview()
