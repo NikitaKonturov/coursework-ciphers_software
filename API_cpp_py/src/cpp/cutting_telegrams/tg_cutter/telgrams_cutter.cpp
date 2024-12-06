@@ -11,26 +11,27 @@ void checkFile(std::ifstream& fileIn)
 {
   if(!fileIn.is_open())
   {
-    throw std::runtime_error("!Не удалось открыть файл!\n");
+    throw std::runtime_error("The file could not be opened!\n");
   }
 
   if(!fileIn.good())
   {
-    throw std::runtime_error("!Файл не существует!\n");
+    throw std::runtime_error("The file does not exist!\n");
   }
 
   if(fileIn.peek() == EOF)
   {
-    throw std::runtime_error("!Файл пустой!\n");
+    throw std::runtime_error("The file is empty!\n");
   }
 }
 
 
 // функция для генерации случайных непересекающихся телеграмм
-std::vector<std::string> generateTelegrams(std::ifstream& file , int telegramLength, int telegramCount)
+std::vector<std::string> generateTelegrams(std::string pathToFile , int telegramLength, int telegramCount)
 {
     // открываем файл в режиме чтения в бинарном режиме, чтобы считать размер
-    
+    std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);
+
     checkFile(file);
 
     // вычисляем размер файла
@@ -38,9 +39,8 @@ std::vector<std::string> generateTelegrams(std::ifstream& file , int telegramLen
     file.seekg(0, std::ios::beg);
 
     // проверка возможности генерации телеграмм
-    if (telegramLength * telegramCount > fileSize) 
-    {
-        throw std::runtime_error("Недостаточно места в файле для генерации заданного количества телеграмм.");
+    if (telegramLength * telegramCount > fileSize) {
+        throw std::runtime_error("There is not enough space in the file to generate the specified number of telegrams.");
     }
 
     // создаем набор случайных начальных позиций телеграмм

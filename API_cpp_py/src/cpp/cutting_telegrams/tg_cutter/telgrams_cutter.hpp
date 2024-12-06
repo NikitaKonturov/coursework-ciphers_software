@@ -11,7 +11,7 @@
 //функция для проверки файла
 void checkFile(std::ifstream& fileIn);
 // функция для генерации случайных непересекающихся телеграмм
-std::vector<std::string> generateTelegrams(std::ifstream& file, int telegramLength, int telegramCount);
+std::vector<std::string> generateTelegrams(std::string file, int telegramLength, int telegramCount);
 
 
 #endif // TELEGRAMS_CUTTER
