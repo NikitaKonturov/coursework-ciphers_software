@@ -16,7 +16,7 @@
    <form enctype="multipart/form-data" id="slice-telegrmas-form">
     <div class="settings-section">
      <button id="Setting">
-      Settings
+      {{ _("Settings") }}
      </button>
      <select id="ciphersList" name="cipher">
       <option disabled="True" selected="True" value="Empty_tag">
@@ -29,26 +29,26 @@
     </div>
     <label class="input-file">
      <span id="custom-file-label">
-      Choose file
+      {{ _("Choose file") }}
      </span>
      <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
     </label>
     <label id="file-validity">
     </label>
     <label for="length">
-     Telegram size:
+     {{ _("Telegram size") }}:
     </label>
-    <input id="lenght-of-tg" name="length" placeholder="Enter telegram size" type="number"/>
+    <input id="lenght-of-tg" name="length" placeholder="{{ _('Enter telegram size') }}" type="number"/>
     <label for="number">
-     Number of telegrams:
+     {{ _("Number of telegrams") }}:
     </label>
-    <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
+    <input id="count-of-tg" name="number" placeholder="{{ _('Enter number of telegrams') }}" type="number"/>
     <div class="button-container">
      <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
-      Encryption settings
+      {{ _("Encryption settings") }}
      </button>
      <button id="decrypt" onclick="preventActionButton();">
-      Decryption settings
+      {{ _("Decryption settings") }}
      </button>
     </div>
    </form>

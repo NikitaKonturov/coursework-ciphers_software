@@ -44,7 +44,7 @@ async function addBlockOfKeysSettings() {
             blockConfirmKey.id = "keys-choose-block"
             blockConfirmKey.className = "keys-choose-block-class"
             let buttonConfirm = document.createElement("button")
-            buttonConfirm.textContent = "Confirm"
+            buttonConfirm.textContent = gettext("Confirm")
             buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
             blockConfirmKey.appendChild(buttonConfirm)    
 
@@ -126,7 +126,7 @@ async function addBlockOfGetUsersKeys() {
 
         let spanUsersKeys = document.createElement("span")
         spanUsersKeys.id = "custom-file-label-keys"
-        spanUsersKeys.textContent = "Choose file with keys"
+        spanUsersKeys.textContent = gettext("Choose file with keys")
 
         let inputUsersKeys = document.createElement("input")
         inputUsersKeys.id = "keys-file"
@@ -145,7 +145,7 @@ async function addBlockOfGetUsersKeys() {
         blockConfirmKey.className = "keys-choose-block-class"
 
         let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = "Confirm"
+        buttonConfirm.textContent = gettext("Confirm")
         buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users_keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
@@ -185,12 +185,12 @@ async function encriptSettings() {
             selectKyesTypeBlock.id = "button-container"
             selectKyesTypeBlock.className = "button-container"
             let autoGenKeysButton = document.createElement("button")
-            autoGenKeysButton.textContent = "Auto keys generation"
+            autoGenKeysButton.textContent = gettext("Auto keys generation")
             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
             selectKyesTypeBlock.appendChild(autoGenKeysButton)
 
             let getUserKeysButton = document.createElement("button")
-            getUserKeysButton.textContent = "Select keys"
+            getUserKeysButton.textContent = gettext("Select keys")
             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
             selectKyesTypeBlock.appendChild(getUserKeysButton)
 

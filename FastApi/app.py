@@ -13,18 +13,41 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import os
+import gettext
 
 logging.basicConfig(
     format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
 
 app = FastAPI()
 
+
+def get_translator(language: str):
+    locale_dir = os.path.join(os.path.dirname(__file__), 'locale')
+    try:
+        return gettext.translation(
+            'messages',
+            localedir=locale_dir,
+            languages=[language]
+        )
+    except FileNotFoundError:
+        return gettext.NullTranslations()
+
+
+@app.middleware("http")
+async def set_locale(request: Request, call_next):
+    language = request.headers.get("Accept-Language", "en").split(",")[0]
+    request.state.translator = get_translator(language)
+    response = await call_next(request)
+    return response
+
+app.add_middleware(NoCacheMiddleware)
+
 app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
 # Future exception_handlers
 app.add_exception_handler(Exception, unknown_exception)
 
-app.add_middleware(NoCacheMiddleware)
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -76,6 +99,17 @@ async def select_cipher(reqToKeyProperty: Request):
 
 @app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
+    translator = request.state.translator
+    _ = translator.gettext
+
+    accept_language = request.headers.get("Accept-Language", "en")
+    language = accept_language.split(",")[0]  # Extract the first language code
+
+    # Set up the translator
+    translator = get_translator('ru-RU')
+
+    # Add `_` to Jinja2's global context for use in templates
+    templates.env.globals["_"] = _
     return templates.TemplateResponse(request=request, name='select.html')
 
 
