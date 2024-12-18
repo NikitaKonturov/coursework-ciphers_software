@@ -4,7 +4,10 @@
 #include <exception>
 #include <map>
 #include <vector>
+#include <iterator>
 #include <set>
+#include <regex>
+#include <algorithm>
 #include <sstream>
 
 class Permutation
@@ -17,7 +20,7 @@ public:
     Permutation(uint32_t);
     Permutation(const std::vector<int32_t>&);
     Permutation(const Permutation&);
-    Permutation(const std::string&);
+    Permutation(std::string);
     ~Permutation();
 
     // Функция

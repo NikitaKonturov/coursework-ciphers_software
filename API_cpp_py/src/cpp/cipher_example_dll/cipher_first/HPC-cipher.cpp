@@ -18,9 +18,10 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::stringstream tempss;
         text = openTexts[i];
+        
         permut = Permutation((keys[i]));
         if(text.size() % permut.size() != 0) {
-            text.append(text.size() - text.size() % permut.size(), 'A'); // или throw InvalidOpenText();
+            throw InvalidOpenText("The size of the plaintext must be divided by the size of the key...");
         }
         permut.apply(text);
         tempss << permut;
