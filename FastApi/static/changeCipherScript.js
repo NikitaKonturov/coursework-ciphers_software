@@ -186,10 +186,46 @@ async function addBlockOfGetUsersKeys() {
     }
 }
 
-
 async function preventActionButton() {
     event.preventDefault()
 }
+
+// async function showDecriptSettings() {
+//     try {
+//         if(document.getElementById("ciphersList").value == "Empty_tag") {
+//             alert("Сhoose a cipher!")
+//         } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
+//                 alert("Count of telegrmas and size of telegrams must be nutural")
+//         } else if(Array.from(document.getElementById("text-file").files).length == 0) {
+//                 alert("Choose file with text")
+//         }else {
+//             let selectKyesTypeBlock = document.createElement("div")
+//             selectKyesTypeBlock.id = "button-container"
+//             selectKyesTypeBlock.className = "button-container"
+//             let autoGenKeysButton = document.createElement("button")
+//             autoGenKeysButton.textContent = "Auto keys generation"
+//             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
+//             selectKyesTypeBlock.appendChild(autoGenKeysButton)
+
+//             let getUserKeysButton = document.createElement("button")
+//             getUserKeysButton.textContent = "Select keys"
+//             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
+//             selectKyesTypeBlock.appendChild(getUserKeysButton)
+
+//             let rigthBlock = document.createElement("div")
+//             rigthBlock.id = "main-keys-block"
+//             rigthBlock.className = "main-keys-block-class"
+//             rigthBlock.appendChild(selectKyesTypeBlock)
+            
+//             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
+//             document.body.appendChild(rigthBlock)
+
+//         }
+//     }
+//     catch(err){
+//         console.error("Error occurred:", err);
+//     }
+// }
 
 
 async function encriptSettings() {

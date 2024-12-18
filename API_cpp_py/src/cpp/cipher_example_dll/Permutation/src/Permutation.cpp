@@ -37,15 +37,17 @@ Permutation::Permutation(const std::vector<int32_t>& rhs)
 }
 
 
-Permutation::Permutation(const std::string& rhs)
+Permutation::Permutation(std::string rhs)
 {
-    std::istringstream iss(rhs);
+    std::regex regDecaration("[\\[\\],]");
+    std::string cleaned = std::regex_replace(rhs, regDecaration, "");
+    std::stringstream ss(cleaned);
     int32_t value;
     uint32_t index = 0;
     std::multiset<uint32_t> check;  // Для проверки дубликатов
     
     // Разбираем строку на числа
-    while (iss >> value)
+    while (ss >> value)
     {
         if (value <= 0) 
             throw std::invalid_argument("Numbers must be positive and not zero!!!");
@@ -153,15 +155,12 @@ void Permutation::compose(const Permutation& rhs)
 
 std::ostream& operator<<(std::ostream& out, const Permutation& obj)
 {
-    for (const auto& pair : obj.SourcePermut)
-    {
-        out << pair.first + 1 << '\t';
+    out << '[';
+    for (const auto& pair : obj.SourcePermut) {
+        out << pair.second + 1 << ' ';
     }
-    out << '\n';
-    for (const auto& pair : obj.SourcePermut)
-    {
-        out << pair.second + 1 << '\t';
-    }
+
+    out << ']';
     return out;
 }
 
