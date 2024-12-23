@@ -8,13 +8,12 @@ import logging
 from typing import Annotated, BinaryIO
 
 
-from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, startEncrypt
+from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, start_encryption, start_decryption
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
 from exception_handlers import (ValidationError, unknown_exception, validatiion_exception, value_exception)
 from settings.config import NoCacheMiddleware, start_server, start_webview
 from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
 from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
-from file_converters.saveToDocx import save_to_docx
 
 
 from fastapi import FastAPI, File, Form, UploadFile
@@ -92,7 +91,7 @@ async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
-    startEncrypt(requestToSliceAndEncript, Path(SAVE_DIR, 'resualt.docx'), ciphers_obj)
+    start_encryption(requestToSliceAndEncript, Path(SAVE_DIR, 'resualt.docx'), ciphers_obj)
 
     return JSONResponse({"Status": 200})
 
@@ -108,10 +107,20 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': pathToUsersKeys})
     
-    startEncrypt(requestToSliceAndEncript, Path(SAVE_DIR, 'resualt.docx'), ciphers_obj)
+    start_encryption(requestToSliceAndEncript, Path(SAVE_DIR, 'encription-resualt.docx'), ciphers_obj)
     
     return JSONResponse({"Status": 200})
 
+@app.post('/startDecoder')
+async def catchDecriptRequest(cipher: str = Form(...),
+    textFile: UploadFile = File(...)
+):
+    extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
+    print(textFile.filename)
+    start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(SAVE_DIR, "decryption-resualt.docx"))
+    
+    return JSONResponse({"Status": 200})
+    
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
     return ciphers_obj.get_key_propertys(dict(await reqToKeyProperty.json())["cipher"])

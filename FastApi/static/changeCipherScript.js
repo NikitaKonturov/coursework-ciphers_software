@@ -57,8 +57,8 @@ async function addBlockOfKeysSettings() {
         
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-
-
+        Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+            
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
     } catch (error) {
@@ -77,7 +77,7 @@ function checkNumber(elementValue) {
 
 async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
-    
+
     dataToSliceTelegams.append("keysType", keysType)
 
     dataToSliceTelegams.forEach((fieldValue, key) => {
@@ -130,7 +130,38 @@ async function sendEncriptRequest(formID, keysType) {
     } 
 }
 
+async function sendDecriptRequest() 
+{
+    let dataAboutCipherTextAndKeys = new FormData(document.getElementById("slice-telegrmas-form"))
+    
+    dataAboutCipherTextAndKeys.delete("length")
+    dataAboutCipherTextAndKeys.delete("number")
 
+    if(document.getElementById("ciphersList").value == "Empty_tag") {
+        alert("Сhoose a cipher!")
+        return
+    } 
+
+    const fileInput = document.getElementById("text-file");
+
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        alert("Choose a file with cipher text");
+        return;
+    }
+
+    let responseFromDecript = await fetch("http://127.0.0.1:8000/startDecoder", 
+        {
+            method: "POST",
+            body: dataAboutCipherTextAndKeys
+        }
+    )
+
+    if(!responseFromDecript.ok) {
+        console.error(responseFromDecript.statusText)
+        return
+    }
+    return
+}
 
 async function addBlockOfGetUsersKeys() {
     try {
@@ -179,7 +210,8 @@ async function addBlockOfGetUsersKeys() {
         
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-        
+        Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+            
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
         console.error(error)
@@ -194,31 +226,62 @@ async function preventActionButton() {
 //     try {
 //         if(document.getElementById("ciphersList").value == "Empty_tag") {
 //             alert("Сhoose a cipher!")
-//         } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
-//                 alert("Count of telegrmas and size of telegrams must be nutural")
-//         } else if(Array.from(document.getElementById("text-file").files).length == 0) {
-//                 alert("Choose file with text")
 //         }else {
-//             let selectKyesTypeBlock = document.createElement("div")
-//             selectKyesTypeBlock.id = "button-container"
-//             selectKyesTypeBlock.className = "button-container"
-//             let autoGenKeysButton = document.createElement("button")
-//             autoGenKeysButton.textContent = "Auto keys generation"
-//             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
-//             selectKyesTypeBlock.appendChild(autoGenKeysButton)
+//             let decriptBlock = document.createElement("div")
+//             decriptBlock.id = "decript-block"
+//             decriptBlock.className = "decript-block-class"
 
-//             let getUserKeysButton = document.createElement("button")
-//             getUserKeysButton.textContent = "Select keys"
-//             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
-//             selectKyesTypeBlock.appendChild(getUserKeysButton)
+//             let decriptBlockLabel = document.createElement("label")
+//             decriptBlockLabel.textContent = "Choose cipher text"
+//             decriptBlock.appendChild(decriptBlockLabel)
 
-//             let rigthBlock = document.createElement("div")
-//             rigthBlock.id = "main-keys-block"
-//             rigthBlock.className = "main-keys-block-class"
-//             rigthBlock.appendChild(selectKyesTypeBlock)
+//             let formChooseCipherTextFile = document.createElement("form")
+//             formChooseCipherTextFile.enctype="multipart/form-data"
+//             formChooseCipherTextFile.className = "cipher-text-choose-block"
+//             formChooseCipherTextFile.id = "cipher-text-choose-block"
+    
+//             let labelChooseElement = document.createElement("label")
+//             labelChooseElement.id = "input-file"
+    
+//             let spanCipherText = document.createElement("span")
+//             spanCipherText.id = "custom-file-label-cipher-text"
+//             spanCipherText.textContent = "Choose file with cipher text"
+    
+//             let inputCipherTexts = document.createElement("input")
+//             inputCipherTexts.id = "cipher-text-file"
+//             inputCipherTexts.addEventListener('change', function(){document.getElementById('choose-cipher-text-file').textContent = this.files[0].name}, true)
+//             inputCipherTexts.accept = ".doc,.docx,application/msword, text/plain"
+//             inputCipherTexts.name = "cipher_text_file"
+//             inputCipherTexts.addEventListener('change', function() {
+//                 document.getElementById('custom-file-label-cipher-text').textContent = this.files[0].name;
+//             })
+//             inputCipherTexts.required = ""
+//             inputCipherTexts.style = "display: none;"
+//             inputCipherTexts.type = "file"
             
-//             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
-//             document.body.appendChild(rigthBlock)
+//             let blockConfirmCipherText = document.createElement("div")
+//             blockConfirmCipherText.className = "keys-choose-block-class"
+    
+//             let buttonConfirm = document.createElement("button")
+//             buttonConfirm.textContent = "Confirm"
+//             buttonConfirm.addEventListener("click", function(){event.preventDefault()} ,true)
+    
+        
+//             labelChooseElement.appendChild(spanCipherText)
+//             labelChooseElement.appendChild(inputCipherTexts)
+//             formChooseCipherTextFile.appendChild(labelChooseElement)
+//             blockConfirmCipherText.appendChild(buttonConfirm)
+//             formChooseCipherTextFile.appendChild(blockConfirmCipherText)
+//             decriptBlock.appendChild(formChooseCipherTextFile)
+    
+    
+            
+//             Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
+//             Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
+//             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+//             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => { elem.remove(); });
+            
+//             document.body.appendChild(decriptBlock)
 
 //         }
 //     }
@@ -256,6 +319,7 @@ async function encriptSettings() {
             rigthBlock.appendChild(selectKyesTypeBlock)
             
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
+            Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
             document.body.appendChild(rigthBlock)
 
         }

@@ -7,13 +7,15 @@ from pathlib import Path
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
 from file_converters.saveToDocx import save_to_docx
 from ciphers_api_module.telegrams_cutter import cut_telegrams
-from typing import Optional
+from typing import Optional, BinaryIO
+from pydantic import BaseModel
+from docx import Document
 import platform
 import sys
 import json
 import os
 import re
-from pydantic import BaseModel
+
 
 
 # ===================================================================================#
@@ -172,7 +174,7 @@ def formCipherSelectOptions(ciphers_obj: CppCiphers, dir: Path):
 
     file.close()
 
-def startEncrypt(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
+def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
     
     enc_resualt: dict = {}
@@ -195,11 +197,46 @@ def startEncrypt(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Pat
                 AllKeys = AllKeys + tempLine
                 tempLine = file.readline()
                 print(tempLine)
-        print(re.split(regToNextKey, AllKeys))
+        # print(re.split(regToNextKey, AllKeys))
+        
         enc_resualt = ciphers_object.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
 
-    save_file: Path = pathToSaveFile
-    
-    save_to_docx(enc_resualt, save_file)
+    save_to_docx(enc_resualt, pathToSaveFile)
     
     return
+    
+def check_encription_telegram(telegram: str) -> bool:
+    if(telegram == ''):
+        return False
+    if(re.search(r"\\text", telegram) == None):
+        return False
+    return True
+    
+def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, cipher: str, ciphers_object: CppCiphers, pathToSaveFile: Path):
+    keysAndCipherText: dict[str, str] = {}
+    allDataFromFile: str = ""
+    if(fileExtension == '.txt'):
+        dataLine: str = ""
+        while(dataLine):
+            dataLine = str(fileWithCipherTextAndKeys.readline()).encode("utf-8")
+            allDataFromFile += dataLine
+    elif(fileExtension == '.docx'):
+        doc = Document(fileWithCipherTextAndKeys)
+        for paragraph in doc.paragraphs:
+            allDataFromFile += paragraph.text
+    else:
+        raise AttributeError("File must has .txt or .docx extension...")    
+    
+    regToKeys: str = r"\\key"
+    regToText: str = r"\\text"
+    listOfTheEncriptTelegrams: list[str] = re.split(regToKeys, allDataFromFile)
+    tempKeyAndCipherText:dict[str, str] = {}
+    for telegram in listOfTheEncriptTelegrams:
+        if(check_encription_telegram(telegram)):     
+            tempKeyAndCipherText = re.split(regToText, telegram)
+            keysAndCipherText[tempKeyAndCipherText[0]] = tempKeyAndCipherText[1]
+        
+    dec_result: dict[str, str] = ciphers_object.decript_telegrams(cipher, keysAndCipherText)
+    
+    save_to_docx(dec_result, pathToSaveFile)
+    
