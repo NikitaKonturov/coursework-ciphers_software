@@ -107,7 +107,10 @@ class CppCiphers:
 
         except RuntimeError as err:
             print(err)
-
+            
+        except Exception as err:
+            raise err
+            
         return res
 
     # Функция получения шаблона свойств ключа
