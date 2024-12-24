@@ -11,47 +11,47 @@ find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 set(Python3_LIBRARY "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\libs\\python312.lib")
 find_package(pybind11 REQUIRED)
 # добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
-add_subdirectory("cipher_first" "${CMAKE_BINARY_DIR}/cipher_first")
+add_subdirectory("cipher_exceptions" "${CMAKE_BINARY_DIR}/cipher_exceptions")
 
 # создаём библиотеку главное внимание обратите на MODULE именно этот параметр указывает га создагие динамической библиотеки
-add_library(HPC_cipher MODULE main_cipher_file.cpp)
-target_link_libraries(HPC_cipher PRIVATE ${Python3_LIBRARY})
+add_library(cpp_exceptions MODULE main_cipher_file.cpp)
+target_link_libraries(cpp_exceptions PRIVATE ${Python3_LIBRARY})
 # подключаем библиотеку для экспорта функции в python
-target_link_libraries(HPC_cipher PRIVATE pybind11::pybind11)
+target_link_libraries(cpp_exceptions PRIVATE pybind11::pybind11)
 
 #link_directories("C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\libs")
 
 #install(TARGETS HPC_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
 # подключаем библиотеку шифра
-target_link_libraries(HPC_cipher PUBLIC HPC-cipher_lib)
+target_link_libraries(cpp_exceptions PUBLIC cipher_exceptions_lib)
 
 # настройки выходного файла
-set_target_properties(HPC_cipher PROPERTIES
+set_target_properties(cpp_exceptions PROPERTIES
     PREFIX ""
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\py"
     LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\..\\py\\include_ciphers"
-    OUTPUT_NAME "HPC_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
+    OUTPUT_NAME "cpp_exceptions" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
 )
 
 # обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
 if(WIN32)
-    set_target_properties(HPC_cipher PROPERTIES SUFFIX ".pyd")
+    set_target_properties(cpp_exceptions PROPERTIES SUFFIX ".pyd")
     set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python312.dll")
     # Копируем python311.dll в папку сборки библиотеки
-    add_custom_command(TARGET HPC_cipher POST_BUILD
+    add_custom_command(TARGET cpp_exceptions POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${PYTHON_DLL_PATH}"
-        "$<TARGET_FILE_DIR:HPC_cipher>"
+        "$<TARGET_FILE_DIR:cpp_exceptions>"
     )
 elseif(APPLE)
-    set_target_properties(HPC_cipher PROPERTIES SUFFIX "dylib")
+    set_target_properties(cpp_exceptions PROPERTIES SUFFIX "dylib")
 else()
-    set_target_properties(HPC_cipher PROPERTIES SUFFIX ".so")
+    set_target_properties(cpp_exceptions PROPERTIES SUFFIX ".so")
 endif()
 
 
 # Добавляем команду install для HPC_cipher, чтобы сохранить библиотеку в целевой папке
-install(TARGETS HPC_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
+install(TARGETS cpp_exceptions DESTINATION "${CMAKE_SOURCE_DIR}/../py")
 
 # Добавляем команду install для python311.dll, чтобы она также была установлена
 install(FILES "${PYTHON_DLL_PATH}" DESTINATION "${CMAKE_SOURCE_DIR}/../py")
