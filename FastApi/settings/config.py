@@ -1,3 +1,4 @@
+from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 import uvicorn
@@ -18,5 +19,5 @@ def start_server():
 
 def start_webview():
     time.sleep(1)
-    webview.create_window("Encoder", "http://127.0.0.1:8000")
+    webview.create_window("FastAPI Desktop App", "http://127.0.0.1:8000")
     webview.start()

@@ -1,62 +1,57 @@
-import logging
+import sys
+import re
 import threading
+import docx
+import time
 from pathlib import Path
+import logging
+from typing import Annotated, BinaryIO
 
-from ciphers_api_module.ciphers_api_module import (CppCiphers,
-                                                   RequestToSliceAndEncript, formCipherSelectOptions)
-from exception_handlers import (ValidationError, unknown_exception,
-                                validatiion_exception, value_exception)
+
+from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, start_encryption, start_decryption
+from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
+from exception_handlers import (
+    ValidationError, unknown_exception, validatiion_exception, value_exception)
 from settings.config import NoCacheMiddleware, start_server, start_webview
+from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
+from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
+
 
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import os
-import gettext
 
 logging.basicConfig(
     format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
 
 app = FastAPI()
 
-
-def get_translator(language: str):
-    locale_dir = os.path.join(os.path.dirname(__file__), 'locale')
-    try:
-        return gettext.translation(
-            'messages',
-            localedir=locale_dir,
-            languages=[language]
-        )
-    except FileNotFoundError:
-        return gettext.NullTranslations()
-
-
-@app.middleware("http")
-async def set_locale(request: Request, call_next):
-    language = request.headers.get("Accept-Language", "en").split(",")[0]
-    request.state.translator = get_translator(language)
-    response = await call_next(request)
-    return response
-
-app.add_middleware(NoCacheMiddleware)
-
 app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
 # Future exception_handlers
 app.add_exception_handler(Exception, unknown_exception)
 
+app.add_middleware(NoCacheMiddleware)
 
 BASE_DIR = Path(__file__).resolve().parent
+SAVE_DIR = Path(BASE_DIR, "encript_resualts")
 
 ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
 
 formCipherSelectOptions(ciphers_obj, BASE_DIR)
 
-requestToSliceAndEncript: RequestToSliceAndEncript = RequestToSliceAndEncript()
-
+requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
+    selfCipher='None',
+    selfFileWithUsersKeys=None,
+    selfKeysType='users_keys',
+    selfTextFile=None,
+    selfLengthTelegram=1,
+    selfNameTextFile="",
+    selfNumberOfTelegram=1,
+    selfKeysProperties={}
+)
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 app.mount(
@@ -71,25 +66,69 @@ async def catchTelegramsCuttinngData(
     number: int = Form(...),
     keysType: str = Form(...)
 ):
-    requestToSliceAndEncript.configurationDataAboutSlice(
-        cipher, textFile, length, number, keysType)
+    extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
+    pathToOpenText: Path = Path(BASE_DIR, "fullOpenText.txt")
+    if (extension == '.txt'):
+        save_open_text_as_txt_file("en", textFile.file, pathToOpenText)
+    elif (extension == '.docx'):
+        save_open_text_docx_as_txt("en", textFile.file, pathToOpenText)
+
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = RequToSliceAndEncript(
+        selfCipher=cipher,
+        selfKeysProperties={},
+        selfKeysType=keysType,
+        selfTextFile=pathToOpenText,
+        selfLengthTelegram=length,
+        selfNumberOfTelegram=number,
+        selfNameTextFile=textFile.filename,
+        selfFileWithUsersKeys=None
+    )
 
     return JSONResponse({"Status": 200})
 
 
 @app.post("/startEncoder/pushKeysProperties")
 async def catchKeysProperties(keyPropReq: Request):
-    print((await keyPropReq.json()))
+    keyPropDict = (await keyPropReq.json())
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
+        update={'selfKeysProperties': keyPropDict})
+    start_encryption(requestToSliceAndEncript, Path(
+        SAVE_DIR, 'resualt.docx'), ciphers_obj)
+
     return JSONResponse({"Status": 200})
 
 
-@app.post('/startEncoder')
-async def startEncoder(requestConfig):
-    return JSONResponse(
-        {
-            "cipher": "df"
-        }
-    )
+@app.post("/startEncoder/pushUserKeys")
+async def catchUsersKeys(keys_file: UploadFile = File(...)):
+    extension: str = re.search(".[A-Za-z]+$", keys_file.filename).group()
+    pathToUsersKeys: Path = Path(BASE_DIR, "usersKeys.txt")
+    if (extension == '.txt'):
+        save_as_txt_file(keys_file.file, pathToUsersKeys)
+    elif (extension == '.docx'):
+        save_docx_as_txt(keys_file.file, pathToUsersKeys)
+
+    global requestToSliceAndEncript
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
+        update={'selfFileWithUsersKeys': pathToUsersKeys})
+
+    start_encryption(requestToSliceAndEncript, Path(
+        SAVE_DIR, 'encription-resualt.docx'), ciphers_obj)
+
+    return JSONResponse({"Status": 200})
+
+
+@app.post('/startDecoder')
+async def catchDecriptRequest(cipher: str = Form(...),
+                              textFile: UploadFile = File(...)
+                              ):
+    extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
+    print(textFile.filename)
+    start_decryption(textFile.file, extension, cipher,
+                     ciphers_obj, Path(SAVE_DIR, "decryption-resualt.docx"))
+
+    return JSONResponse({"Status": 200})
 
 
 @app.post('/selectCipher')
@@ -99,17 +138,6 @@ async def select_cipher(reqToKeyProperty: Request):
 
 @app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
-    translator = request.state.translator
-    _ = translator.gettext
-
-    accept_language = request.headers.get("Accept-Language", "en")
-    language = accept_language.split(",")[0]  # Extract the first language code
-
-    # Set up the translator
-    translator = get_translator('ru-RU')
-
-    # Add `_` to Jinja2's global context for use in templates
-    templates.env.globals["_"] = _
     return templates.TemplateResponse(request=request, name='select.html')
 
 

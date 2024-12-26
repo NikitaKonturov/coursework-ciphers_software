@@ -194,6 +194,22 @@ div input {
   padding-left: 8%;
 }
 
+<<<<<<< HEAD
+=======
+.decript-block-class {
+  width: 60%;
+  max-width: 350px;
+  padding: 50px  60px;
+  margin: 80px auto 20px;
+  background-color: #39369c;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+>>>>>>> displaying_key_settings
 .button-container button {
   padding: 12px 24px;
   font-size: 15px;
@@ -223,6 +239,25 @@ div input {
   background-color: #8d7ec2;
 }
 
+<<<<<<< HEAD
+=======
+.keys-choose-block-class button:hover{
+  background-color: #8d7ec2;
+}
+
+.keys-choose-block-class button{
+  padding: 12px 24px;
+  font-size: 15px;
+  background-color: #e7e9f1;
+  color: #0a0707;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto;
+  transition: background-color 0.3s ease;
+}
+
+>>>>>>> displaying_key_settings
 #button-container button {
   padding: 12px 24px;
     font-size: 15px;
