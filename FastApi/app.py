@@ -1,25 +1,31 @@
-import sys
+import logging
 import re
 import threading
-import docx
-import time
 from pathlib import Path
-import logging
-from typing import Annotated, BinaryIO
 
-
-from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, start_encryption, start_decryption
-from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
-from exception_handlers import (
-    ValidationError, unknown_exception, validatiion_exception, value_exception)
+import docx
+from ciphers_api_module.ciphers_api_module import (CppCiphers,
+                                                   formCipherSelectOptions,
+                                                   start_decryption,
+                                                   start_encryption)
+from ciphers_api_module.requestsClass.requestToEncript import \
+    RequToSliceAndEncript
+from file_converters.docxToTxt import (save_docx_as_txt,
+                                       save_open_text_docx_as_txt)
+from file_converters.saveTxtFile import (save_as_txt_file,
+                                         save_open_text_as_txt_file)
 from settings.config import NoCacheMiddleware, start_server, start_webview
-from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
-from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
-
 
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
+from settings.exception_handlers import (ValidationError,
+                                         invalid_key_exception,
+                                         invalid_open_text_exception,
+                                         key_property_exception,
+                                         unknown_exception,
+                                         validatiion_exception,
+                                         value_exception, InvalidKey, InvalidOpenText, KeyPropertyError)
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -28,9 +34,11 @@ logging.basicConfig(
 
 app = FastAPI()
 
-app.add_exception_handler(ValueError, value_exception)
+app.add_exception_handler(InvalidKey, invalid_key_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
-# Future exception_handlers
+app.add_exception_handler(InvalidOpenText, invalid_open_text_exception)
+app.add_exception_handler(KeyPropertyError, key_property_exception)
+app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(Exception, unknown_exception)
 
 app.add_middleware(NoCacheMiddleware)
@@ -58,7 +66,7 @@ app.mount(
     '/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
 
 
-@app.post("/startEncoder/pushTelegramsCuttingData")
+@ app.post("/startEncoder/pushTelegramsCuttingData")
 async def catchTelegramsCuttinngData(
     cipher: str = Form(...),
     textFile: UploadFile = File(...),
@@ -88,7 +96,7 @@ async def catchTelegramsCuttinngData(
     return JSONResponse({"Status": 200})
 
 
-@app.post("/startEncoder/pushKeysProperties")
+@ app.post("/startEncoder/pushKeysProperties")
 async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
@@ -100,7 +108,7 @@ async def catchKeysProperties(keyPropReq: Request):
     return JSONResponse({"Status": 200})
 
 
-@app.post("/startEncoder/pushUserKeys")
+@ app.post("/startEncoder/pushUserKeys")
 async def catchUsersKeys(keys_file: UploadFile = File(...)):
     extension: str = re.search(".[A-Za-z]+$", keys_file.filename).group()
     pathToUsersKeys: Path = Path(BASE_DIR, "usersKeys.txt")
@@ -119,7 +127,7 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     return JSONResponse({"Status": 200})
 
 
-@app.post('/startDecoder')
+@ app.post('/startDecoder')
 async def catchDecriptRequest(cipher: str = Form(...),
                               textFile: UploadFile = File(...)
                               ):
@@ -131,12 +139,12 @@ async def catchDecriptRequest(cipher: str = Form(...),
     return JSONResponse({"Status": 200})
 
 
-@app.post('/selectCipher')
+@ app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
     return ciphers_obj.get_key_propertys(dict(await reqToKeyProperty.json())["cipher"])
 
 
-@app.get('/', response_class=HTMLResponse)
+@ app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
     return templates.TemplateResponse(request=request, name='select.html')
 
