@@ -1,19 +1,15 @@
-import sys
 import re
 import threading
-import docx
-import time
 from pathlib import Path
 import logging
-from typing import Annotated, BinaryIO
 
 
 from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, start_encryption, start_decryption
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
 from exception_handlers import (ValidationError, unknown_exception, validatiion_exception, value_exception)
 from settings.config import NoCacheMiddleware, start_server, start_webview
-from file_converters.saveTxtFile import save_open_text_as_txt_file, save_as_txt_file
-from file_converters.docxToTxt import save_open_text_docx_as_txt, save_docx_as_txt
+from file_converters.saveTxtFile import save_open_text_as_bin_file, save_as_txt_file
+from file_converters.docxToTxt import save_open_text_docx_as_bin_file, save_docx_as_txt
 
 
 from fastapi import FastAPI, File, Form, UploadFile
@@ -51,6 +47,7 @@ requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfNumberOfTelegram = 1,
     selfKeysProperties = {}
 )
+
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
@@ -65,11 +62,11 @@ async def catchTelegramsCuttinngData(
     keysType: str = Form(...)
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
-    pathToOpenText: Path = Path(BASE_DIR, "fullOpenText.txt")
+    pathToOpenText: Path = Path(BASE_DIR, "fullOpenText.bin")
     if(extension == '.txt'):
-        save_open_text_as_txt_file("en", textFile.file, pathToOpenText)
+        save_open_text_as_bin_file("ru", textFile.file, pathToOpenText)
     elif(extension == '.docx'):
-        save_open_text_docx_as_txt("en", textFile.file, pathToOpenText)
+        save_open_text_docx_as_bin_file("ru", textFile.file, pathToOpenText)
     
     global requestToSliceAndEncript
     requestToSliceAndEncript = RequToSliceAndEncript(
