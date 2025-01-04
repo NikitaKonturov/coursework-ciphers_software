@@ -18,12 +18,12 @@ def check_file_path(filePath : str):
     if not os.path.exists(filePath):
         raise FileExistsError(f'The file {filePath} does not exist')
         
-def save_open_text_docx_as_txt(language : str, openTextFile : BinaryIO, saveOpenTextTxtFile: Path):
+def save_open_text_docx_as_bin_file(language : str, openTextFile : BinaryIO, saveOpenTextTxtFile: Path):
     
     doc = Document(openTextFile)
     
     if (language.lower() == 'ru'):
-        with open(saveOpenTextTxtFile, 'w', encoding='utf-8') as txtFile:
+        with open(saveOpenTextTxtFile, 'bw') as binFile:
             for para in doc.paragraphs:
                 checkPart = ''.join(re.findall(r'[A-Za-z]', para.text))
                 cleanedText = ''.join(re.findall(r'[А-Яа-я]', para.text)).upper()
@@ -32,10 +32,10 @@ def save_open_text_docx_as_txt(language : str, openTextFile : BinaryIO, saveOpen
                     raise FileLanguageError(f'The file contains symbols from the other language', errorLanguage="en")
             
                 if cleanedText:
-                    txtFile.write(cleanedText)
+                    binFile.write(cleanedText.encode("utf-16-le"))
     
     elif (language.lower() == 'en'):
-        with open(saveOpenTextTxtFile, 'w', encoding='utf-8') as txtFile:
+        with open(saveOpenTextTxtFile, 'bw') as binFile:
             for para in doc.paragraphs:
                 checkPart = ''.join(re.findall(r'[А-Яа-я]', para.text))
                 cleanedText = ''.join(re.findall(r'[A-Za-z]', para.text)).upper()
@@ -44,7 +44,7 @@ def save_open_text_docx_as_txt(language : str, openTextFile : BinaryIO, saveOpen
                     raise FileLanguageError(f'The file contains symbols from the other language', errorLanguage="ru")
             
                 if cleanedText:
-                    txtFile.write(cleanedText)
+                    binFile.write(cleanedText.encode("utf-16-le"))
     
     else:
         raise FileLanguageError(errorLanguage= "Anny", message='You have chosen wrong language')

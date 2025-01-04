@@ -180,6 +180,9 @@ def formCipherSelectOptions(ciphers_obj: CppCiphers, dir: Path):
 def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
     
+    
+    print(telegrams)
+    
     enc_resualt: dict = {}
     
     if(reqToSileAndEncript.selfKeysProperties):

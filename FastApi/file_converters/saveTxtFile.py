@@ -13,8 +13,8 @@ class FileLanguageError(Exception):
         return f"{self.message} (Language: {self.errorLanguage})"
 
 
-def save_open_text_as_txt_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 20):
-    with open(pathToSaveTxt, "w", encoding="utf-8") as resTxtFile:
+def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 20):
+    with open(pathToSaveTxt, "bw") as resBinFile:
         dataBuffer: str = " "
         while dataBuffer != '':
             dataBuffer = file.read(bufferSize).decode('utf-8')
@@ -26,7 +26,7 @@ def save_open_text_as_txt_file(language: str, file: BinaryIO, pathToSaveTxt: Pat
                     raise FileLanguageError(f'The file contains symbols from the other language', errorLanguage="en")
             
                 if cleanedText:
-                    resTxtFile.write(cleanedText)
+                    resBinFile.write(cleanedText.encode("utf-16-le"))
             elif(language.lower() == "en"):
                 checkPart = ''.join(re.findall(r'[А-Яа-я]', dataBuffer))
                 cleanedText = ''.join(re.findall(r'[A-Za-z]', dataBuffer)).upper()
@@ -35,13 +35,13 @@ def save_open_text_as_txt_file(language: str, file: BinaryIO, pathToSaveTxt: Pat
                     raise FileLanguageError(f'The file contains symbols from the other language', errorLanguage="ru")
             
                 if cleanedText:
-                    resTxtFile.write(cleanedText)        
+                    resBinFile.write(cleanedText.encode("utf-16-le"))        
             else:
                 raise FileLanguageError(f'The language is not defined. Supported languages: ru, en', errorLanguage="any")
     return
 
 def save_as_txt_file(file: BinaryIO, pathToSaveTxtFile: Path, bufferSize: int = 20):
-    with open(pathToSaveTxtFile, "wb", encoding = "utf-8") as resTxtFile:
+    with open(pathToSaveTxtFile, "bw", encoding = "utf-8") as resTxtFile:
         dataBuffer = b' '
         while dataBuffer.decode('utf-8') != '':
             dataBuffer = file.read(bufferSize)

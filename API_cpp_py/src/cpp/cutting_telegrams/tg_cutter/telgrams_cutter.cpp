@@ -4,6 +4,8 @@
 #include <set>
 #include <random>
 #include <algorithm>
+#include <codecvt>
+#include <iterator>
 #include "telgrams_cutter.hpp"
 
 //функция для проверки файла
@@ -27,68 +29,67 @@ void checkFile(std::ifstream& fileIn)
 
 
 // функция для генерации случайных непересекающихся телеграмм
-std::vector<std::string> generateTelegrams(std::string pathToFile , int telegramLength, int telegramCount)
+std::vector<std::wstring> generateTelegrams(std::string pathToFile, int telegramLength, int telegramCount)
 {
-    // открываем файл в режиме чтения в бинарном режиме, чтобы считать размер
+    // Открываем файл
     std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);
+    if (!file.is_open()) {
+        throw std::runtime_error("The file could not be opened!");
+    }
 
-    checkFile(file);
+    // Вычисляем размер файла
+    std::streamsize fileSize = (file.tellg()) / 2 - 1; // Размер файла в символах UTF-16 (без BOM)
+    file.seekg(2, std::ios::beg); // Пропускаем BOM
 
-    // вычисляем размер файла
-    std::streamsize fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    // проверка возможности генерации телеграмм
+    // Проверка возможности генерации телеграмм
     if (telegramLength * telegramCount > fileSize) {
         throw std::runtime_error("There is not enough space in the file to generate the specified number of telegrams.");
     }
 
-    // создаем набор случайных начальных позиций телеграмм
+    // Генерация непересекающихся начальных позиций
     std::set<int> startPositions;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, (fileSize - telegramLength));
+    std::uniform_int_distribution<int> dis(0, fileSize - telegramLength);
 
-    // генерируем непересекающиеся начальные позиции
-    while (startPositions.size() < static_cast<size_t>(telegramCount)) 
-    {
-        int startPos = dis(gen);
-        
-        // проверяем, пересекается ли новая позиция с существующими
+    while (startPositions.size() < static_cast<size_t>(telegramCount)) {
+        int startPos = dis(gen) * 2; // Смещение в байтах
         bool intersects = false;
-        for (int pos : startPositions) 
-        {
-            if (std::abs(pos - startPos) < telegramLength) 
-            {
+
+        for (int pos : startPositions) {
+            if (std::abs(pos - startPos) < telegramLength * 2) { // Проверка пересечения
                 intersects = true;
                 break;
             }
         }
 
-        if (!intersects) 
-        {
+        if (!intersects) {
             startPositions.insert(startPos);
         }
     }
 
-    // Сортируем позиции для удобства чтения
-    std::vector<int> positions(startPositions.begin(), startPositions.end());
-    std::sort(positions.begin(), positions.end());
+    // Читаем телеграммы
+    std::vector<std::wstring> telegrams;
+    std::vector<char> buffer(telegramLength * 2); // Буфер для одного телеграмма
 
-    // Считываем телеграммы
-    std::vector<std::string> telegrams;
-    char* buffer = new char[telegramLength];
+    for (int startPos : startPositions) {
+        file.seekg(startPos + 2, std::ios::beg); // Начало телеграммы
+        file.read(buffer.data(), telegramLength * 2); // Чтение телеграммы
 
-    for (int startPos : positions) 
-    {
-        file.seekg(startPos, std::ios::beg);
-        file.read(buffer, telegramLength);
-        telegrams.emplace_back(buffer, telegramLength);
+        if (!file) {
+            throw std::runtime_error("Error reading telegram data.");
+        }
+
+        // Декодируем из UTF-16 в wstring
+        std::wstring_convert<std::codecvt_utf16<wchar_t, 0x10FFFF, std::little_endian>> converter;
+        std::wstring decodeTelegram = converter.from_bytes(buffer.data(), buffer.data() + telegramLength * 2);
+
+        // Сохраняем результат
+        telegrams.push_back(decodeTelegram);
     }
+ 
+    std::cout << telegrams.size() << '\n'; 
 
-    delete[] buffer;
     file.close();
-
     return telegrams;
 }
-
