@@ -5,18 +5,18 @@
 /*=============== Реализация примерных функций ===================*/
 /*================================================================*/
 
-std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.empty()) {
         throw InvalidKey("Keys not found...");
     }
     
-    std::string text = "";
-    std::map<std::string, std::string> keysAndCipherTexts;
+    std::wstring text = L"";
+    std::map<std::wstring, std::wstring> keysAndCipherTexts;
     
     Permutation permut;
     for (size_t i = 0; i < openTexts.size(); ++i) {
-        std::stringstream tempss;
+        std::wstringstream tempss;
         text = openTexts[i];
         
         permut = Permutation((keys[i]));
@@ -33,7 +33,7 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
     return keysAndCipherTexts;
 }
 
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText)
+std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText)
 {
     for (auto& [key, text]: keysAndText) {
         Permutation keyPermut(key);

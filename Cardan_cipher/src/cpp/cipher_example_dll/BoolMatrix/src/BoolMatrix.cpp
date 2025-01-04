@@ -24,10 +24,10 @@ BoolMatrix::BoolMatrix(std::vector<std::vector<bool>>& init_matrix) : b_matrix(i
 
 BoolMatrix::BoolMatrix(BoolMatrix& rhs) : b_matrix(rhs.b_matrix) {}
 
-BoolMatrix::BoolMatrix(std::string str)   
+BoolMatrix::BoolMatrix(std::wstring str)   
 {
-    std::regex matrixCleaner("[\\[\\],s+]");
-    str = std::regex_replace(str, matrixCleaner, "");
+    std::wregex matrixCleaner(L"[\\[\\],s+]");
+    str = std::regex_replace(str, matrixCleaner, L"");
 
     uint32_t size = uint32_t(sqrt(str.length()));
 
@@ -87,13 +87,13 @@ void BoolMatrix::rotation()
     }
 }
 
-std::string BoolMatrix::decryption(const std::string& str)
+std::wstring BoolMatrix::decryption(const std::wstring& str)
 {
     if (str.length() % (m_size * m_size) != 0)  throw InvalidOpenText("The length of the text is not a multiple of the square of the matrix side!!!");
 
     size_t blockCount = str.length() / (m_size * m_size);
-    std::string resultString;
-    std::string temp;
+    std::wstring resultString;
+    std::wstring temp;
 
     for (size_t c = 0; c < blockCount; ++c)
     {
@@ -117,15 +117,15 @@ std::string BoolMatrix::decryption(const std::string& str)
 }
 
 
-std::string BoolMatrix::encryption(const std::string& str)
+std::wstring BoolMatrix::encryption(const std::wstring& str)
 {
     size_t textSize= m_size*m_size;
     if (str.length() % textSize != 0) throw InvalidOpenText("The length of the text is not a multiple of the square of the matrix side!!!");
 
     size_t count = str.length()/(textSize);
-    std::string temp(textSize, ' ');
-    std::string block(temp);
-    std::string resultString;
+    std::wstring temp(textSize, ' ');
+    std::wstring block(temp);
+    std::wstring resultString;
     size_t tempPosition = 0;
 
     for (size_t c = 0; c < count; ++c)
@@ -162,21 +162,21 @@ std::vector<bool>& BoolMatrix::operator[](int32_t i)
     return b_matrix.at(i);
 }
 
-std::ostream& operator<<(std::ostream& out, const BoolMatrix& obj)
+std::wostream& operator<<(std::wostream& out, const BoolMatrix& obj)
 {
     for (size_t i = 0; i < obj.m_size; ++i)
     {
-        std::cout << '[';
+        out << '[';
         for (size_t j = 0; j < obj.m_size; ++j)
         {
             out << obj.b_matrix[i][j] << ' ';
         }
-        std::cout << "]\n";
+        out << "]\n";
     }
     return out;
 }
 
-std::istream& operator>>(std::istream& in, BoolMatrix& obj)
+std::wistream& operator>>(std::wistream& in, BoolMatrix& obj)
 {
     int32_t temp;
     for (size_t i = 0; i < obj.m_size; ++i)

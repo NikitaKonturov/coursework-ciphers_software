@@ -7,14 +7,14 @@
 
 /*все алгоритмы лишь пример, и не один из них не являеться шифром*/
 
-std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.empty()) {
         throw InvalidKey("Keys not found...");
     }
     
-    std::string text = "";
-    std::map<std::string, std::string> keysAndCipherTexts;
+    std::wstring text = L"";
+    std::map<std::wstring, std::wstring> keysAndCipherTexts;
 
     for (size_t i = 0; i < openTexts.size(); ++i) {
         text = openTexts[i];
@@ -31,7 +31,7 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
     return keysAndCipherTexts;
 }
 
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText) 
+std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText) 
 {
     for (auto& [key, text] : keysAndText) {
         BoolMatrix keyMatrix(key);  
@@ -40,7 +40,7 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
             throw InvalidKey("Length of cipher text must be multiple of the key size...");
         }
 
-        std::string decryptedText = keyMatrix.decryption(text);
+        std::wstring decryptedText = keyMatrix.decryption(text);
         text = decryptedText;
     }
 
@@ -48,7 +48,7 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
 }
 
 
-std::vector<std::string> gen_keys(std::string keyProperties, size_t count)
+std::vector<std::wstring> gen_keys(std::string keyProperties, size_t count)
 {
     nlohmann::json prop;
     try {
@@ -66,11 +66,11 @@ std::vector<std::string> gen_keys(std::string keyProperties, size_t count)
 
         std::minstd_rand generator(static_cast<uint64_t>(time(NULL)));
 
-        std::vector<std::string> result;
+        std::vector<std::wstring> result;
         for (size_t i = 0; i < count; ++i) {
             BoolMatrix matrix(matrix_size);
             generatMatrix(matrix, generator);
-            std::ostringstream oss;
+            std::wostringstream oss;
             oss << matrix;
             result.push_back(oss.str());
         }
