@@ -1,4 +1,6 @@
-async function addBlockOfKeysSettings() {
+import { showError } from './errorHandler.js'
+
+export async function addBlockOfKeysSettings() {
     try {
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
             {
@@ -44,11 +46,7 @@ async function addBlockOfKeysSettings() {
             blockConfirmKey.id = "keys-choose-block"
             blockConfirmKey.className = "keys-choose-block-class"
             let buttonConfirm = document.createElement("button")
-<<<<<<< HEAD
-            buttonConfirm.textContent = gettext("Confirm")
-=======
             buttonConfirm.textContent = "Confirm"
->>>>>>> displaying_key_settings
             buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
             blockConfirmKey.appendChild(buttonConfirm)    
 
@@ -61,27 +59,18 @@ async function addBlockOfKeysSettings() {
         
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-<<<<<<< HEAD
-
-
-=======
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+        Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
             
->>>>>>> displaying_key_settings
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
     } catch (error) {
+        showError("Failed to load settings: " + error.message);
         console.error("Response error: ", error);
     }
 }
 
-<<<<<<< HEAD
-async function sendEncriptRequest(formID, keysType) {
-    let dataFromKeyForm = new FormData(document.getElementById(formID))
-    let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
-    
-=======
-function checkNumber(elementValue) {
+export function checkNumber(elementValue) {
     if(Number(elementValue) == NaN) {
         return elementValue
     }  else {
@@ -90,10 +79,9 @@ function checkNumber(elementValue) {
 }
 
 
-async function sendEncriptRequest(formID, keysType) {
+export async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
 
->>>>>>> displaying_key_settings
     dataToSliceTelegams.append("keysType", keysType)
 
     dataToSliceTelegams.forEach((fieldValue, key) => {
@@ -110,32 +98,6 @@ async function sendEncriptRequest(formID, keysType) {
 
     if (!telegramCuttingResponse.ok) {
         console.error(telegramCuttingResponse.statusText)
-<<<<<<< HEAD
-
-        return
-    } 
-
-
-    let dataFromKeyFormInDict = {}
-
-    dataFromKeyForm.forEach((value, field) => {
-        dataFromKeyFormInDict[field] = value
-        console.log(field, value)
-    })
-
-    let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dataFromKeyFormInDict)
-    });
-
-}
-
-
-=======
         return
     } 
 
@@ -172,7 +134,7 @@ async function sendEncriptRequest(formID, keysType) {
     } 
 }
 
-async function sendDecriptRequest() 
+export async function sendDecriptRequest() 
 {
     let dataAboutCipherTextAndKeys = new FormData(document.getElementById("slice-telegrmas-form"))
     
@@ -204,35 +166,23 @@ async function sendDecriptRequest()
     }
     return
 }
->>>>>>> displaying_key_settings
 
-async function addBlockOfGetUsersKeys() {
+export async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
-<<<<<<< HEAD
-        blockWithChooseKey.id = "keys-choose-block"
-=======
->>>>>>> displaying_key_settings
         blockWithChooseKey.className = "keys-choose-block-class"
         
         let formChooseKeysFile = document.createElement("form")
         formChooseKeysFile.enctype="multipart/form-data"
         formChooseKeysFile.className = "keys-choose-block"
-<<<<<<< HEAD
-=======
         formChooseKeysFile.id = "keys-choose-block"
->>>>>>> displaying_key_settings
 
         let labelChooseElement = document.createElement("label")
         labelChooseElement.id = "input-file"
 
         let spanUsersKeys = document.createElement("span")
         spanUsersKeys.id = "custom-file-label-keys"
-<<<<<<< HEAD
-        spanUsersKeys.textContent = gettext("Choose file with keys")
-=======
         spanUsersKeys.textContent = "Choose file with keys"
->>>>>>> displaying_key_settings
 
         let inputUsersKeys = document.createElement("input")
         inputUsersKeys.id = "keys-file"
@@ -247,18 +197,10 @@ async function addBlockOfGetUsersKeys() {
         inputUsersKeys.type = "file"
         
         let blockConfirmKey = document.createElement("div")
-<<<<<<< HEAD
-        blockConfirmKey.id = "keys-choose-block"
-        blockConfirmKey.className = "keys-choose-block-class"
-
-        let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = gettext("Confirm")
-=======
         blockConfirmKey.className = "keys-choose-block-class"
 
         let buttonConfirm = document.createElement("button")
         buttonConfirm.textContent = "Confirm"
->>>>>>> displaying_key_settings
         buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users_keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
@@ -272,28 +214,20 @@ async function addBlockOfGetUsersKeys() {
         
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-<<<<<<< HEAD
-        
-=======
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
-            
->>>>>>> displaying_key_settings
+        Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
+
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
+        showError("Failed to load settings: " + error.message)
         console.error(error)
     }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> displaying_key_settings
-async function preventActionButton() {
+export async function preventActionButton() {
     event.preventDefault()
 }
 
-<<<<<<< HEAD
-=======
 // async function showDecriptSettings() {
 //     try {
 //         if(document.getElementById("ciphersList").value == "Empty_tag") {
@@ -362,9 +296,8 @@ async function preventActionButton() {
 //     }
 // }
 
->>>>>>> displaying_key_settings
 
-async function encriptSettings() {
+export async function encriptSettings() {
     try {
         if(document.getElementById("ciphersList").value == "Empty_tag") {
             alert("Сhoose a cipher!")
@@ -377,20 +310,12 @@ async function encriptSettings() {
             selectKyesTypeBlock.id = "button-container"
             selectKyesTypeBlock.className = "button-container"
             let autoGenKeysButton = document.createElement("button")
-<<<<<<< HEAD
-            autoGenKeysButton.textContent = gettext("Auto keys generation")
-=======
             autoGenKeysButton.textContent = "Auto keys generation"
->>>>>>> displaying_key_settings
             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
             selectKyesTypeBlock.appendChild(autoGenKeysButton)
 
             let getUserKeysButton = document.createElement("button")
-<<<<<<< HEAD
-            getUserKeysButton.textContent = gettext("Select keys")
-=======
             getUserKeysButton.textContent = "Select keys"
->>>>>>> displaying_key_settings
             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
             selectKyesTypeBlock.appendChild(getUserKeysButton)
 
@@ -400,19 +325,17 @@ async function encriptSettings() {
             rigthBlock.appendChild(selectKyesTypeBlock)
             
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
-<<<<<<< HEAD
-=======
             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
->>>>>>> displaying_key_settings
+            Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
             document.body.appendChild(rigthBlock)
 
         }
     }
     catch(err){
+        showError("Failed to load settings: " + err.message);
         console.error("Error occurred:", err);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> displaying_key_settings
+
+window.encriptSettings = encriptSettings
+window.preventActionButton = preventActionButton

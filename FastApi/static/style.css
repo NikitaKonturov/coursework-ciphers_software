@@ -51,7 +51,7 @@ button:hover {
   width: 60%;
   max-width: 700px;
   padding: 50px  60px;
-  margin: 80px auto 20px;
+  margin: 80px 20px 20px;
   background-color: #39369c;
   border-radius: 10px;
   color: #fff;
@@ -61,7 +61,7 @@ button:hover {
   width: 60%;
   max-width: 350px;
   padding: 50px  60px;
-  margin: 80px auto 20px;
+  margin: 80px 20px 20px;
   background-color: #39369c;
   border-radius: 10px;
   color: #fff;
@@ -194,8 +194,6 @@ div input {
   padding-left: 8%;
 }
 
-<<<<<<< HEAD
-=======
 .decript-block-class {
   width: 60%;
   max-width: 350px;
@@ -209,7 +207,6 @@ div input {
   flex-direction: column;
 }
 
->>>>>>> displaying_key_settings
 .button-container button {
   padding: 12px 24px;
   font-size: 15px;
@@ -239,8 +236,6 @@ div input {
   background-color: #8d7ec2;
 }
 
-<<<<<<< HEAD
-=======
 .keys-choose-block-class button:hover{
   background-color: #8d7ec2;
 }
@@ -257,7 +252,6 @@ div input {
   transition: background-color 0.3s ease;
 }
 
->>>>>>> displaying_key_settings
 #button-container button {
   padding: 12px 24px;
     font-size: 15px;
@@ -270,17 +264,102 @@ div input {
     transition: background-color 0.3s ease;
 }
 
-/* Responsive styles */
-@media (min-width: 768px) {
-  .main-block {
-    width: 70%;
-    padding: 2.5rem;
+.error-message {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: #f44336;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  animation: fadeInOut 5s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes fadeInOut {
+  0% {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  10% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  90% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+      transform: translateY(-20px);
   }
 }
 
-@media (min-width: 1024px) {
-  .main-block {
-    width: 50%;
-    padding: 3rem 2rem;
-  }
+
+#settingsWindow {
+  width: 60%;
+  max-width: 350px;
+  padding: 40px 50px;
+  margin: 80px 20px 20px;
+  background-color: #39369c;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#settingsWindow input {
+  display: inline-block;
+  padding: 12px;
+  cursor: pointer;
+  background-color: #f0f0f0; 
+  border: 2px solid white;
+  border-radius: 5px; 
+  color: black;
+  text-shadow: none;
+}
+
+#settingsWindow label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #f1f3f5;
+  font-weight: bold;
+  border-radius: 2px;
+  border-color: #0a0707;
+  text-shadow: 
+  -1px -1px 0 #000,  
+  1px -1px 0 #000,
+  -1px  1px 0 #000,
+  1px  1px 0 #000;
+  align-items: center;
+}
+
+#settingsWindow label input {
+  margin-right: 10px; 
+}
+
+#settingsWindow button {
+  font-size: 15px;
+  padding: 8px 12px;
+  margin-top: 20px; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e7e9f1;
+  color: black; 
+  border: 2px solid white;
+}
+
+#saveSettings {
+  background-color:  #e7e9f1; 
+  color: black; 
+}
+
+#settingsWindow  button:hover{
+  background-color: #8d7ec2;
 }
