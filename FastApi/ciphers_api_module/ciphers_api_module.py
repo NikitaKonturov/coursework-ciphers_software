@@ -10,6 +10,7 @@ from ciphers_api_module.telegrams_cutter import cut_telegrams
 from typing import Optional, BinaryIO
 from pydantic import BaseModel
 from docx import Document
+from .cpp_exceptions import InvalidKey, InvalidOpenText, KeyPropertyError
 import platform
 import sys
 import json
@@ -73,11 +74,9 @@ class CppCiphers:
 
     def __init__(self, pathToCiphersDir: str):
         if (not os.path.exists(pathToCiphersDir)):
-            raise FileExistsError(
-                f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
+            raise FileExistsError(f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
         if (not os.path.isdir(pathToCiphersDir)):
-            raise FileExistsError(
-                f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
+            raise FileExistsError(f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
         self.__pathToCiphersDir = os.path.abspath(pathToCiphersDir)
         self.__cipherTitles = {}
 
@@ -108,8 +107,17 @@ class CppCiphers:
         except RuntimeError as err:
             print(err)
             
+        except sys.modules[cipher].InvalidKey as err:
+            raise InvalidKey(err)
+            
+        except sys.modules[cipher].InvalidOpenText as err:
+            raise InvalidOpenText(err)
+        
+        except sys.modules[cipher].KeyPropertyError as err:
+            raise KeyPropertyError(err)
+            
         except Exception as err:
-            raise err
+            raise err    
             
         return res
 
@@ -145,10 +153,10 @@ class CppCiphers:
         return res
 
 
-def formCipherSelectOptions(ciphers_obj: CppCiphers, dir: Path):
+def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
     all_ciphers = ciphers_obj.get_ciphers_dict()
 
-    with open(str(Path(dir, 'templates')) + '\\select.html', "r", encoding="utf-8") as file:
+    with open(str(Path(dir, 'select.html')), "r", encoding="utf-8") as file:
         html_content = file.read()
 
     file.close()
@@ -172,14 +180,13 @@ def formCipherSelectOptions(ciphers_obj: CppCiphers, dir: Path):
         new_option.string = all_ciphers[i]
         select_tag.append(new_option)
 
-    with open(str(Path(dir, 'templates')) + '\\select.html', "w", encoding="utf-8") as file:
+    with open(str(Path(dir, 'select.html')), "w", encoding="utf-8") as file:
         file.write(settings_select_html.prettify())
 
     file.close()
 
 def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
-    
     
     print(telegrams)
     
@@ -203,8 +210,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
                 AllKeys = AllKeys + tempLine
                 tempLine = file.readline()
                 print(tempLine)
-        # print(re.split(regToNextKey, AllKeys))
-        
+
         enc_resualt = ciphers_object.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
 
     save_to_docx(enc_resualt, pathToSaveFile)

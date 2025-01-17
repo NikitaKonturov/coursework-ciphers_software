@@ -26,8 +26,10 @@ BoolMatrix::BoolMatrix(BoolMatrix& rhs) : b_matrix(rhs.b_matrix) {}
 
 BoolMatrix::BoolMatrix(std::wstring str)   
 {
-    std::wregex matrixCleaner(L"[\\[\\],s+]");
+    std::wregex matrixCleaner(L"[\\[\\],\\s]+");
     str = std::regex_replace(str, matrixCleaner, L"");
+
+    std::wcout << str;
 
     uint32_t size = uint32_t(sqrt(str.length()));
 
@@ -113,6 +115,8 @@ std::wstring BoolMatrix::decryption(const std::wstring& str)
         resultString.append(temp);
     }
 
+    std::wcout << resultString << std::endl;
+
     return resultString;
 }
 
@@ -147,8 +151,12 @@ std::wstring BoolMatrix::encryption(const std::wstring& str)
             }
             this->rotation();
         }
+        std::wcout << resultString << std::endl;
+
         resultString.append(block);
     }
+
+
     return resultString;
 }
 
