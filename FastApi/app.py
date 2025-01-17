@@ -4,10 +4,10 @@ from pathlib import Path
 import logging
 
 
-from ciphers_api_module.ciphers_api_module import CppCiphers, formCipherSelectOptions, start_encryption, start_decryption
+from ciphers_api_module.ciphers_api_module import CppCiphers, form_cipher_select_options, start_encryption, start_decryption
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
 from exception_handlers import (ValidationError, unknown_exception, validatiion_exception, value_exception)
-from settings.config import NoCacheMiddleware, start_server, start_webview
+from settings.config import NoCacheMiddleware, start_server, start_webview, update_settings, Settings
 from file_converters.saveTxtFile import save_open_text_as_bin_file, save_as_txt_file
 from file_converters.docxToTxt import save_open_text_docx_as_bin_file, save_docx_as_txt
 
@@ -22,6 +22,8 @@ logging.basicConfig(
     format='\033[32m%(levelname)s\033[0m:\t%(message)s', level=logging.DEBUG)
 
 app = FastAPI()
+settings = Settings()
+
 
 app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
@@ -30,12 +32,11 @@ app.add_exception_handler(Exception, unknown_exception)
 
 app.add_middleware(NoCacheMiddleware)
 
-BASE_DIR = Path(__file__).resolve().parent
-SAVE_DIR = Path(BASE_DIR,"encript_resualts")
+BASE_DIR = settings.base_dir_path
 
-ciphers_obj = CppCiphers(pathToCiphersDir=str(Path(BASE_DIR, 'Ciphers')))
+ciphers_obj = CppCiphers(pathToCiphersDir=str(settings.path_to_ciphers))
 
-formCipherSelectOptions(ciphers_obj, BASE_DIR)
+form_cipher_select_options(ciphers_obj, BASE_DIR)
 
 requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfCipher = 'None',
@@ -48,9 +49,9 @@ requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfKeysProperties = {}
 )
 
-templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
+templates = Jinja2Templates(directory=str(settings.path_to_templates))
 
-app.mount('/static', StaticFiles(directory=str(Path(BASE_DIR, 'static'))), name='static')
+app.mount('/static', StaticFiles(directory=str(settings.path_to_static)), name='static')
 
 
 @app.post("/startEncoder/pushTelegramsCuttingData")
@@ -62,7 +63,7 @@ async def catchTelegramsCuttinngData(
     keysType: str = Form(...)
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
-    pathToOpenText: Path = Path(BASE_DIR, "fullOpenText.bin")
+    pathToOpenText: Path = Path(BASE_DIR, settings.filename_to_save_full_open_text + ".bin")
     if(extension == '.txt'):
         save_open_text_as_bin_file("ru", textFile.file, pathToOpenText)
     elif(extension == '.docx'):
@@ -88,7 +89,7 @@ async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
-    start_encryption(requestToSliceAndEncript, Path(SAVE_DIR, 'resualt.docx'), ciphers_obj)
+    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path, 'encription-resualt-'+ requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
 
     return JSONResponse({"Status": 200})
 
@@ -104,8 +105,8 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': pathToUsersKeys})
     
-    start_encryption(requestToSliceAndEncript, Path(SAVE_DIR, 'encription-resualt.docx'), ciphers_obj)
-    
+    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path, 'encription-resualt-'+ requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+   
     return JSONResponse({"Status": 200})
 
 @app.post('/startDecoder')
@@ -114,7 +115,7 @@ async def catchDecriptRequest(cipher: str = Form(...),
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
     print(textFile.filename)
-    start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(SAVE_DIR, "decryption-resualt.docx"))
+    start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(settings.decript_results_path, 'encription-resualt-'+ cipher + '.docx'))
     
     return JSONResponse({"Status": 200})
     

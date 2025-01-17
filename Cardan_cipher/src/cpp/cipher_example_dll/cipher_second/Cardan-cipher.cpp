@@ -23,8 +23,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             throw InvalidOpenText("The length of the text must be a multiple of the key length...");
         }
 
-        matrix.encryption(text);
-        keysAndCipherTexts[keys[i]] = text;
+        keysAndCipherTexts[keys[i]] = matrix.encryption(text);
     }
 
     
