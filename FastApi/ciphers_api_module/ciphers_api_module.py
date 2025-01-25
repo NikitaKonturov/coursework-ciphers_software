@@ -10,13 +10,11 @@ from ciphers_api_module.telegrams_cutter import cut_telegrams
 from typing import Optional, BinaryIO
 from pydantic import BaseModel
 from docx import Document
-from .cpp_exceptions import InvalidKey, InvalidOpenText, KeyPropertyError
 import platform
 import sys
 import json
 import os
 import re
-
 
 
 # ===================================================================================#

@@ -1,3 +1,6 @@
+import { showError } from './errorHandler.js'
+
+
 async function addBlockOfKeysSettings() {
     try {
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
@@ -58,6 +61,7 @@ async function addBlockOfKeysSettings() {
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+        Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
             
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
@@ -211,7 +215,8 @@ async function addBlockOfGetUsersKeys() {
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
-            
+        Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
+
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
         console.error(error)
@@ -328,3 +333,7 @@ async function encriptSettings() {
         console.error("Error occurred:", err);
     }
 }
+
+window.encriptSettings = encriptSettings
+window.preventActionButton = preventActionButton
+window.sendDecriptRequest = sendDecriptRequest
