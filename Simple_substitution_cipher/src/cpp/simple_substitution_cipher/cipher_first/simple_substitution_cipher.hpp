@@ -1,5 +1,5 @@
-#ifndef HPC_CIPHER
-#define HPC_CIPHER
+#ifndef simple_substitution_cipher
+#define simple_substitution_cipher
 #include "../include/nlohmann/json.hpp"
 #include "../Permutation/src/Permutation.hpp"
 #include "../cipher_exceptions/cipher_exceptions.hpp"
@@ -17,11 +17,11 @@
 // функция зашифрования о.т., сигнатура и название должны строго соблюдаться, 
 // возвращает в качестве значения std::map где ключ для map это ключ зашифрования о.т. а сам ш.т. это значение map
 // openText вектор о.т., keys вектор ключей зашифрование 
-std::map<std::string, std::string> encript(std::string language, std::vector<std::string> openTexts, std::vector<std::string> keys);
+std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys);
 // функция рашифрование ш.т., сигнатура и название должны строго соблюдаться,
 // возвращает в качестве значение std::map где ключ map ключ расшифрование ш.т. а сам о.т. значение map
 // ketsAndCipherText map где ключ для map это ключ расшифрования ш.т. значение сам ш.т.
-std::map<std::string, std::string> decript(std::string language, std::map<std::string, std::string> keysAndText);
+std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndCipherTexts);
 // функция генерации ключей по параметрам ключа, возвращает вектор строк, сигнатура и названия строго  соблюдаются
 // keyPropertys строка в которой записаны параметры в формате .json, должны быть заполнены все поля влияющие на генерацию ключа
 // count числовой параметр обозначающий количество ключей 
@@ -32,4 +32,4 @@ std::string get_key_propertys();
 void chekRequest(nlohmann::json keyPropertys);
 
 
-#endif //HPC_CIPHER
+#endif //simple_substitution_cipher

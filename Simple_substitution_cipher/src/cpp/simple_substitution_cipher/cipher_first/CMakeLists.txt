@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
-# Создаём статическую библиотеку HPC-cipher
-add_library(HPC-cipher_lib STATIC HPC-cipher.cpp)
+# Создаём статическую библиотеку simple_substitution_cipher-cipher
+add_library(simple_substitution_cipher_lib STATIC simple_substitution_cipher.cpp)
 
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../Permutation" "${CMAKE_BINARY_DIR}/cipher_first/Permutation")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../cipher_exceptions" "${CMAKE_BINARY_DIR}/cipher_first/cipher_exceptions")
@@ -9,10 +9,10 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../permutation_generator" "${CMAKE
 
 
 # Добавляем директорию для поиска .hpp файлов основного проекта
-target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(simple_substitution_cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Добавляем директорию для поиска файлов библиотеки nlohmann::json
-target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+target_include_directories(simple_substitution_cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
-target_link_libraries(HPC-cipher_lib PUBLIC permutation_lib)
-target_link_libraries(HPC-cipher_lib PUBLIC cipher_exceptions_lib)
-target_link_libraries(HPC-cipher_lib PUBLIC permutation_generator_lib)
+target_link_libraries(simple_substitution_cipher_lib PUBLIC permutation_lib)
+target_link_libraries(simple_substitution_cipher_lib PUBLIC cipher_exceptions_lib)
+target_link_libraries(simple_substitution_cipher_lib PUBLIC permutation_generator_lib)

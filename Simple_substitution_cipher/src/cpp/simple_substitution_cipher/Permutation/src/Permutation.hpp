@@ -21,11 +21,13 @@ public:
     Permutation(const std::vector<int32_t>&);
     Permutation(const Permutation&);
     Permutation(std::string);
+    Permutation(std::wstring);
     ~Permutation();
 
     // Функция
     void checkPermutation();
     void apply(std::string&);
+    void apply(std::wstring&);
     void inverse();
     size_t size();
 
@@ -33,8 +35,8 @@ public:
     void operator*(const Permutation&); // Умножение
     void compose(const Permutation&);   // Композиция
     uint32_t operator()(int32_t&);          // Применение подстановки к числу
-    friend std::ostream& operator<<(std::ostream&, const Permutation&);
-    friend std::istream& operator>>(std::istream&, Permutation&);
+    friend std::wostream& operator<<(std::wostream&, const Permutation&);
+    friend std::wistream& operator>>(std::wistream&, Permutation&);
 };
 
 #endif //!PERMUTATION_H

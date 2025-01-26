@@ -1,4 +1,5 @@
 #include "cipher_exceptions/cipher_exceptions.hpp"
+#include "cipher_first/simple_substitution_cipher.hpp"
 // основная библиотека библиотека для экспорта с++ в python 
 #include <pybind11/pybind11.h>
 // библиотека для экспорта stl библиотеки
@@ -7,9 +8,13 @@
 
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
-PYBIND11_MODULE(cpp_exceptions, m) {
+PYBIND11_MODULE(Simple_substitution_cipher, m) {
+    m.doc() = "Simple_substitution_cipher";
+    m.def("encript", &encript);
+    m.def("decript", &decript);
+    m.def("gen_keys", &gen_keys);
     pybind11::register_exception<KeyPropertyError>(m, "KeyPropertyError"); // регистрация класса ошибки валидности свойств ключа
     pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки валидности ключа
-    pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста
+    pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста 
 }
 
