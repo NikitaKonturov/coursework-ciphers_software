@@ -1,43 +1,45 @@
-cmake_minimum_required(VERSION 3.30)
-project(dynamicLib01)
+cmake_minimum_required(VERSION 3.12)
+project(dynamicLib)
 
 set(CMAKE_CXX_STANDARD 20) 
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-
-# Пути к pybind11 и Python
+set(pybind11_DIR "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/share/cmake/pybind11")
+set(Python3_EXECUTABLE "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python.exe")
+# Чтобы получить путь устанавливаем через pip install pybind11
+# И выполняем команду python pip -m pybind11 --cmakedir она вернёт нам путь к папке который мы и подставляем в set(pybind11_DIR <path>)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+# путь заменить на свой 
+set(Python3_LIBRARY "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/libs/python312.lib")
 find_package(pybind11 REQUIRED)
-
-# Поддиректория с библиотекой шифра
+# добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
 add_subdirectory("cipher_first" "${CMAKE_BINARY_DIR}/cipher_first")
 
-# Создаём библиотеку
-add_library(Simple_substitution_cipher SHARED main_cipher_file.cpp)
-target_link_libraries(Simple_substitution_cipher PRIVATE ${Python3_LIBRARY} pybind11::pybind11)
+# создаём библиотеку главное внимание обратите на MODULE именно этот параметр указывает га создагие динамической библиотеки
+add_library(Simple_substitution_cipher MODULE main_cipher_file.cpp)
+target_link_libraries(Simple_substitution_cipher PRIVATE ${Python3_LIBRARY})
+# подключаем библиотеку для экспорта функции в python
+target_link_libraries(Simple_substitution_cipher PRIVATE pybind11::pybind11)
+
+#link_directories("C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\libs")
+
+#install(TARGETS Cardan_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
+# подключаем библиотеку шифра
 target_link_libraries(Simple_substitution_cipher PUBLIC simple_substitution_cipher_lib)
 
-# Настройки выходного файла
+# настройки выходного файла
 set_target_properties(Simple_substitution_cipher PROPERTIES
     PREFIX ""
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../py"
-    OUTPUT_NAME "Simple_substitution_cipher" # Имя модуля для PYBIND11_MODULE
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\..\\py"
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\..\\..\\py\\include_ciphers"
+    OUTPUT_NAME "Simple_substitution_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
 )
 
-# Обеспечиваем кроссплатформенность
+# обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
 if(WIN32)
     set_target_properties(Simple_substitution_cipher PROPERTIES SUFFIX ".pyd")
     set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python312.dll")
-    add_custom_command(TARGET Simple_substitution_cipher POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${PYTHON_DLL_PATH}"
-        "$<TARGET_FILE_DIR:Simple_substitution_cipher>"
-    )
 elseif(APPLE)
-    set_target_properties(Simple_substitution_cipher PROPERTIES SUFFIX "dylib")
+    set_target_properties(Simple_substitution_cipher PROPERTIES SUFFIX ".dylib")
 else()
     set_target_properties(Simple_substitution_cipher PROPERTIES SUFFIX ".so")
 endif()
-
-# Команда install
-install(TARGETS Simple_substitution_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
-install(FILES "${PYTHON_DLL_PATH}" DESTINATION "${CMAKE_SOURCE_DIR}/../py")

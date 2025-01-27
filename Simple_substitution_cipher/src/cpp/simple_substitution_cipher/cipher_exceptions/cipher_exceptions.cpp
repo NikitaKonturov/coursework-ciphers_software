@@ -11,7 +11,7 @@ InvalidKey::InvalidKey() noexcept : std::exception()
     this->message = "Key property error";
 }
 
-InvalidKey::InvalidKey(const char* mes) noexcept : std::exception(mes)
+InvalidKey::InvalidKey(const char* mes) noexcept : std::exception()
 {
     this->message = mes;
 }
@@ -36,7 +36,7 @@ KeyPropertyError::KeyPropertyError() noexcept : std::exception()
     this->message = "Key property error";
 }
 
-KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception(mes)
+KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception()
 {
     this->message = mes;
 }
@@ -62,7 +62,7 @@ InvalidOpenText::InvalidOpenText() noexcept : std::exception()
     this->message = "Key property error";
 }
 
-InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception(mes)
+InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception()
 {
     this->message = mes;
 }

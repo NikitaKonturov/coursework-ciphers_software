@@ -1,5 +1,6 @@
 #ifndef PERMUTATION_GENERATOR
 #define PERMUTATION_GENERATOR
+#include <cstdint>
 #include <iostream>
 #include <vector>
 
