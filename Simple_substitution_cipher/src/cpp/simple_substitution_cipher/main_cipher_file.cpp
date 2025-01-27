@@ -13,6 +13,7 @@ PYBIND11_MODULE(Simple_substitution_cipher, m) {
     m.def("encript", &encript);
     m.def("decript", &decript);
     m.def("gen_keys", &gen_keys);
+    m.def("get_key_propertys", &get_key_propertys);
     pybind11::register_exception<KeyPropertyError>(m, "KeyPropertyError"); // регистрация класса ошибки валидности свойств ключа
     pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки валидности ключа
     pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста 
