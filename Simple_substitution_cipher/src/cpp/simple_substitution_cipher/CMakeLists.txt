@@ -3,6 +3,7 @@ project(dynamicLib)
 
 set(CMAKE_CXX_STANDARD 20) 
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(PYBIND11_FINDPYTHON ON)
 set(pybind11_DIR "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/share/cmake/pybind11")
 set(Python3_EXECUTABLE "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python.exe")
 # Чтобы получить путь устанавливаем через pip install pybind11
