@@ -30,8 +30,8 @@ target_link_libraries(Simple_substitution_cipher PUBLIC simple_substitution_ciph
 # настройки выходного файла
 set_target_properties(Simple_substitution_cipher PROPERTIES
     PREFIX ""
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\..\\py"
-    LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\..\\..\\py\\include_ciphers"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\py"
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\..\\py\\include_ciphers"
     OUTPUT_NAME "Simple_substitution_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
 )
 
