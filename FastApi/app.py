@@ -1,4 +1,5 @@
 import re
+import os
 import threading
 from pathlib import Path
 import logging
@@ -6,7 +7,7 @@ import logging
 from ciphers_api_module.ciphers_api_module import CppCiphers, form_cipher_select_options, start_encryption, start_decryption
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
 from exception_handlers import (ValidationError, unknown_exception, validatiion_exception, value_exception)
-from settings.config import NoCacheMiddleware, start_server, start_webview, update_js_file, Settings
+from settings.config import NoCacheMiddleware, start_server, start_webview, update_js_file, Settings, search_directory
 from file_converters.saveTxtFile import save_open_text_as_bin_file, save_as_txt_file
 from file_converters.docxToTxt import save_open_text_docx_as_bin_file, save_docx_as_txt
 
@@ -110,7 +111,7 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
 async def catchDecriptRequest(
     cipher: str = Form(...),
     textFile: UploadFile = File(...)
-):
+)
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
     print(textFile.filename)
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(settings.decript_results_path, 'encription-resualt-'+ cipher + '.docx'))
@@ -124,11 +125,13 @@ async def select_cipher(reqToKeyProperty: Request):
 @app.post('/settings', response_class=HTMLResponse)
 async def save_settings(reqToSetting: Request):
     settingJson: dict = dict(await reqToSetting.json())
+    update_js_file(Path(BASE_DIR ,"static","settingWindow.js"), settingJson)
+    settingJson['encryptFolderPath'] = str(search_directory(BASE_DIR, settingJson['encryptFolderPath']))
+    settingJson['decryptFolderPath'] = str(search_directory(BASE_DIR, settingJson['decryptFolderPath']))
     settings.update_settings("encript_results_path", settingJson['encryptFolderPath'])
     settings.update_settings("decript_results_path", settingJson['decryptFolderPath'])
     settings.update_settings("interface_language", settingJson['interfaceLanguage'])
     settings.update_settings("ciphers_language", settingJson['cipherLanguage'])
-    update_js_file(Path(BASE_DIR ,"static","settingWindow.js"), settingJson)
     
     return templates.TemplateResponse(request=reqToSetting, name='select.html')
     
