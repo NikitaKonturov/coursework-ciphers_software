@@ -111,7 +111,7 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
 async def catchDecriptRequest(
     cipher: str = Form(...),
     textFile: UploadFile = File(...)
-)
+):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
     print(textFile.filename)
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(settings.decript_results_path, 'encription-resualt-'+ cipher + '.docx'))
