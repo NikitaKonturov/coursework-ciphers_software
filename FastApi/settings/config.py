@@ -74,6 +74,7 @@ def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
     print(parametrs)
 
     for key, value in parametrs.items():
+        value = re.escape(value)
         pattern = rf"({key}\s*=\s*['\"])[^'\"]*(['\"];)"    
         code = re.sub(pattern, rf'\1{value}\2', code)
         
@@ -81,6 +82,12 @@ def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
     with open(pathToJsFile, "w", encoding="utf-8") as file:
         file.write(code)
     
+def search_directory(basePath: Path, dirname: str) -> None | Path:
+    
+    for root, dirs, files in os.walk("C:\\"):
+        if(dirname in dirs):
+            return os.path.join(root, dirname)
+    return None
 
 def start_server(settings: Settings) -> None:
     uvicorn.run("__main__:app", host=settings.host, port=settings.port, reload=False)
