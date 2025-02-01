@@ -64,9 +64,12 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         for(wchar_t& symbol: cipherText) {
             symbol = substitution[symbol];
         }
+        keys[i].insert(0, L"[");
+        keys[i].push_back(L']');
         keysAndCiphersTexts[keys[i]] = cipherText;
     }
     
+
     return keysAndCiphersTexts;
 }
 
