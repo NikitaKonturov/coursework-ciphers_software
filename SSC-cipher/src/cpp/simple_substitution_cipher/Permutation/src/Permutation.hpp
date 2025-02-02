@@ -28,6 +28,7 @@ public:
     void checkPermutation();
     void apply(std::string&);
     void apply(std::wstring&);
+    void apply(std::vector<wchar_t>&);
     void inverse();
     size_t size();
 

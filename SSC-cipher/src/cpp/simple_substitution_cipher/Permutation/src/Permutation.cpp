@@ -150,6 +150,27 @@ void Permutation::apply(std::wstring& str)
     str = permutedStr;
 }
 
+void Permutation::apply(std::vector<wchar_t>& str) 
+{
+    size_t permSize = SourcePermut.size();
+
+    // Проверка: длина строки должна быть кратна размеру перестановки
+    if (str.size() % permSize != 0) {
+        throw std::invalid_argument("The length of the string must be a multiple of the size of the permutation!");
+    }
+
+    // Создание нового порядка символов
+    std::vector<wchar_t> permutedStr = str;
+    for (size_t i = 0; i < str.size(); i += permSize) {
+        for (size_t j = 0; j < permSize; ++j) {
+            permutedStr[i + j] = str[i + SourcePermut.at(j)];
+        }
+    }
+
+    // Замена исходной строки на переставленную
+    str = permutedStr;
+}
+
 void Permutation::inverse()
 {
     Permutation inversePermut(SourcePermut.size());

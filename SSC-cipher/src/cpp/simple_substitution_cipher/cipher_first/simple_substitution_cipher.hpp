@@ -7,6 +7,7 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
+#include <locale>
 #include <string>
 #include <time.h>
 #include <vector>
