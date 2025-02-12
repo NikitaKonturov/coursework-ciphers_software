@@ -1,4 +1,4 @@
-import { showToas } from './toast.js'
+import { showToast } from './toast.js'
 async function createSettingsWindow() {
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
 
@@ -151,11 +151,11 @@ async function saveSettings() {
             body: JSON.stringify(data),
         });
 
-        if (response.ok) {
-            showToast("Настройки сохранены!", "success");
-        } else {
-            showToast("Ошибка при обработке запроса!", "error");
-        }
+       // if (response.ok) {
+         //   showToast("Настройки сохранены!", "success");
+        //} else {
+          //  showToast("Ошибка при обработке запроса!", "error");
+        //}
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while saving settings!');
