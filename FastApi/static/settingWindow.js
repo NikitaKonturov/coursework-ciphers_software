@@ -1,4 +1,4 @@
-import { showToast } from './toast.js'
+
 async function createSettingsWindow() {
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
 
@@ -129,6 +129,30 @@ function closeSettings() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    if (!document.getElementById("toast-container")) {
+        const container = document.createElement("div");
+        container.id = "toast-container";
+        document.body.appendChild(container);
+    }
+});
+
+function showToast(message, type, duration = 3000) {
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("hide");
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+}
+
+
 async function saveSettings() {
     const uiLanguage = document.getElementById('uiLanguage').value;
     const cipherLanguage = document.getElementById('cipherLanguage').value;
@@ -151,11 +175,11 @@ async function saveSettings() {
             body: JSON.stringify(data),
         });
 
-       // if (response.ok) {
-         //   showToast("Настройки сохранены!", "success");
-        //} else {
-          //  showToast("Ошибка при обработке запроса!", "error");
-        //}
+        if (response.ok) {
+            showToast('Settings saved successfully!', 'success');
+        } else {
+            showToast('Failed to save settings!', 'error');
+        }
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while saving settings!');

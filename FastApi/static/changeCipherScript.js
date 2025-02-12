@@ -1,5 +1,4 @@
 import { showError } from './errorHandler.js'
-import { showToast } from './toast.js'
 export async function addBlockOfKeysSettings() {
     try {
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
