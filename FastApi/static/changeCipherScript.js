@@ -325,6 +325,7 @@ async function encriptSettings() {
             
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
+            Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
             document.body.appendChild(rigthBlock)
 
         }
