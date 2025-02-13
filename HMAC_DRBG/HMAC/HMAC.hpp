@@ -7,7 +7,7 @@
 #include <array>
 
 // Ковертация в вектор байтов
-std::vector<uint8_t> convert_to_bytes(std::array<uint32_t, 8>& data);
+std::vector<uint8_t> convert_to_bytes(std::array<uint32_t, 8> data);
 // Подготовка ключа
 std::vector<uint8_t> key_preparing(std::vector<uint8_t> key);
 // Вычисление xor с opad

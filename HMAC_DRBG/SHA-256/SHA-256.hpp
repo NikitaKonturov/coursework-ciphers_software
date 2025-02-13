@@ -1,5 +1,6 @@
 #ifndef SHA_256_HPP
 #define SHA_256_HPP
+#include <exception>
 #include <iostream>
 #include <bitset>
 #include <vector>

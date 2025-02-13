@@ -1,0 +1,32 @@
+#ifndef DRBG_HPP
+#define DRBG_HPP
+#include <vector>
+#include <optional>
+#include "../HMAC/HMAC.hpp"
+
+
+class HMAC_DRBG
+{
+ private:
+    std::vector<uint8_t> key;
+    std::vector<uint8_t> value;
+    size_t reseedCounter;
+
+ public:
+    // Конструктор содания экземпляра генератора, определение начальных значений полей key и value  
+    HMAC_DRBG(std::vector<uint8_t> entropyInput, std::vector<uint8_t> nonce, std::vector<uint8_t> personalizationString = {});
+    // Деструктор, очистка полей, в целях безопасности
+    ~HMAC_DRBG();
+    // Обновление значений полей key, value и reseedCounter
+    void HMAC_DRBG_Update(std::vector<uint8_t> providedData);
+    // Перезагрузка новых данных в генератор, повтороное создание экземпляра
+    void HMAC_DRBG_Ressed(std::vector<uint8_t> entropyInput, std::vector<uint8_t> aditionInput = {});
+    // Получение псевдослучайной последовательности байт 
+    std::optional<std::vector<uint8_t>> HMAC_DRBG_Generate_algorithm(size_t byteNumber, std::vector<uint8_t> aditionInput = {});
+};
+
+// Получение энтропии
+std::vector<uint8_t> get_entropy();
+
+
+#endif // DRBG_HPP

@@ -1,7 +1,7 @@
 #include "HMAC.hpp"
 
 
-std::vector<uint8_t> convert_to_bytes(std::array<uint32_t,8>& data)
+std::vector<uint8_t> convert_to_bytes(std::array<uint32_t,8> data)
 {   
     std::vector<uint8_t> res;
     for(uint32_t word : data) {
