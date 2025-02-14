@@ -101,17 +101,20 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         prop = nlohmann::json::parse(keyPropertys);
         chekRequest(prop);
       
-
-        int32_t permut_size = prop["permutation_size"];
+        int32_t permut_size = (prop["text_language"] == "ru" ? 32 : 26);
+        
         std::vector<int32_t> trivial_permut(permut_size);
         for (size_t i = 0; i < permut_size; ++i) {
             trivial_permut[i] = i + 1;
         }
         
-        setRand(static_cast<uint64_t>(time(NULL)));
+        std::vector<uint8_t> entropy = get_entropy();
+        std::vector<uint8_t> nonce = get_entropy();
+
+        HMAC_DRBG gen(entropy, nonce, {'S', 'S', 'C', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
         std::vector<std::vector<int32_t>> all_permut(count);
         for (size_t i = 0; i < count; ++i) {
-            all_permut[i] = generat_permutation(trivial_permut);
+            all_permut[i] = generat_permutation(trivial_permut, gen);
         }
 
         std::vector<std::string> result;
@@ -130,7 +133,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
 // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "permutation_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Alfabet Size"}]})");
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": []})");
    
     return keyProp.dump();
 }
@@ -138,11 +141,11 @@ std::string get_key_propertys()
 void chekRequest(nlohmann::json keyPropertys)
 {
     try {
-        if(!keyPropertys.at("permutation_size").is_number()) {
-            throw KeyPropertyError("Key permutation_size must has int value...");
+        if(!keyPropertys.at("text_language").is_string()) {
+            throw KeyPropertyError("Key text_language must has string value...");
         }
-        if(keyPropertys["permutation_size"] <= 0) {
-            throw InvalidKey("Value permutation_size must be natural...");
+        if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
+            throw InvalidKey("Value permutation_size must be ru or en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
