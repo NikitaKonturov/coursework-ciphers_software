@@ -16,6 +16,7 @@ class HMAC_DRBG
  public:
     // Конструктор содания экземпляра генератора, определение начальных значений полей key и value  
     HMAC_DRBG(std::vector<uint8_t> entropyInput, std::vector<uint8_t> nonce, std::vector<uint8_t> personalizationString = {});
+    HMAC_DRBG(const HMAC_DRBG& source);
     // Деструктор, очистка полей, в целях безопасности
     ~HMAC_DRBG();
     // Обновление значений полей key, value и reseedCounter

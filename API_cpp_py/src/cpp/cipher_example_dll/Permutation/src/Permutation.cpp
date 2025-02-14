@@ -37,15 +37,42 @@ Permutation::Permutation(const std::vector<int32_t>& rhs)
 }
 
 
-Permutation::Permutation(const std::string& rhs)
+Permutation::Permutation(std::string rhs)
 {
-    std::istringstream iss(rhs);
+    std::regex regDecaration("[\\[\\],]");
+    std::string cleaned = std::regex_replace(rhs, regDecaration, "");
+    std::stringstream ss(cleaned);
     int32_t value;
     uint32_t index = 0;
     std::multiset<uint32_t> check;  // Для проверки дубликатов
     
     // Разбираем строку на числа
-    while (iss >> value)
+    while (ss >> value)
+    {
+        if (value <= 0) 
+            throw std::invalid_argument("Numbers must be positive and not zero!!!");
+        
+        if (check.find(value - 1) != check.end()) 
+            throw std::invalid_argument("Row elements are different!!!");
+        
+        check.insert(value - 1);
+        this->SourcePermut.insert({ index++, value - 1 });
+    }
+    
+    this->checkPermutation();
+}
+
+Permutation::Permutation(std::wstring rhs)
+{
+    std::wregex regDecaration(L"[\\[\\],]");
+    std::wstring cleaned = std::regex_replace(rhs, regDecaration, L"");
+    std::wstringstream ss(cleaned);
+    int32_t value;
+    uint32_t index = 0;
+    std::multiset<uint32_t> check;  // Для проверки дубликатов
+    
+    // Разбираем строку на числа
+    while (ss >> value)
     {
         if (value <= 0) 
             throw std::invalid_argument("Numbers must be positive and not zero!!!");
@@ -91,6 +118,28 @@ void Permutation::apply(std::string& str)
 
     // Создание нового порядка символов
     std::string permutedStr = str;
+    for (size_t i = 0; i < str.size(); i += permSize) {
+        for (size_t j = 0; j < permSize; ++j) {
+            permutedStr[i + j] = str[i + SourcePermut.at(j)];
+        }
+    }
+
+    // Замена исходной строки на переставленную
+    str = permutedStr;
+}
+
+// Функция применения перестановки к строке
+void Permutation::apply(std::wstring& str) 
+{
+    size_t permSize = SourcePermut.size();
+
+    // Проверка: длина строки должна быть кратна размеру перестановки
+    if (str.size() % permSize != 0) {
+        throw std::invalid_argument("The length of the string must be a multiple of the size of the permutation!");
+    }
+
+    // Создание нового порядка символов
+    std::wstring permutedStr = str;
     for (size_t i = 0; i < str.size(); i += permSize) {
         for (size_t j = 0; j < permSize; ++j) {
             permutedStr[i + j] = str[i + SourcePermut.at(j)];
@@ -151,21 +200,18 @@ void Permutation::compose(const Permutation& rhs)
     this->SourcePermut = temp.SourcePermut;  
 }
 
-std::ostream& operator<<(std::ostream& out, const Permutation& obj)
+std::wostream& operator<<(std::wostream& out, const Permutation& obj)
 {
-    for (const auto& pair : obj.SourcePermut)
-    {
-        out << pair.first + 1 << '\t';
+    out << '[';
+    for (const auto& pair : obj.SourcePermut) {
+        out << pair.second + 1 << ' ';
     }
-    out << '\n';
-    for (const auto& pair : obj.SourcePermut)
-    {
-        out << pair.second + 1 << '\t';
-    }
+
+    out << ']';
     return out;
 }
 
-std::istream& operator>>(std::istream& in, Permutation& obj)
+std::wistream& operator>>(std::wistream& in, Permutation& obj)
 {
     std::multiset<uint32_t> check;
     int32_t Second;

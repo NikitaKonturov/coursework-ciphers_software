@@ -14,6 +14,10 @@ HMAC_DRBG::HMAC_DRBG(std::vector<uint8_t> entropyInput,
     this->HMAC_DRBG_Update(concatination(concatination(entropyInput, nonce), personalizationString));
 }
 
+HMAC_DRBG::HMAC_DRBG(const HMAC_DRBG& source) : key(source.key),
+                                                value(source.value),
+                                                reseedCounter(source.reseedCounter)
+{}
 
 HMAC_DRBG::~HMAC_DRBG()
 {

@@ -21,7 +21,7 @@ uint64_t randomNumber()
     return x_n;
 }
 
-std::vector<int32_t> generat_permutation(std::vector<int32_t> sourcePermut, HMAC_DRBG& gen)
+std::vector<int32_t> generat_permutation(std::vector<int32_t> sourcePermut, HMAC_DRBG &gen)
 {
     // Процесс перемешивания
     for (size_t i = 0; i < sourcePermut.size(); ++i) {
@@ -29,7 +29,9 @@ std::vector<int32_t> generat_permutation(std::vector<int32_t> sourcePermut, HMAC
         if(gen.HMAC_DRBG_Ressed_Check()) {
             gen.HMAC_DRBG_Ressed(get_entropy());
         }
-        std::swap(sourcePermut[i], sourcePermut[convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) % sourcePermut.size()]);
+        uint64_t temp = convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) % sourcePermut.size();
+        std::cout << temp << std::endl;
+        std::swap(sourcePermut[i], sourcePermut[temp]);
     }
     
     return sourcePermut;

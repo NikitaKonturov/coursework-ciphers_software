@@ -2,36 +2,39 @@
 #include <random>
 
 /*================================================================*/
-/*=============== Реализация примерных функций ===================*/
+/*=============== Шифр горизонтальной перестановки ===================*/
 /*================================================================*/
 
-/*все алгоритмы лишь пример, и не один из них не являеться шифром*/
 
-std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.empty()) {
         throw InvalidKey("Keys not found...");
     }
     
-    std::string text = "";
-    std::map<std::string, std::string> keysAndCipherTexts;
+    std::wstring text = L"";
+    std::map<std::wstring, std::wstring> keysAndCipherTexts;
     
+    Permutation permut;
     for (size_t i = 0; i < openTexts.size(); ++i) {
+        std::wstringstream tempss;
         text = openTexts[i];
-        Permutation permut(keys[i]);
+        
+        permut = Permutation((keys[i]));
         if(text.size() % permut.size() != 0) {
-            text.append(text.size() - text.size() % permut.size(), 'A'); // или throw InvalidOpenText();
+            throw InvalidOpenText("The size of the plaintext must be divided by the size of the key...");
         }
-
         permut.apply(text);
-        keysAndCipherTexts[keys[i]] = text;
+        tempss << permut;
+        keysAndCipherTexts[tempss.str()] = text;
+        tempss.clear();
     }
 
     
     return keysAndCipherTexts;
 }
 
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText)
+std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText)
 {
     for (auto& [key, text]: keysAndText) {
         Permutation keyPermut(key);
@@ -73,6 +76,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         for (size_t i = 0; i < count; ++i) {
             all_permut[i] = generat_permutation(trivial_permut, gen);
         }
+
 
         std::vector<std::string> result;
         for (auto permut: all_permut) {
