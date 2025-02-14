@@ -92,6 +92,7 @@ class CppCiphers:
             res: Optional[dict[str, str]]
             res = None
             if (keys == None):
+                print(cipher)
                 keys = sys.modules[cipher].gen_keys(str(keyProperties), len(openTexts))
             if (len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
@@ -106,6 +107,7 @@ class CppCiphers:
             print(err)
             
         except sys.modules[cipher].InvalidKey as err:
+            print(cipher)
             raise InvalidKey(err)
             
         except sys.modules[cipher].InvalidOpenText as err:
