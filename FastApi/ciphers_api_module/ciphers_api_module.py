@@ -93,6 +93,7 @@ class CppCiphers:
             res = None
             if (keys == None):
                 keys = sys.modules[cipher].gen_keys(str(keyProperties), len(openTexts))
+                print(keys)
             if (len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
