@@ -14,12 +14,14 @@ HMAC_DRBG::HMAC_DRBG(std::vector<uint8_t> entropyInput,
     this->HMAC_DRBG_Update(concatination(concatination(entropyInput, nonce), personalizationString));
 }
 
+
 HMAC_DRBG::~HMAC_DRBG()
 {
     this->reseedCounter = 0;
     this->key.clear();
     this->value.clear();
 }
+
 
 void HMAC_DRBG::HMAC_DRBG_Update(std::vector<uint8_t> providedData)
 {
@@ -33,6 +35,7 @@ void HMAC_DRBG::HMAC_DRBG_Update(std::vector<uint8_t> providedData)
     return;
 }
 
+
 void HMAC_DRBG::HMAC_DRBG_Ressed(std::vector<uint8_t> entropyInput, std::vector<uint8_t> aditionInput)
 {
     this->HMAC_DRBG_Update(concatination(entropyInput, aditionInput));
@@ -40,9 +43,10 @@ void HMAC_DRBG::HMAC_DRBG_Ressed(std::vector<uint8_t> entropyInput, std::vector<
     return;
 }
 
+
 std::optional<std::vector<uint8_t>> HMAC_DRBG::HMAC_DRBG_Generate_algorithm(size_t byteNumber, std::vector<uint8_t> aditionInput)
 {
-    if(this->reseedCounter > 281474976710656) {
+    if(this->reseedCounter > RESEED_NUMBER) {
         return std::nullopt;
     }
 
@@ -64,11 +68,27 @@ std::optional<std::vector<uint8_t>> HMAC_DRBG::HMAC_DRBG_Generate_algorithm(size
 }
 
 
+uint64_t convert_bytes_to_ddword(std::vector<uint8_t> bytes)
+{
+    if(bytes.size() < 8) {
+        throw std::invalid_argument("Bytes vector must have size more or equal 8 ...");
+    }
+
+    uint64_t res = 0;
+
+    for (size_t i = 0; i < 8; ++i) {
+        res ^= ((static_cast<uint64_t>(bytes[i]) & 0xff) << (i * 8));
+    }
+    
+    return res;
+}
+
 // Получение энтропии из КГСЧ которые зависят от ОС
 #ifdef _WIN32
 #include <Windows.h>
 #include <wincrypt.h>
-std::vector<uint8_t> get_entropy(){
+std::vector<uint8_t> get_entropy()
+{
     std::vector<uint8_t> entropy(32);
     HCRYPTPROV hCryptProv = 0;
     
@@ -94,7 +114,6 @@ std::vector<uint8_t> get_entropy() {
 
     if (!urandom) {
         throw std::runtime_error("Failed to open /dev/urandom");
-        
     }
 
     urandom.read(reinterpret_cast<char*>(entropy.data()), entropy.size());

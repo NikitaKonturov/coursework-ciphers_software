@@ -1,5 +1,6 @@
 #ifndef DRBG_HPP
 #define DRBG_HPP
+#define RESEED_NUMBER 281474976710656
 #include <vector>
 #include <optional>
 #include "../HMAC/HMAC.hpp"
@@ -24,6 +25,9 @@ class HMAC_DRBG
     // Получение псевдослучайной последовательности байт 
     std::optional<std::vector<uint8_t>> HMAC_DRBG_Generate_algorithm(size_t byteNumber, std::vector<uint8_t> aditionInput = {});
 };
+
+//Выбираются первые 64 бита из предоставленных 
+uint64_t convert_bytes_to_ddword(std::vector<uint8_t> bytes);
 
 // Получение энтропии
 std::vector<uint8_t> get_entropy();
