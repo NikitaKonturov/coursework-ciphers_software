@@ -63,10 +63,15 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             trivial_permut[i] = i + 1;
         }
         
-        setRand(static_cast<uint64_t>(time(NULL)));
+        
+        std::vector<uint8_t> entropy = get_entropy();
+        std::vector<uint8_t> nonce = get_entropy();
+
+        HMAC_DRBG gen(entropy, nonce, {'H', 'P', 'C', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
+
         std::vector<std::vector<int32_t>> all_permut(count);
         for (size_t i = 0; i < count; ++i) {
-            all_permut[i] = generat_permutation(trivial_permut);
+            all_permut[i] = generat_permutation(trivial_permut, gen);
         }
 
         std::vector<std::string> result;
