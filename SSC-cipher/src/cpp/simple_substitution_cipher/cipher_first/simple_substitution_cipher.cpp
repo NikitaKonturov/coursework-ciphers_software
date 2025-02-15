@@ -8,22 +8,36 @@
 
 std::string define_language(std::wstring text)
 {
-    std::wregex ru_template(L"[а-яА-Я]");
-    std::wregex en_template(L"[a-zA-Z]");
+    bool has_ru = false, has_en = false;
 
-    if(std::regex_search(text, ru_template) && !std::regex_search(text, en_template)) {
-        return "ru";
+    for (wchar_t ch : text) {
+        if (static_cast<uint16_t>(ch) >= 1040 && static_cast<uint16_t>(ch) <= 1071) {
+            has_ru = true;
+        } else if (static_cast<uint16_t>(ch) >= 65 && static_cast<uint16_t>(ch) <= 90) {
+            has_en = true;
+        }
+        if (has_ru && has_en) {
+            throw InvalidOpenText("Error: text contains multiple languages.");
+        }
     }
-    if(std::regex_search(text, en_template) && !std::regex_search(text, ru_template)) {
-        return "en";
-    }
-    throw InvalidOpenText("Error invalid languge in text...");
+
+    if (has_ru) return "ru";
+    if (has_en) return "en";
+    throw InvalidOpenText("Error: invalid language in text.");
 }
 
 std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::string language)
 {
-    std::wstring ru_alfabet = L"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    std::wstring en_alfabet = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::wstring ru_alfabet;
+    std::wstring en_alfabet;
+
+    for (size_t i = 1040; i < 1072; ++i){
+        ru_alfabet.push_back(static_cast<wchar_t>(i));
+    }
+    
+    for (size_t i = 65; i < 91; ++i){
+        en_alfabet.push_back(static_cast<wchar_t>(i));
+    }
 
     std::map<wchar_t, wchar_t> alfabetSubstitution; 
 
@@ -35,11 +49,11 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::st
         }
         return alfabetSubstitution;
     }
-
+    
     if(language == "ru" && permut.size() == ru_alfabet.size()) {
         std::wstring temp = ru_alfabet;
         permut.apply(temp);
-        for (size_t i = 0; i < ru_alfabet.size(); ++i) {
+        for (size_t i = 0; i < permut.size(); ++i) {
             alfabetSubstitution[ru_alfabet[i]] = temp[i];
         }
         return alfabetSubstitution;
@@ -48,10 +62,10 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::st
     throw std::invalid_argument("Permutation size was not equal to alfabet size...");
 }
 
-
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-
+    std::locale::global(std::locale("ru_RU.UTF-8")); 
+    std::wcout.imbue(std::locale()); 
     if(keys.size() < openTexts.size()) {
         throw InvalidKey("Count of keys must be unless then count of open text...");
     }
@@ -62,15 +76,13 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         Permutation key(keys[i]);
         std::map<wchar_t, wchar_t> substitution = get_alfabet_substitution(key, define_language(openTexts[i]));
         std::wstring cipherText = openTexts[i];
+        std::wcout << cipherText << std::endl;
         for(wchar_t& symbol: cipherText) {
             symbol = substitution[symbol];
         }
-        keys[i].insert(0, L"[");
-        keys[i].push_back(L']');
         keysAndCiphersTexts[keys[i]] = cipherText;
     }
     
-
     return keysAndCiphersTexts;
 }
 
@@ -103,7 +115,6 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         chekRequest(prop);
       
         int32_t permut_size = (prop["text_language"] == "ru" ? 32 : 26);
-        
         std::vector<int32_t> trivial_permut(permut_size);
         for (size_t i = 0; i < permut_size; ++i) {
             trivial_permut[i] = i + 1;
