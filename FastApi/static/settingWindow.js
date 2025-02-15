@@ -138,7 +138,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function showToast(message, type, duration = 3000) {
+    console.log(`showToast called with: ${message}, type: ${type}`);
+
     const container = document.getElementById("toast-container");
+    if (!container) {
+        console.error("Toast container not found!");
+        return;
+    }
 
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
@@ -152,12 +158,19 @@ function showToast(message, type, duration = 3000) {
     }, duration);
 }
 
+ async function preventActionButton() {
+    event.preventDefault()
+}
 
 async function saveSettings() {
     const uiLanguage = document.getElementById('uiLanguage').value;
     const cipherLanguage = document.getElementById('cipherLanguage').value;
-    const encryptFolderPath = document.querySelector('button[dataset-folder-path]').dataset.folderPath || '';
-    const decryptFolderPath = document.querySelector('button[dataset-folder-path]').dataset.folderPath || '';
+
+    const encryptButton = document.querySelector('button[data-folder-path]');
+    const encryptFolderPath = encryptButton ? encryptButton.dataset.folderPath : '';
+
+    const decryptButton = document.querySelector('button[data-folder-path]');
+    const decryptFolderPath = decryptButton ? decryptButton.dataset.folderPath : '';
 
     const data = {
         interfaceLanguage: uiLanguage,
