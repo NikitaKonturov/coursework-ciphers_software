@@ -294,10 +294,12 @@ std::string get_key_propertys()
 void chekRequest(nlohmann::json keyPropertys)
 {
     try {
-        if(!keyPropertys.empty()){
-            throw KeyPropertyError("Key propertys must be empty...");
+        if(!keyPropertys.at("text_language").is_string()) {
+            throw KeyPropertyError("Key text_language must has string value...");
         }
-        
+        if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
+            throw InvalidKey("Value permutation_size must be ru or en...");
+        }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
     }
