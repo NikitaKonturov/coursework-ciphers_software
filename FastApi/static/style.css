@@ -55,6 +55,7 @@ button:hover {
   background-color: #39369c;
   border-radius: 10px;
   color: #fff;
+  box-shadow: 20px 30px 30px rgba(4, 0, 14, 0.3);
 }
 
 #main-keys-block {
@@ -68,6 +69,7 @@ button:hover {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  box-shadow: 20px 30px 30px rgba(4, 0, 14, 0.3);
 }
 
 #main-keys-block button:hover{
@@ -205,6 +207,7 @@ div input {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  box-shadow: 20px 30px 30px rgba(4, 0, 14, 0.3);
 }
 
 .button-container button {
@@ -267,17 +270,15 @@ div input {
 .error-message {
   position: fixed;
   top: 10px;
-  right: 10px;
-  z-index: 1000;
-  background-color: #f44336;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
   color: white;
-  padding: 15px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  animation: fadeInOut 5s ease-in-out;
-  opacity: 1;
+  font-size: 16px;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes fadeInOut {
@@ -310,6 +311,7 @@ div input {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  box-shadow: 20px 30px 30px rgba(4, 0, 14, 0.3);
 }
 
 #settingsWindow input {
@@ -362,4 +364,31 @@ div input {
 
 #settingsWindow  button:hover{
   background-color: #8d7ec2;
+}
+
+#toast-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.toast {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.toast.success {
+  background-color: green;
+}
+
+.toast.error {
+  background-color: red;
 }

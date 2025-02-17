@@ -117,7 +117,10 @@ async function sendEncriptRequest(formID, keysType) {
         if (!keyPropertiesResponse.ok) {
             console.error(keyPropertiesResponse.statusText) 
             return
+        }   else {
+            showToast("Encryption successful!","success");
         }
+
     } else if (keysType == 'users_keys') {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
         Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)})
@@ -130,6 +133,9 @@ async function sendEncriptRequest(formID, keysType) {
         if(!userKeysResponse.ok) {
             console.error(userKeysResponse.statusText)
             return
+        }
+        else{
+            showToast("Encryption successful!","success");
         }
     } 
 }
@@ -164,6 +170,10 @@ async function sendDecriptRequest()
         console.error(responseFromDecript.statusText)
         return
     }
+    else{
+        showToast("Decryption successful!","success");
+    }
+
     return
 }
 
@@ -219,7 +229,8 @@ async function addBlockOfGetUsersKeys() {
 
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
-        console.error(error)
+        showError("Failed to load settings: " + error.message)
+        console.error("Mistake is caught:",error)
     }
 }
 
@@ -326,11 +337,16 @@ async function encriptSettings() {
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
             Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
+            
+            document.getElementById("ciphersList").addEventListener("change", () => {
+                document.querySelectorAll(".keys-settings-block-class, .keys-choose-block-class, .main-keys-block-class")
+                    .forEach(elem => elem.remove());
+            });
             document.body.appendChild(rigthBlock)
-
         }
     }
     catch(err){
+        showError("Failed to load settings: " + err.message || err);
         console.error("Error occurred:", err);
     }
 }

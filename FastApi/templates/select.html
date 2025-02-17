@@ -10,6 +10,8 @@
   </script>
   <script src="static/errorHandler.js" type="module">
   </script>
+  <script src="static/toast.js" type="module">
+  </script>
   <title>
    Document
   </title>
@@ -19,7 +21,7 @@
   <div class="main-block" id="main-block">
    <form enctype="multipart/form-data" id="slice-telegrmas-form">
     <div class="settings-section">
-     <button id="Setting" onclick="openSettings()">
+     <button id="Setting" onclick="preventActionButton(); openSettings()">
       Settings
      </button>
      <select id="ciphersList" name="cipher">

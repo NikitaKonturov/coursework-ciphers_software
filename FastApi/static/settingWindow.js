@@ -3,6 +3,26 @@ cipherLanguage = 'ru';
 encryptFolderPath = 'testFiles';
 decryptFolderPath = 'testFiles';
 
+async function showToast(message, type, duration = 3000) {
+    console.log(`showToast called with: ${message}, type: ${type}`);
+
+    const container = document.getElementById("toast-container");
+    if (!container) {
+        console.error("Toast container not found!");
+        return;
+    }
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("hide");
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+}
 
 async function createSettingsWindow() {
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
@@ -169,10 +189,9 @@ async function saveSettings() {
         });
 
         if (response.ok) {
-            alert('Settings saved successfully!');
-            document.body.innerHTML = await response.text()
+            showToast('Settings saved successfully!', 'success');
         } else {
-            alert('Failed to save settings!');
+            showToast('Failed to save settings!', 'error');
         }
     } catch (error) {
         console.error('Error:', error);
