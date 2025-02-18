@@ -103,6 +103,7 @@ async def catchTelegramsCuttinngData(
 @app.post("/startEncoder/pushKeysProperties")
 async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
+    keyPropDict["text_language"] = settings.ciphers_language
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfKeysProperties': keyPropDict})
