@@ -82,11 +82,23 @@ def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
     with open(pathToJsFile, "w", encoding="utf-8") as file:
         file.write(code)
     
+EXCLUDED_DIRS = {
+    "$Recycle.Bin",
+    "System Volume Information",
+    "Windows",
+    "Program Files",
+    "Program Files (x86)",
+    "ProgramData",
+    "AppData"
+}
+
 def search_directory(basePath: Path, dirname: str) -> None | Path:
-    
-    for root, dirs, files in os.walk("C:\\"):
-        if(dirname in dirs):
-            return os.path.join(root, dirname)
+    for root, dirs, _ in os.walk("C:\\"):
+        # Фильтруем системные папки
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
+
+        if dirname in dirs:
+            return Path(root) / dirname  # Возвращаем полный путь
     return None
 
 def start_server(settings: Settings) -> None:
