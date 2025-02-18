@@ -16,55 +16,55 @@
   <link href="{{ url_for('static', path='/style.css')}}" rel="stylesheet"/>
  </head>
  <body>
-  <div class="main-block" id="main-block">
-   <form enctype="multipart/form-data" id="slice-telegrmas-form">
-    <div class="settings-section">
-     <button id="Setting" onclick="openSettings()">
-      Settings
-     </button>
-     <select id="ciphersList" name="cipher">
-      <option disabled="True" selected="True" value="Empty_tag">
-       Change cipher
-      </option>
-      <option value="Cardan_cipher">
-       Cardan_cipher
-      </option>
-      <option value="HPC_cipher">
-       HPC_cipher
-      </option>
-      <option value="Plaifer_cipher">
-       Plaifer_cipher
-      </option>
-      <option value="Simple_substitution_cipher">
-       Simple_substitution_cipher
-      </option>
-     </select>
-    </div>
-    <label class="input-file">
-     <span id="custom-file-label">
-      Choose file
-     </span>
-     <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
-    </label>
-    <label id="file-validity">
-    </label>
-    <label for="length">
-     Telegram size:
-    </label>
-    <input id="lenght-of-tg" name="length" placeholder="Enter telegram size" type="number"/>
-    <label for="number">
-     Number of telegrams:
-    </label>
-    <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
-    <div class="button-container">
-     <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
-      Encryption settings
-     </button>
-     <button id="decrypt" onclick="preventActionButton(); sendDecriptRequest()">
-      Decrypt
-     </button>
-    </div>
-   </form>
-  </div>
+   <div class="main-block" id="main-block">
+    <form enctype="multipart/form-data" id="slice-telegrmas-form">
+     <div class="settings-section">
+      <button id="Setting" onclick="openSettings()">
+       Settings
+      </button>
+      <select id="ciphersList" name="cipher">
+       <option disabled="True" selected="True" value="Empty_tag">
+        Change cipher
+       </option>
+       <option value="Cardan_cipher">
+        Cardan_cipher
+       </option>
+       <option value="HPC_cipher">
+        HPC_cipher
+       </option>
+       <option value="Plaifer_cipher">
+        Plaifer_cipher
+       </option>
+       <option value="Simple_substitution_cipher">
+        Simple_substitution_cipher
+       </option>
+      </select>
+     </div>
+     <label class="input-file">
+      <span id="custom-file-label">
+       Choose file
+      </span>
+      <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
+     </label>
+     <label id="file-validity">
+     </label>
+     <label for="length">
+      Telegram size:
+     </label>
+     <input id="lenght-of-tg" name="length" placeholder="Enter telegram size" type="number"/>
+     <label for="number">
+      Number of telegrams:
+     </label>
+     <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
+     <div class="button-container">
+      <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
+       Encryption settings
+      </button>
+      <button id="decrypt" onclick="preventActionButton(); sendDecriptRequest()">
+       Decrypt
+      </button>
+     </div>
+    </form>
+   </div>
  </body>
 </html>
