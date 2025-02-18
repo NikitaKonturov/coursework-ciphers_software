@@ -10,6 +10,7 @@ from ciphers_api_module.telegrams_cutter import cut_telegrams
 from typing import Optional, BinaryIO
 from pydantic import BaseModel
 from docx import Document
+from .cpp_exceptions import InvalidKey, KeyPropertyError, InvalidOpenText
 import platform
 import sys
 import json
@@ -72,9 +73,11 @@ class CppCiphers:
 
     def __init__(self, pathToCiphersDir: str):
         if (not os.path.exists(pathToCiphersDir)):
-            raise FileExistsError(f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
+            raise FileExistsError(
+                f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
         if (not os.path.isdir(pathToCiphersDir)):
-            raise FileExistsError(f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
+            raise FileExistsError(
+                f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
         self.__pathToCiphersDir = os.path.abspath(pathToCiphersDir)
         self.__cipherTitles = {}
 
@@ -92,32 +95,34 @@ class CppCiphers:
             res: Optional[dict[str, str]]
             res = None
             if (keys == None):
-                keys = sys.modules[cipher].gen_keys(str(keyProperties), len(openTexts))
+                keys = sys.modules[cipher].gen_keys(
+                    str(keyProperties), len(openTexts))
                 print(keys)
             if (len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
                 # !!!!!!!! Ошибка !!!!!!!!! не обрабатывается
-                raise AttributeError("Keys count must be not less than open text count...")
+                raise AttributeError(
+                    "Keys count must be not less than open text count...")
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         except TypeError as err:
             print(err)
 
         except RuntimeError as err:
             print(err)
-            
+
         except sys.modules[cipher].InvalidKey as err:
             raise InvalidKey(err)
-            
+
         except sys.modules[cipher].InvalidOpenText as err:
             raise InvalidOpenText(err)
-        
+
         except sys.modules[cipher].KeyPropertyError as err:
             raise KeyPropertyError(err)
-            
+
         except Exception as err:
-            raise err    
-            
+            raise err
+
         return res
 
     # Функция получения шаблона свойств ключа
@@ -184,25 +189,28 @@ def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
 
     file.close()
 
+
 def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
-    telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
-    
+    telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(
+    ), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
+
     print(telegrams)
-    
+
     enc_resualt: dict = {}
-    
-    if(reqToSileAndEncript.selfKeysProperties):
-        enc_resualt = ciphers_object.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
+
+    if (reqToSileAndEncript.selfKeysProperties):
+        enc_resualt = ciphers_object.encript_telegrams(
+            reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
     else:
         AllKeys: str = ""
         tempLine: str = ""
         regToNextKey: str = r'\\nextkey'
         regEndKeys: str = r'\\endkeys'
-        
+
         with open(reqToSileAndEncript.selfFileWithUsersKeys, "r") as file:
             tempLine = file.readline()
-            while(tempLine):        
-                if(re.search(regEndKeys, tempLine)):
+            while (tempLine):
+                if (re.search(regEndKeys, tempLine)):
                     tempLine = re.sub(regEndKeys, "", tempLine)
                     AllKeys = AllKeys + tempLine
                     break
@@ -210,44 +218,49 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
                 tempLine = file.readline()
                 print(tempLine)
 
-        enc_resualt = ciphers_object.encript_telegrams(reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
+        enc_resualt = ciphers_object.encript_telegrams(
+            reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
 
     save_to_docx(enc_resualt, pathToSaveFile)
-    
+
     return
-    
+
+
 def check_encription_telegram(telegram: str) -> bool:
-    if(telegram == ''):
+    if (telegram == ''):
         return False
-    if(re.search(r"\\text", telegram) == None):
+    if (re.search(r"\\text", telegram) == None):
         return False
     return True
-    
+
+
 def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, cipher: str, ciphers_object: CppCiphers, pathToSaveFile: Path):
     keysAndCipherText: dict[str, str] = {}
     allDataFromFile: str = ""
-    if(fileExtension == '.txt'):
+    if (fileExtension == '.txt'):
         dataLine: str = ""
-        while(dataLine):
-            dataLine = str(fileWithCipherTextAndKeys.readline()).encode("utf-8")
+        while (dataLine):
+            dataLine = str(fileWithCipherTextAndKeys.readline()
+                           ).encode("utf-8")
             allDataFromFile += dataLine
-    elif(fileExtension == '.docx'):
+    elif (fileExtension == '.docx'):
         doc = Document(fileWithCipherTextAndKeys)
         for paragraph in doc.paragraphs:
             allDataFromFile += paragraph.text
     else:
-        raise AttributeError("File must has .txt or .docx extension...")    
-    
+        raise AttributeError("File must has .txt or .docx extension...")
+
     regToKeys: str = r"\\key"
     regToText: str = r"\\text"
     listOfTheEncriptTelegrams: list[str] = re.split(regToKeys, allDataFromFile)
-    tempKeyAndCipherText:dict[str, str] = {}
+    tempKeyAndCipherText: dict[str, str] = {}
     for telegram in listOfTheEncriptTelegrams:
-        if(check_encription_telegram(telegram)):     
+        if (check_encription_telegram(telegram)):
             tempKeyAndCipherText = re.split(regToText, telegram)
-            keysAndCipherText[tempKeyAndCipherText[0]] = tempKeyAndCipherText[1]
-        
-    dec_result: dict[str, str] = ciphers_object.decript_telegrams(cipher, keysAndCipherText)
-    
+            keysAndCipherText[tempKeyAndCipherText[0]
+                              ] = tempKeyAndCipherText[1]
+
+    dec_result: dict[str, str] = ciphers_object.decript_telegrams(
+        cipher, keysAndCipherText)
+
     save_to_docx(dec_result, pathToSaveFile)
-    

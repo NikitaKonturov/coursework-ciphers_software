@@ -1,15 +1,27 @@
-import re
+import logging
 import os
+import re
 import threading
 from pathlib import Path
-import logging
 
-from ciphers_api_module.ciphers_api_module import CppCiphers, form_cipher_select_options, start_encryption, start_decryption
-from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
-from exception_handlers import (ValidationError, unknown_exception, validatiion_exception, value_exception)
-from settings.config import NoCacheMiddleware, start_server, start_webview, update_js_file, Settings, search_directory
-from file_converters.saveTxtFile import save_open_text_as_bin_file, save_as_txt_file
-from file_converters.docxToTxt import save_open_text_docx_as_bin_file, save_docx_as_txt
+from ciphers_api_module.ciphers_api_module import (CppCiphers,
+                                                   form_cipher_select_options,
+                                                   start_decryption,
+                                                   start_encryption)
+from ciphers_api_module.requestsClass.requestToEncript import \
+    RequToSliceAndEncript
+from exception_handlers import (InvalidKey, InvalidOpenText, KeyPropertyError,
+                                ValidationError, invalid_key_exception,
+                                invalid_open_text_exception,
+                                key_property_error_exception,
+                                unknown_exception, validatiion_exception,
+                                value_exception)
+from file_converters.docxToTxt import (save_docx_as_txt,
+                                       save_open_text_docx_as_bin_file)
+from file_converters.saveTxtFile import (save_as_txt_file,
+                                         save_open_text_as_bin_file)
+from settings.config import (NoCacheMiddleware, Settings, search_directory,
+                             start_server, start_webview, update_js_file)
 
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
@@ -25,7 +37,9 @@ settings = Settings()
 
 app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
-# Future exception_handlers
+app.add_exception_handler(InvalidKey, invalid_key_exception)
+app.add_exception_handler(InvalidOpenText, invalid_open_text_exception)
+app.add_exception_handler(KeyPropertyError, key_property_error_exception)
 app.add_exception_handler(Exception, unknown_exception)
 
 app.add_middleware(NoCacheMiddleware)
@@ -37,19 +51,20 @@ ciphers_obj = CppCiphers(pathToCiphersDir=str(settings.path_to_ciphers))
 form_cipher_select_options(ciphers_obj, settings.path_to_templates)
 
 requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
-    selfCipher = 'None',
-    selfFileWithUsersKeys = None,
-    selfKeysType = 'users_keys',
-    selfTextFile = None,
-    selfLengthTelegram = 1,
-    selfNameTextFile = "",
-    selfNumberOfTelegram = 1,
-    selfKeysProperties = {}
+    selfCipher='None',
+    selfFileWithUsersKeys=None,
+    selfKeysType='users_keys',
+    selfTextFile=None,
+    selfLengthTelegram=1,
+    selfNameTextFile="",
+    selfNumberOfTelegram=1,
+    selfKeysProperties={}
 )
 
 templates = Jinja2Templates(directory=str(settings.path_to_templates))
 
-app.mount('/static', StaticFiles(directory=str(settings.path_to_static)), name='static')
+app.mount(
+    '/static', StaticFiles(directory=str(settings.path_to_static)), name='static')
 
 
 @app.post("/startEncoder/pushTelegramsCuttingData")
@@ -61,24 +76,27 @@ async def catchTelegramsCuttinngData(
     keysType: str = Form(...)
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
-    pathToOpenText: Path = Path(BASE_DIR, settings.filename_to_save_full_open_text + ".bin")
-    if(extension == '.txt'):
-        save_open_text_as_bin_file(settings.ciphers_language, textFile.file, pathToOpenText)
-    elif(extension == '.docx'):
-        save_open_text_docx_as_bin_file(settings.ciphers_language, textFile.file, pathToOpenText)
-    
+    pathToOpenText: Path = Path(
+        BASE_DIR, settings.filename_to_save_full_open_text + ".bin")
+    if (extension == '.txt'):
+        save_open_text_as_bin_file(
+            settings.ciphers_language, textFile.file, pathToOpenText)
+    elif (extension == '.docx'):
+        save_open_text_docx_as_bin_file(
+            settings.ciphers_language, textFile.file, pathToOpenText)
+
     global requestToSliceAndEncript
     requestToSliceAndEncript = RequToSliceAndEncript(
-        selfCipher = cipher, 
-        selfKeysProperties = {},
-        selfKeysType = keysType, 
-        selfTextFile = pathToOpenText, 
-        selfLengthTelegram = length, 
-        selfNumberOfTelegram = number,
-        selfNameTextFile = textFile.filename, 
-        selfFileWithUsersKeys = None
+        selfCipher=cipher,
+        selfKeysProperties={},
+        selfKeysType=keysType,
+        selfTextFile=pathToOpenText,
+        selfLengthTelegram=length,
+        selfNumberOfTelegram=number,
+        selfNameTextFile=textFile.filename,
+        selfFileWithUsersKeys=None
     )
-    
+
     return JSONResponse({"Status": 200})
 
 
@@ -86,26 +104,32 @@ async def catchTelegramsCuttinngData(
 async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     global requestToSliceAndEncript
-    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfKeysProperties': keyPropDict})
-    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path, 'encription-resualt-'+ requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
+        update={'selfKeysProperties': keyPropDict})
+    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
+                     'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
 
     return JSONResponse({"Status": 200})
+
 
 @app.post("/startEncoder/pushUserKeys")
 async def catchUsersKeys(keys_file: UploadFile = File(...)):
     extension: str = re.search(".[A-Za-z]+$", keys_file.filename).group()
     pathToUsersKeys: Path = Path(BASE_DIR, "usersKeys.txt")
-    if(extension == '.txt'):
+    if (extension == '.txt'):
         save_as_txt_file(keys_file.file, pathToUsersKeys)
-    elif(extension == '.docx'):
+    elif (extension == '.docx'):
         save_docx_as_txt(keys_file.file, pathToUsersKeys)
-    
+
     global requestToSliceAndEncript
-    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(update={'selfFileWithUsersKeys': pathToUsersKeys})
-    
-    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path, 'encription-resualt-'+ requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
-   
+    requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
+        update={'selfFileWithUsersKeys': pathToUsersKeys})
+
+    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
+                     'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+
     return JSONResponse({"Status": 200})
+
 
 @app.post('/startDecoder')
 async def catchDecriptRequest(
@@ -114,27 +138,35 @@ async def catchDecriptRequest(
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
     print(textFile.filename)
-    start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(settings.decript_results_path, 'encription-resualt-'+ cipher + '.docx'))
-    
+    start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
+        settings.decript_results_path, 'encription-resualt-' + cipher + '.docx'))
+
     return JSONResponse({"Status": 200})
-    
+
+
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
     return ciphers_obj.get_key_propertys(dict(await reqToKeyProperty.json())["cipher"])
 
+
 @app.post('/settings', response_class=HTMLResponse)
 async def save_settings(reqToSetting: Request):
     settingJson: dict = dict(await reqToSetting.json())
-    update_js_file(Path(BASE_DIR ,"static","settingWindow.js"), settingJson)
-    settingJson['encryptFolderPath'] = str(search_directory(BASE_DIR, settingJson['encryptFolderPath']))
-    settingJson['decryptFolderPath'] = str(search_directory(BASE_DIR, settingJson['decryptFolderPath']))
-    settings.update_settings("encript_results_path", settingJson['encryptFolderPath'])
-    settings.update_settings("decript_results_path", settingJson['decryptFolderPath'])
-    settings.update_settings("interface_language", settingJson['interfaceLanguage'])
+    update_js_file(Path(BASE_DIR, "static", "settingWindow.js"), settingJson)
+    settingJson['encryptFolderPath'] = str(
+        search_directory(BASE_DIR, settingJson['encryptFolderPath']))
+    settingJson['decryptFolderPath'] = str(
+        search_directory(BASE_DIR, settingJson['decryptFolderPath']))
+    settings.update_settings("encript_results_path",
+                             settingJson['encryptFolderPath'])
+    settings.update_settings("decript_results_path",
+                             settingJson['decryptFolderPath'])
+    settings.update_settings("interface_language",
+                             settingJson['interfaceLanguage'])
     settings.update_settings("ciphers_language", settingJson['cipherLanguage'])
-    
+
     return templates.TemplateResponse(request=reqToSetting, name='select.html')
-    
+
 
 @app.get('/', response_class=HTMLResponse)
 async def select(request: Request):
