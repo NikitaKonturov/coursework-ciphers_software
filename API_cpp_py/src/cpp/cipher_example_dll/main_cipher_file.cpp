@@ -5,7 +5,6 @@
 #include <pybind11/stl.h>
 
 
-
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(HPC_cipher, m) {
     m.doc() = "HPC_cipher"; // документация к модулю питона, обязана содержать имя библиотеки на английском которое будет отображаться во frontend
@@ -13,6 +12,14 @@ PYBIND11_MODULE(HPC_cipher, m) {
     m.def("gen_keys", &gen_keys); // аналогично
     m.def("get_key_propertys", &get_key_propertys); // аналогично
     m.def("decript", &decript); // аналогично
+    static pybind11::exception<std::exception> base_exception(m, "cppException");
+    pybind11::register_exception_translator([](std::exception_ptr p) {
+        try {
+            if (p) std::rethrow_exception(p);
+        } catch (const std::exception& e) {
+            PyErr_SetString(PyExc_RuntimeError, e.what());
+        }
+    });
     pybind11::register_exception<KeyPropertyError>(m, "KeyPropertyError"); // регистрация класса ошибки валидности свойств ключа
     pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки валидности ключа
     pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста
