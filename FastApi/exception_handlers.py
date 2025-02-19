@@ -30,5 +30,5 @@ async def key_property_error_exception(request, exc: KeyPropertyError):
     return JSONResponse(status_code=405, content={"error": "Key property error", "detail": str(exc)})
 
 
-async def unknown_exception(request, exc: Exception):
+async def unknown_exception(request, exc: RuntimeError):
     return JSONResponse(status_code=500, content={"error": "An unexpected error occurred", "detail": str(exc)})
