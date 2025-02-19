@@ -4,6 +4,7 @@
 // библиотека для экспорта stl библиотеки
 #include <pybind11/stl.h>
 
+
 void register_exception_translator() {
     pybind11::register_exception_translator([](std::exception_ptr p) {
         try {
@@ -21,6 +22,8 @@ PYBIND11_MODULE(HPC_cipher, m) {
     m.def("gen_keys", &gen_keys); // аналогично
     m.def("get_key_propertys", &get_key_propertys); // аналогично
     m.def("decript", &decript); // аналогично
-    register_exception_translator();
+    pybind11::register_exception<KeyPropertyError>(m, "KeyPropertyError"); // регистрация класса ошибки валидности свойств ключа
+    pybind11::register_exception<InvalidKey>(m, "InvalidKey"); // регистрация класса ошибки валидности ключа
+    pybind11::register_exception<InvalidOpenText>(m, "InvalidOpenText"); // регистрация класса валидности открытого текста
 }
 
