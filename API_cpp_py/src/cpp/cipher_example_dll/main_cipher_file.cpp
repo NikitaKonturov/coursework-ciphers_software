@@ -5,16 +5,6 @@
 #include <pybind11/stl.h>
 
 
-void register_exception_translator() {
-    pybind11::register_exception_translator([](std::exception_ptr p) {
-        try {
-            if (p) std::rethrow_exception(p);
-        } catch (const std::exception& e) {
-            PyErr_SetString(PyExc_RuntimeError, e.what());
-        }
-    });
-}
-
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(HPC_cipher, m) {
     m.doc() = "HPC_cipher"; // документация к модулю питона, обязана содержать имя библиотеки на английском которое будет отображаться во frontend
