@@ -255,31 +255,58 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         prop = nlohmann::json::parse(keyPropertys);
         chekRequest(prop);
       
-
-        std::vector<int32_t> trivial_permut(36);
+        std::vector<int32_t> trivialSub(36);
         for (size_t i = 0; i < 36; ++i) {
-            trivial_permut[i] = i + 1;
+            trivialSub[i] = static_cast<int32_t>(i + 1);
+        }
+        
+        std::vector<int32_t> trivialLetters(26);
+        for (size_t i = 0; i < 26; ++i) {
+            trivialLetters[i] = static_cast<int32_t>(i);
         }
         
         std::vector<uint8_t> entropy = get_entropy();
         std::vector<uint8_t> nonce = get_entropy();
-
-        HMAC_DRBG gen(entropy, nonce, {'A', 'D', 'F', 'G', 'V', 'X', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
-
-
-        std::vector<std::vector<int32_t>> all_permut(count);
+        
+        HMAC_DRBG gen(entropy, nonce, { 'A','D','F','G','V','X','-','c','i','p','h','e','r' });
+        
+        std::vector<std::vector<int32_t>> substitutionKeys(count);
         for (size_t i = 0; i < count; ++i) {
-            all_permut[i] = generat_permutation(trivial_permut, gen);
+            substitutionKeys[i] = generat_permutation(trivialSub, gen);
         }
-
+        
+        std::vector<std::vector<int32_t>> transpositionKeys(count);
+        for (size_t i = 0; i < count; ++i) {
+            transpositionKeys[i] = generat_permutation(trivialLetters, gen);
+        }
+        
+        std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
         std::vector<std::string> result;
-        for (auto permut: all_permut) {
-            std::ostringstream oss;
-            std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(oss, " "));
-            result.push_back(oss.str().substr(0, oss.str().size() - 1));
+        for (size_t i = 0; i < count; ++i) {
+            std::ostringstream subStream;
+            for (int num : substitutionKeys[i]) {
+                subStream << num << " ";
+            }
+            std::string subKey = subStream.str();
+            if (!subKey.empty()) {
+                subKey.pop_back();
+            }
+            
+            std::string transKey;
+            for (size_t j = 0; j < 6; ++j) {
+                int idx = transpositionKeys[i][j];
+                if (idx < 0 || idx >= static_cast<int>(alphabet.size()))
+                    throw InvalidKey("Incorrect index while forming the key transposition.");
+                transKey.push_back(alphabet[idx]);
+            }
+            
+            std::string combined = subKey + "|" + transKey;
+            result.push_back(combined);
         }
         
         return result;
+        
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
     }
