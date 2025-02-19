@@ -37,10 +37,9 @@ settings = Settings()
 
 app.add_exception_handler(ValueError, value_exception)
 app.add_exception_handler(ValidationError, validatiion_exception)
-# app.add_exception_handler(InvalidKey, invalid_key_exception)
-# app.add_exception_handler(InvalidOpenText, invalid_open_text_exception)
-# app.add_exception_handler(KeyPropertyError, key_property_error_exception)
-
+app.add_exception_handler(InvalidKey, invalid_key_exception)
+app.add_exception_handler(InvalidOpenText, invalid_open_text_exception)
+app.add_exception_handler(KeyPropertyError, key_property_error_exception)
 app.add_exception_handler(RuntimeError, unknown_exception)
 
 app.add_middleware(NoCacheMiddleware)

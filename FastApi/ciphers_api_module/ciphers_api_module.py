@@ -1,7 +1,6 @@
 import importlib
 import importlib.util
 from bs4 import BeautifulSoup
-from fastapi import UploadFile
 from fastapi.responses import JSONResponse
 from pathlib import Path
 from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
@@ -111,17 +110,29 @@ class CppCiphers:
         except RuntimeError as err:
             print(err)
 
-        except sys.modules[cipher].InvalidKey as err:
-            raise InvalidKey(err)
+        # except sys.modules[cipher].InvalidKey as err:
+        #    raise InvalidKey(err)
 
-        except sys.modules[cipher].InvalidOpenText as err:
-            raise InvalidOpenText(err)
+        # except sys.modules[cipher].InvalidOpenText as err:
+        #    raise InvalidOpenText(err)
 
-        except sys.modules[cipher].KeyPropertyError as err:
-            raise KeyPropertyError(err)
+        # except sys.modules[cipher].KeyPropertyError as err:
+        #    raise KeyPropertyError(err)
 
         except Exception as err:
-            raise err
+
+            # Dynamically check for cipher-specific exceptions
+            for key, name in self.get_ciphers_dict():
+                if hasattr(sys.modules[key], 'InvalidKey') and isinstance(err, sys.modules[key].InvalidKey):
+                    raise InvalidKey(str(err))
+                elif hasattr(sys.modules[key], 'InvalidOpenText') and isinstance(err, sys.modules[key].InvalidOpenText):
+                    raise InvalidOpenText(str(err))
+                elif hasattr(sys.modules[key], 'KeyPropertyError') and isinstance(err, sys.modules[key].KeyPropertyError):
+                    raise KeyPropertyError(str(err))
+                else:
+                    # Re-raise unexpected exceptions
+                    print(f"Unexpected exception: {err}")
+                    raise
 
         return res
 
