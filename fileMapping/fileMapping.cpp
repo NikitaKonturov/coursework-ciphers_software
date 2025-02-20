@@ -1,116 +1,140 @@
 #include "fileMapping.hpp"
 
-// Функция для получения названия ошибки
-std::string getLastErrorCodeMessage(DWORD _dwErrCode)
-{
-    LPSTR messageBuffer = nullptr;
- 
-    size_t size = FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        _dwErrCode,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Язык по умолчанию
-        (LPTSTR)&messageBuffer,
-        0, NULL);
- 
- 
-    std::string resCode(std::to_string(_dwErrCode));
-    std::string resMess(messageBuffer, size);
-    LocalFree(messageBuffer); // Освобождение буффера
-    if (resMess.empty())
-    {
-        return "(" + resCode + ")";
-    }
-    else
-    {
-        return "(" + resCode + "): " + resMess;
-    }
-}
- 
-// Функция для разбиения файла на части посредстом FileMapping и вывода результата в res
-// ВАЖНО! файл должен быть в кодировке windows 1251
-bool read_and_markup_big_file(const std::string strFilePath, std::string& res)
-{
-    setlocale(LC_ALL, ".1251");
+bool is_rus_alpha(uint8_t symbol) {
+    return (symbol >= 192 && symbol <= 255) || symbol == 184 || symbol == 168;
+} //Проверка на русский символ
 
-    SYSTEM_INFO sysInfo = { 0 };
-    GetSystemInfo(&sysInfo);
-    DWORD dwSysGran = sysInfo.dwAllocationGranularity; // Получение значения свободной памяти буффера
- 
-    HANDLE hFile = CreateFileA(strFilePath.c_str(), GENERIC_READ, 0, 0, OPEN_EXISTING, 0, 0);// Создание файла
-    if (hFile == INVALID_HANDLE_VALUE) // Файл не создан
-    {
-        res = "ERROR - CreateFileA " + getLastErrorCodeMessage(GetLastError()) + "\n";
-        return false;
+bool is_eng_alpha(uint8_t symbol) {
+    return (symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z');
+} //Проверка на английский символ
+
+std::map<size_t, size_t> count_words(const std::string& keyFilePath, const std::string& lang)
+{
+    bool (*is_alpha) (uint8_t); //Выбор языка
+    if (lang == "ru") {
+        setlocale(LC_ALL, ".1251");
+        is_alpha = is_rus_alpha;
     }
- 
-    LARGE_INTEGER liFileSize = { 0 }; // Временное хранилище размера большого файла
-    if (!GetFileSizeEx(hFile, &liFileSize)) // Проверка на недопустимый размер файла
-    {
-        res = "ERROR - GetFileSizeEx " + getLastErrorCodeMessage(GetLastError()) + "\n";
-        return false;
+    else if (lang == "en") {
+        is_alpha = is_eng_alpha;
     }
-    const uint64_t cbFile = static_cast<uint64_t>(liFileSize.QuadPart);
- 
-    if (cbFile == 0) // Проверка на пустоту файла
+    
+    
+    std::ifstream keyFile(keyFilePath, std::ios::binary); //Открытие файла с ключами
+    keyFile.seekg(0, keyFile.end); //Переход в конец файла
+    size_t fileSize = keyFile.tellg(); //Подсчёт длины файла
+    keyFile.close(); //Закрытие файла
+    bool isWordMode = false; //Флаг индикации режима "Слово"
+    size_t wordLength = 0; //Длина читаемого слова
+    std::map<size_t, size_t> wordsCount; //Результирующий map
+    uint8_t buff; //Буфер для чтения символов
+    for (size_t i = 0; i < fileSize; i++)
     {
-        res = "Size of File os ZERO";
-        CloseHandle(hFile); // Закрываем файл
-        return true;
-    }
- 
-    HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL); // Создаём файл разметки
-    CloseHandle(hFile); // К самому файлу больше не нужен доступ
-    if (hMap == NULL) 
-    {
-        res = "ERROR - CreateFileMapping " + getLastErrorCodeMessage(GetLastError()) + "\n";
-        return false;
-    }
- 
-    uint64_t ok = 0; // Количество успешно прочтённых фрагментов
-    uint64_t no = 0; // Количество повреждённых объъектов
-    uint64_t all = 0; // Колличество всех фрагментов
-    for (uint64_t offset = 0; offset < cbFile; offset += dwSysGran)
-    {
-        DWORD high = static_cast<DWORD>((offset >> 32) & 0xFFFFFFFFul);
-        DWORD low = static_cast<DWORD>(offset & 0xFFFFFFFFul);
+        std::ifstream keyFile(keyFilePath, std::ios::binary); //Открытие файла
         
-        //Последний читаемый фрагмент можеть быть короче
-        if (offset + dwSysGran > cbFile)
+        keyFile.seekg(i); //Перевод файла на i-тую позицию
+
+        keyFile.read((char*)&buff, 1); //Чтение i-того символа
+
+        if (is_alpha(buff)) //Попалась буква
         {
-            dwSysGran = static_cast<int>(cbFile - offset);
-        }
- 
-        //const char *pView = static_cast<const char *>(MapViewOfFile(hMap, FILE_MAP_READ, high, low, dwSysGran));
-        PBYTE pView = static_cast<PBYTE>(MapViewOfFile(hMap, FILE_MAP_READ, high, low, dwSysGran)); //  LPVOID lpMapAddress;  // pointer to the base address of the memory-mapped region
- 
- 
-        if (pView) //if (pView != NULL)
+            ++wordLength; //Увеличение длины слова
+            if (!isWordMode) 
+            {
+                isWordMode = true; //Включение режима "Слово", если не был включён
+            }
+        } else if (isWordMode) //Попался знак
         {
-            ok++;
+            ++wordsCount[wordLength]; //Прибавляем единицу к количеству слов данной длины
+            isWordMode = false; //Выключаем режим слово
+            wordLength = 0; //Восстанавливаем значение длины читаемого слова
         }
-        else // if pView == NULL
-        {
-            no++;
-            res = "ERROR - MapViewOfFile " + getLastErrorCodeMessage(GetLastError()) + "\n";
- 
-            UnmapViewOfFile(pView);
-            CloseHandle(hMap);
-            return false;
-        }
- 
-        if (pView)
-        {
-            UnmapViewOfFile(pView); //Освобождение памяти
-        }
- 
-        all++;
+        keyFile.close(); //Закрываем файл
     }
- 
-    CloseHandle(hMap);
- 
-    res = "SUCCES - Mapped all segments: " + std::to_string(all) + "\n"; //Вывод количества фрагментов в res
-    return true;
+    return wordsCount;
+}
+
+void set_final_key_word_num(size_t& keyWordNum, bool*& bunnedWords)
+{
+    for (size_t i = 0; i < keyWordNum; ++i) {
+        if (bunnedWords[i] == true) {
+            ++keyWordNum; //Добавляем по еденице за каждое использованное слово идущее перед данным
+        }
+    }
+    bunnedWords[keyWordNum - 1] = true; //Добавляем слово в список использованных
+}
+
+std::string give_word(
+    const std::string& keyFilePath, 
+    const std::string& lang, 
+    std::map<size_t, size_t>& wordsCount,
+    const size_t& keyWordLength,
+    bool*& bannedWords,
+    const size_t& allWordsCount
+)
+{   
+    if (wordsCount.at(keyWordLength) == 0) {
+        return "End of words"; //Не осталось слов данной длины
+    }
+
+    bool (*is_alpha) (uint8_t); //Выбор языка
+    if (lang == "ru") {
+        setlocale(LC_ALL, ".1251");
+        is_alpha = is_rus_alpha;
+    }
+    else if (lang == "en") {
+        is_alpha = is_eng_alpha;
+    }
+
+    srand(time(NULL));
+    size_t keyWordNum = (rand() % wordsCount.at(keyWordLength)) + 1; //Генерация изначальной позиции слова
+    set_final_key_word_num(keyWordNum, bannedWords); //Генерация итоговой позиции слова
+    wordsCount.at(keyWordLength) -= 1; //Уменьшение числа доступных слов
+
+    //Чтение файла по одному символу аналогичное предыдущему
+    std::ifstream keyFile(keyFilePath, std::ios::binary);
+    keyFile.seekg(0, keyFile.end);
+    size_t fileSize = keyFile.tellg();
+    keyFile.close();
+    bool isWordMode = false;
+    uint8_t buff;
+    size_t wordLength = 0;
+    for (size_t i = 0; i < fileSize; i++)
+    {
+        std::ifstream keyFile(keyFilePath, std::ios::binary);
+        
+        keyFile.seekg(i);
+
+        keyFile.read((char*)&buff, 1);
+
+        if (is_alpha(buff)) 
+        {
+            ++wordLength;
+            if (!isWordMode) 
+            {
+                isWordMode = true;
+            }
+        } else if (isWordMode) //Закончилось слово
+        {
+            if (wordLength == keyWordLength) { //Слово подходит
+                --keyWordNum; //Уменьшаем счётчик слов до нужного нам
+                if (keyWordNum == 0) { //Если слово нам подходит
+                    keyFile.close(); //Закраем файл для очистки памяти
+                    std::ifstream keyFile(keyFilePath, std::ios::binary); //Заново его открываем
+                    keyFile.seekg(i - keyWordLength); //Переходим к началу слова
+                    std::string keyBuff(keyWordLength, ' '); //Создаём контейнер для слова
+                    for (size_t i = 0; i < keyWordLength; ++i) //Читаем слово из файла
+                    {
+                        keyFile.read((char*)&buff, 1);
+                        keyBuff[i] = (char) buff;
+                    }
+                    return keyBuff; //Возврацаем слово
+                }
+            }
+            wordLength = 0; //Если слово не подходит зануляем длину текущего слова
+            isWordMode = false; //Выключаем режим "Слово"
+        }
+        keyFile.close(); //Закрываем файл
+    }
+    return " "; //Возвращаемое значение на случай необычных ветвлений
 }
