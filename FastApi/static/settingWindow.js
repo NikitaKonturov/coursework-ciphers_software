@@ -99,6 +99,9 @@ async function createSettingsWindow() {
 
     closeButton.onclick = closeSettings;
     saveButton.onclick = saveSettings;
+
+    Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
+    Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
     document.body.appendChild(settingsWindow);
 }
 
