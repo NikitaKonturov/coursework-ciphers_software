@@ -18,6 +18,47 @@
   <link href="{{ url_for('static', path='/style.css')}}" rel="stylesheet"/>
  </head>
  <body>
+  <canvas id="matrix">
+  </canvas>
+  <script>
+   const canvas = document.getElementById("matrix");
+          const ctx = canvas.getContext("2d");
+  
+          let columns, drops;
+          const speedFactor = 3;
+  
+          function resizeCanvas() {
+              const dpr = window.devicePixelRatio || 1;
+              canvas.width = window.innerWidth * dpr;
+              canvas.height = window.innerHeight * dpr;
+              ctx.scale(dpr, dpr);
+  
+              columns = Math.floor(window.innerWidth / 20);
+              drops = new Array(columns).fill(0);
+          }
+  
+          window.addEventListener("resize", resizeCanvas);
+          resizeCanvas();
+  
+          const symbols = "0123456789ABCDEF";
+  
+          function drawMatrix() {
+              ctx.fillStyle = "rgba(0, 0, 50, 0.2)";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.fillStyle = "#00ccff";
+              ctx.font = "16px monospace";
+  
+              drops.forEach((y, x) => {
+                  const text = symbols[Math.floor(Math.random() * symbols.length)];
+                  ctx.fillText(text, x * 20, y);
+                  drops[x] = y > window.innerHeight || Math.random() > 0.975 ? 0 : y + 5;
+              });
+  
+              setTimeout(drawMatrix, speedFactor * 30); 
+          }
+  
+          drawMatrix();
+  </script>
   <div class="main-block" id="main-block">
    <form enctype="multipart/form-data" id="slice-telegrmas-form">
     <div class="settings-section">
