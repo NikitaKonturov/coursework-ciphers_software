@@ -105,60 +105,38 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     if (leftBoarder > rightBoarder) {
         throw std::invalid_argument("Invalid key range: left border is greater than right border.");
     }
-
-    int64_t totalKeys = rightBoarder - leftBoarder + 1;
     int64_t maxDigits = std::to_wstring(rightBoarder).length();
-    
-    // Получаем частоты букв
     std::map<wchar_t, double> letterFrequencies = get_frequencies(language);
     std::map<wchar_t, std::vector<std::wstring>> keysContainer;
     std::vector<int64_t> availableKeys;
-
+    
     for (int64_t i = leftBoarder; i <= rightBoarder; ++i) {
         availableKeys.push_back(i);
     }
 
+    // Лямбда-функция для форматирования числа с ведущими нулями.
+    // Например, 5 -> "05" при maxDigits = 2.
     auto format_number = [&](int64_t num) -> std::wstring {
         std::wstringstream ss;
-        ss << std::setw(maxDigits) << std::setfill(L'0') << num;
+        ss << std::setw(maxDigits) << std::setfill(L'0') << num; // Для корректной работы ведущих нулей, т.е. если нам нужно число из диапазона 00-99, то число 5 будет отображаться как 05
         return ss.str();
     };
 
-    // 1. Гарантируем каждому символу хотя бы один ключ
     for (const auto& letter : letterFrequencies) {
         if (availableKeys.empty()) {
             throw std::runtime_error("Not enough unique keys available.");
         }
+        
         size_t index = get_random_number(0, availableKeys.size() - 1);
         int64_t key = availableKeys[index];
         keysContainer[letter.first].push_back(format_number(key));
         availableKeys.erase(availableKeys.begin() + index);
     }
 
-    // 2. Распределяем оставшиеся ключи пропорционально частотам
-    int64_t remainingKeys = availableKeys.size();
-    std::map<wchar_t, int64_t> additionalKeysCount;
-
-    for (const auto& letter : letterFrequencies) {
-        additionalKeysCount[letter.first] = std::round(letter.second * remainingKeys);
-    }
-
-    // 3. Добавляем дополнительные ключи
-    for (const auto& letter : letterFrequencies) {
-        int64_t keysToAdd = additionalKeysCount[letter.first];
-
-        for (int64_t i = 0; i < keysToAdd && !availableKeys.empty(); ++i) {
-            size_t index = get_random_number(0, availableKeys.size() - 1);
-            int64_t key = availableKeys[index];
-            keysContainer[letter.first].push_back(format_number(key));
-            availableKeys.erase(availableKeys.begin() + index);
-        }
-    }
-
-    // 4. Если остались ключи, распределяем их случайно
     while (!availableKeys.empty()) {
         for (auto& pair : keysContainer) {
             if (availableKeys.empty()) break;
+            
             size_t index = get_random_number(0, availableKeys.size() - 1);
             int64_t key = availableKeys[index];
             pair.second.push_back(format_number(key));
