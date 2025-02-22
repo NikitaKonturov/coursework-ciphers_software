@@ -14,7 +14,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     }
 
     std::map<std::wstring, std::wstring> keysAndCipherTexts;
-    
+
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         std::wstring key = keys[i];
@@ -22,47 +22,55 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         std::map<wchar_t, std::vector<std::wstring>> substitutionMap;
         std::map<wchar_t, size_t> letterIndices;
         std::wstring letter, number;
-        
+
+        // **Разбираем ключ**
         while (keyStream >> letter) {
             std::vector<std::wstring> numbers;
-            while (keyStream >> number) {
+            while (keyStream >> number && number != L"0") {
                 numbers.push_back(number);
             }
             wchar_t charKey = letter[0];
-            letterIndices[charKey] = std::stoi(numbers.back()); // Последниц элемент - индекс
-            numbers.pop_back();                                 // Убираем индекс из списка замен
+
+            // **Устанавливаем начальный индекс в 0**
+            letterIndices[charKey] = 0;
             substitutionMap[charKey] = numbers;
         }
 
         std::wstring cipherText;
+
+        // **Шифруем текст**
         for (wchar_t ch : text) {
             if (substitutionMap.count(ch) && !substitutionMap[ch].empty()) {
                 size_t& index = letterIndices[ch];
+
+                // **Заменяем букву на текущий ключ**
                 cipherText += substitutionMap[ch][index] + L" ";
-                
-                // Обновляет индекс для выбора следующего ключа.
-                // Если индекс достигает конца списка, сбрасывается в 0.
+
+                // **Обновляем индекс: если достигли конца - сбрасываем**
                 index = (index + 1) % substitutionMap[ch].size();
             } else {
-                cipherText += ch;
+                cipherText += ch;  // **Оставляем символ без изменений**
             }
         }
 
-        // Собираем обновленный ключ с новым индексом
+        // **Формируем обновленный ключ**
         std::wstringstream updatedKey;
         for (const auto& [charKey, numbers] : substitutionMap) {
             updatedKey << charKey << L" ";
             for (const auto& num : numbers) {
                 updatedKey << num << L" ";
             }
-            updatedKey << letterIndices[charKey] << L"\n"; // Добавляем новый индекс
+            updatedKey << letterIndices[charKey] << L"\n"; // **Добавляем новый индекс**
         }
 
+        // **Добавляем в map обновленный ключ и зашифрованный текст**
         keysAndCipherTexts[updatedKey.str()] = cipherText;
     }
 
     return keysAndCipherTexts;
 }
+
+
 
 // Расшифровывает текст с использованием ключей.
 // Каждое число в зашифрованном тексте заменяется на соответствующую букву.
