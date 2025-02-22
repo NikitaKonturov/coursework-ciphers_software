@@ -131,12 +131,6 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
                 for (const auto& key : keyList) {
                     wss << key << L" ";
                 }
-                // Убираем дублирование конечного "0"
-                // Проверяет, добавлен ли уже маркер конца списка ("0").
-                // Если нет, добавляет его для корректной итерации.
-                if (keyList.empty() || keyList.back() != L"0") {
-                    wss << L"0";
-                }
                 wss << L"\n";
             }
 

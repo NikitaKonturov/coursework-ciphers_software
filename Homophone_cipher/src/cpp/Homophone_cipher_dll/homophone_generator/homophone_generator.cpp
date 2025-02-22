@@ -101,10 +101,10 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     if (language.empty()) {
         throw std::invalid_argument("Value of language is empty. Cannot compute frequencies.");
     }
-    
     if (leftBoarder > rightBoarder) {
         throw std::invalid_argument("Invalid key range: left border is greater than right border.");
     }
+
     int64_t maxDigits = std::to_wstring(rightBoarder).length();
     std::map<wchar_t, double> letterFrequencies = get_frequencies(language);
     std::map<wchar_t, std::vector<std::wstring>> keysContainer;
@@ -114,35 +114,79 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
         availableKeys.push_back(i);
     }
 
-    // Лямбда-функция для форматирования числа с ведущими нулями.
-    // Например, 5 -> "05" при maxDigits = 2.
     auto format_number = [&](int64_t num) -> std::wstring {
         std::wstringstream ss;
-        ss << std::setw(maxDigits) << std::setfill(L'0') << num; // Для корректной работы ведущих нулей, т.е. если нам нужно число из диапазона 00-99, то число 5 будет отображаться как 05
+        ss << std::setw(maxDigits) << std::setfill(L'0') << num;
         return ss.str();
     };
 
-    for (const auto& letter : letterFrequencies) {
-        if (availableKeys.empty()) {
-            throw std::runtime_error("Not enough unique keys available.");
-        }
-        
-        size_t index = get_random_number(0, availableKeys.size() - 1);
-        int64_t key = availableKeys[index];
-        keysContainer[letter.first].push_back(format_number(key));
-        availableKeys.erase(availableKeys.begin() + index);
+    double totalFrequency = 0;
+    for (const auto& [letter, freq] : letterFrequencies) {
+        totalFrequency += freq;
     }
 
-    while (!availableKeys.empty()) {
-        for (auto& pair : keysContainer) {
-            if (availableKeys.empty()) break;
-            
+    int64_t totalKeys = availableKeys.size();
+    if (totalKeys < letterFrequencies.size()) {
+        throw std::runtime_error("Not enough keys to distribute at least one per letter.");
+    }
+
+    std::map<wchar_t, int> requiredKeysPerLetter;
+    int totalAssigned = 0;
+
+    // 1. Гарантируем **минимум 1 ключ** каждой букве
+    for (const auto& [letter, freq] : letterFrequencies) {
+        requiredKeysPerLetter[letter] = 1;
+        totalAssigned++;
+    }
+
+    // 2. Распределяем **оставшиеся ключи пропорционально частоте**, но с `ceil()`
+    for (const auto& [letter, freq] : letterFrequencies) {
+        if (totalAssigned >= totalKeys) break;
+
+        int extraKeys = std::ceil(freq * (totalKeys - letterFrequencies.size()) / totalFrequency);
+        requiredKeysPerLetter[letter] += extraKeys;
+        totalAssigned += extraKeys;
+    }
+
+    // 3. Если раздали слишком много ключей, уменьшаем у букв с **максимальным количеством**
+    while (totalAssigned > totalKeys) {
+        for (auto& [letter, count] : requiredKeysPerLetter) {
+            if (count > 1) {
+                count--;
+                totalAssigned--;
+                if (totalAssigned == totalKeys) break;
+            }
+        }
+    }
+
+    // 4. Назначаем ключи буквам
+    for (const auto& [letter, keysCount] : requiredKeysPerLetter) {
+        for (int j = 0; j < keysCount && !availableKeys.empty(); ++j) {
             size_t index = get_random_number(0, availableKeys.size() - 1);
             int64_t key = availableKeys[index];
-            pair.second.push_back(format_number(key));
+            keysContainer[letter].push_back(format_number(key));
             availableKeys.erase(availableKeys.begin() + index);
+        }
+    }
+
+    // 5. Раздаём оставшиеся ключи случайным буквам
+    while (!availableKeys.empty()) {
+        for (auto& [letter, keys] : keysContainer) {
+            if (availableKeys.empty()) break;
+            size_t index = get_random_number(0, availableKeys.size() - 1);
+            int64_t key = availableKeys[index];
+            keys.push_back(format_number(key));
+            availableKeys.erase(availableKeys.begin() + index);
+        }
+    }
+
+    // 6. Добавляем **один** 0 в конец списка ключей для каждой буквы
+    for (auto& [letter, keys] : keysContainer) {
+        if (!keys.empty() && keys.back() != L"0") {
+            keys.push_back(L"0");
         }
     }
 
     return keysContainer;
 }
+
