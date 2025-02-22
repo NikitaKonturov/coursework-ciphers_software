@@ -77,37 +77,77 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
 // Возвращает map, где ключ — ключ шифрования, а значение — расшифрованный текст.
 std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText) {
     std::map<std::wstring, std::wstring> decryptedTexts;
-    
-    for (auto& [key, cipherText] : keysAndText) {
+
+    for (const auto& [key, cipherText] : keysAndText) {
         std::wistringstream keyStream(key);
-        std::map<std::wstring, wchar_t> reverseMap;
-        std::wstring letter, number;
-        
-        while (keyStream >> letter) {
+        std::map<wchar_t, std::vector<std::wstring>> substitutionLists;
+        std::map<wchar_t, size_t> letterIndices;
+        std::wstring line;
+
+        // **Разбираем ключ и создаем таблицу подстановок**
+        while (std::getline(keyStream, line)) {
+            std::wistringstream lineStream(line);
+            std::wstring letter;
             std::vector<std::wstring> numbers;
-            while (keyStream >> number) {
+            size_t index;
+
+            if (!(lineStream >> letter)) continue;
+            wchar_t charKey = letter[0];
+            std::wstring number;
+            
+            while (lineStream >> number) {
+                if (lineStream.peek() == '\n' || lineStream.eof()) {
+                    break;
+                }
                 numbers.push_back(number);
             }
-            numbers.pop_back(); // Убираем последний элемент (индекс)
-            for (const auto& num : numbers) {
-                reverseMap[num] = letter[0];
+            
+            if (lineStream >> index) {
+                letterIndices[charKey] = index;
+            } else {
+                letterIndices[charKey] = 0;
             }
+            
+            substitutionLists[charKey] = numbers;
         }
 
         std::wistringstream cipherStream(cipherText);
-        std::wstring decryptedText;
-        while (cipherStream >> number) {
-            if (reverseMap.count(number)) {
-                decryptedText += reverseMap[number];
-            } else {
-                decryptedText += number;
+        std::wstring token;
+        std::wstring originalText;
+
+        // **Расшифровываем текст**
+        while (cipherStream >> token) {
+            bool found = false;
+            for (auto& [charKey, numbers] : substitutionLists) {
+                size_t& index = letterIndices[charKey];
+                if (index < numbers.size() && numbers[index] == token) {
+                    originalText += charKey;
+                    index = (index + 1) % numbers.size();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                originalText += token; // **Оставляем символ без изменений**
             }
         }
-        decryptedTexts[key] = decryptedText;
+
+        // **Формируем обновленный ключ**
+        std::wstringstream updatedKey;
+        for (const auto& [charKey, numbers] : substitutionLists) {
+            updatedKey << charKey << L" ";
+            for (const auto& num : numbers) {
+                updatedKey << num << L" ";
+            }
+            updatedKey << letterIndices[charKey] << L"\n";
+        }
+
+        decryptedTexts[updatedKey.str()] = originalText;
     }
-    
+
     return decryptedTexts;
 }
+
 
 
 std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
