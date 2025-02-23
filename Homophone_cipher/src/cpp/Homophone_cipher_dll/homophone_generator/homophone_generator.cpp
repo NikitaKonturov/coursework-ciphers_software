@@ -9,7 +9,7 @@
 
 int64_t get_random_number(const int64_t& leftBoarder, const int64_t& rightBoarder) {
     if (leftBoarder > rightBoarder) {
-        throw std::invalid_argument("Invalid range: left border is greater than right border.");
+        throw std::invalid_argument("Неверный диапазон: левая граница больше правой.");
     }
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -84,7 +84,7 @@ std::map<wchar_t, double> get_frequencies(const std::string& language) {
         lettersFrequencies[L'\u0059'] = 0.02111156;
         lettersFrequencies[L'\u005A'] = 0.00046074;    
     }
-    else throw std::invalid_argument("Invalid value of language: language must be 'ru' or 'en'");
+    else throw std::invalid_argument("Неверное значение языка: язык должен быть «ru» или «en».");
     return lettersFrequencies;
 }
 
@@ -99,10 +99,10 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     std::string& language
 ) {
     if (language.empty()) {
-        throw std::invalid_argument("Value of language is empty. Cannot compute frequencies.");
+        throw std::invalid_argument("Значение языка пусто. Невозможно вычислить частоты.");
     }
     if (leftBoarder > rightBoarder) {
-        throw std::invalid_argument("Invalid key range: left border is greater than right border.");
+        throw std::invalid_argument("Недопустимый диапазон ключей: левая граница больше правой.");
     }
 
     int64_t maxDigits = std::to_wstring(rightBoarder).length();
@@ -127,7 +127,7 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
 
     int64_t totalKeys = availableKeys.size();
     if (totalKeys < letterFrequencies.size()) {
-        throw std::runtime_error("Not enough keys to distribute at least one per letter.");
+        throw std::runtime_error("Недостаточно ключей, чтобы раздать хотя бы один на письмо.");
     }
 
     std::map<wchar_t, int> requiredKeysPerLetter;

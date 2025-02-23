@@ -10,7 +10,7 @@
 // Возвращает map, где ключ — обновленный ключ шифрования, а значение — зашифрованный текст.
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys) {
     if (keys.empty()) {
-        throw InvalidKey("Keys not found...");
+        throw InvalidKey("Ключи не найдены");
     }
 
     std::map<std::wstring, std::wstring> keysAndCipherTexts;
@@ -198,8 +198,8 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
 std::string get_key_propertys() {
     nlohmann::json keyProp = nlohmann::json::parse(R"({
         "params": [
-            { "name": "leftBoarder", "min": 0, "max": null, "value": 0, "type": "number", "default": 0 },
-            { "name": "rightBoarder", "min": 1, "max": null, "value": 99, "type": "number", "default": 99 }
+            { "name": "leftBoarder", "min": 0, "max": null, "value": 0, "type": "number", "default": 0, "label" : "Левая граница" },
+            { "name": "rightBoarder", "min": 1, "max": null, "value": 99, "type": "number", "default": 99, "label" : "Правая граница" }
         ]
     })");
    return keyProp.dump();
@@ -208,19 +208,19 @@ std::string get_key_propertys() {
 void chekRequest(nlohmann::json keyPropertys) {
     try {
         if (!keyPropertys.contains("leftBoarder") || !keyPropertys.contains("rightBoarder")) {
-            throw KeyPropertyError("Missing required parameters.");
+            throw KeyPropertyError("Отсутствуют необходимые параметры.");
         }
         if (!keyPropertys["leftBoarder"].is_number() || !keyPropertys["rightBoarder"].is_number()) {
-            throw KeyPropertyError("Borders must be numbers.");
+            throw KeyPropertyError("Границы должны быть числами.");
         }
         if (keyPropertys["leftBoarder"] >= keyPropertys["rightBoarder"]) {
-            throw InvalidKey("Left border must be less than right border.");
+            throw InvalidKey("Левая граница должна быть меньше правой границы.");
         }
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Key text_language must has string value...");
+            throw KeyPropertyError("Значени text_language должно иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Value language must be ru or en...");
+            throw InvalidKey("Значение language должно быть или ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
