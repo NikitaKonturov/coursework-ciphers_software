@@ -10,7 +10,7 @@
 std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
 {
     if(keys.empty()) {
-        throw InvalidKey("Keys not found...");
+        throw InvalidKey("Ключи не найдены...");
     }
     
     std::string text = "";
@@ -39,7 +39,7 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
         BoolMatrix keyMatrix(key);  
 
         if (text.size() % keyMatrix.size() != 0) {
-            throw InvalidKey("Length of cipher text must be multiple of the key size...");
+            throw InvalidKey("Длина зашифрованного текста должна быть кратна размеру ключа...");
         }
 
         std::string decryptedText = keyMatrix.decryption(text);
@@ -63,7 +63,7 @@ std::vector<std::string> gen_keys(std::string keyProperties, size_t count)
         // Извлекаем размер матрицы
         int32_t matrix_size = prop["matrix_size"];
         if (matrix_size % 2 != 0) {
-            throw InvalidKey("Matrix size must be even.");
+            throw InvalidKey("Размер матрицы должен быть четным.");
         }
 
         std::minstd_rand generator(static_cast<uint64_t>(time(NULL)));
@@ -97,7 +97,7 @@ std::string get_key_propertys()
                 "value": 0,
                 "type": "number",
                 "default": 4,
-                "label": "Matrix Size"
+                "label": "Размер матрицы"
             }
         ]
     })");
@@ -108,10 +108,10 @@ void chekRequest(nlohmann::json keyProperties)
 {
     try {
         if (!keyProperties.at("matrix_size").is_number()) {
-            throw KeyPropertyError("Key matrix_size must have an int value...");
+            throw KeyPropertyError("Ключ matrix_size должен иметь целое значение...");
         }
         if (keyProperties["matrix_size"] <= 0) {
-            throw InvalidKey("Value matrix_size must be natural...");
+            throw InvalidKey("Значение matrix_size должно быть натуральным...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
