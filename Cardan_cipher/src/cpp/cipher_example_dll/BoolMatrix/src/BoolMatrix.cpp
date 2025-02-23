@@ -8,7 +8,7 @@ BoolMatrix::BoolMatrix() : b_matrix(NULL), m_size(0) {}
 
 BoolMatrix::BoolMatrix(int32_t init_n)
 {
-    if (init_n <= 0) throw InvalidKey("Matrix dimension cannot be negative or zero!!!");
+    if (init_n <= 0) throw InvalidKey("Размерность матрицы не может быть отрицательной или нулевой!!!");
 
     m_size = 2*init_n;
     std::vector<std::vector<bool>> tempMatrix(m_size, std::vector<bool> (m_size, 0));
@@ -24,7 +24,7 @@ BoolMatrix::BoolMatrix(const std::string& str)
 {
     uint32_t size = uint32_t(sqrt(str.length()));
 
-    if (size*size != str.length()) throw InvalidKey("Invalid line size. The length of the string must be the square of the number!!!");
+    if (size*size != str.length()) throw InvalidKey("Неверный размер строки. Длина строки должна быть равна квадрату числа!!!");
     std::vector<std::vector<bool>> tempMatrix(size, std::vector<bool>(size, 0));
 
     for (size_t i = 0; i < size; ++i)
@@ -54,7 +54,7 @@ void BoolMatrix::check()
         {
             if (b_matrix[i][j] == true)
             {
-                if (b_matrix[j][m_size-i-1] || b_matrix[m_size-i-1][m_size-j-1] || b_matrix[m_size-j-1][i]) throw InvalidKey("Intersections detected in the Cordano lattice!!!"); 
+                if (b_matrix[j][m_size-i-1] || b_matrix[m_size-i-1][m_size-j-1] || b_matrix[m_size-j-1][i]) throw InvalidKey("Обнаружены пересечения в решетке Кордано!!!"); 
             }
         }
     }
@@ -82,7 +82,7 @@ void BoolMatrix::rotation()
 
 std::string BoolMatrix::decryption(const std::string& str)
 {
-    if (str.length() % (m_size * m_size) != 0)  throw InvalidOpenText("The length of the text is not a multiple of the square of the matrix side!!!");
+    if (str.length() % (m_size * m_size) != 0)  throw InvalidOpenText("Длина текста не кратна квадрату стороны матрицы!!!");
 
     size_t blockCount = str.length() / (m_size * m_size);
     std::string resultString;
@@ -113,7 +113,7 @@ std::string BoolMatrix::decryption(const std::string& str)
 std::string BoolMatrix::encryption(const std::string& str)
 {
     size_t textSize= m_size*m_size;
-    if (str.length() % textSize != 0) throw InvalidOpenText("The length of the text is not a multiple of the square of the matrix side!!!");
+    if (str.length() % textSize != 0) throw InvalidOpenText("Длина текста не кратна квадрату стороны матрицы!!!");
 
     size_t count = str.length()/(textSize);
     std::string temp(textSize, ' ');
@@ -151,7 +151,7 @@ std::string BoolMatrix::encryption(const std::string& str)
 
 std::vector<bool>& BoolMatrix::operator[](int32_t i)
 {
-    if (i<0 || i >= m_size) throw std::invalid_argument("Invalid index in operator []!!!\n");
+    if (i<0 || i >= m_size) throw std::invalid_argument("Неверный индекс в операторе []!!!\n");
     return b_matrix.at(i);
 }
 
