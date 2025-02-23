@@ -63,11 +63,11 @@
    <form enctype="multipart/form-data" id="slice-telegrmas-form">
     <div class="settings-section">
      <button id="Setting" onclick="preventActionButton(); openSettings()">
-      Settings
+      Настройки
      </button>
      <select id="ciphersList" name="cipher">
       <option disabled="True" selected="True" value="Empty_tag">
-       Change cipher
+       Выберите шифр
       </option>
       <option value="ADFGVX_cipher">
        ADFGVX_cipher
@@ -91,26 +91,26 @@
     </div>
     <label class="input-file">
      <span id="custom-file-label">
-      Choose file
+      Выберите файл
      </span>
      <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
     </label>
     <label id="file-validity">
     </label>
     <label for="length">
-     Telegram size:
+     Количество символов в телеграмме:
     </label>
-    <input id="lenght-of-tg" name="length" placeholder="Enter telegram size" type="number"/>
+    <input id="lenght-of-tg" name="length" placeholder="Введите количество символов в телеграмме" type="number"/>
     <label for="number">
-     Number of telegrams:
+     Количество телеграмм:
     </label>
-    <input id="count-of-tg" name="number" placeholder="Enter number of telegrams" type="number"/>
+    <input id="count-of-tg" name="number" placeholder="Введите количество телеграмм" type="number"/>
     <div class="button-container">
      <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
-      Encryption settings
+      Зашифрование
      </button>
      <button id="decrypt" onclick="preventActionButton(); sendDecriptRequest()">
-      Decrypt
+      Расшифрование
      </button>
     </div>
    </form>

@@ -10,7 +10,7 @@ async function showToast(message, type, duration = 3000) {
     if (!container) {
         console.error("Toast container not found!");
         return;
-    }
+        }
 
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
@@ -32,7 +32,7 @@ async function createSettingsWindow() {
     settingsWindow.className = 'settingWindow-class';
 
     const heading = document.createElement('h3');
-    heading.textContent = 'Settings';
+    heading.textContent = 'Настройки';
     settingsWindow.appendChild(heading);
 
     const uiLanguageLabel = document.createElement('label');
@@ -62,7 +62,7 @@ async function createSettingsWindow() {
     settingsWindow.appendChild(uiLanguageSelect);
 
     const cipherLanguageLabel = document.createElement('label');
-    cipherLanguageLabel.textContent = 'Cipher Language:';
+    cipherLanguageLabel.textContent = 'Язык текста:';
     settingsWindow.appendChild(cipherLanguageLabel);
 
     const cipherLanguageSelect = document.createElement('select');
@@ -70,8 +70,8 @@ async function createSettingsWindow() {
     cipherLanguageSelect.id = 'cipherLanguage';
 
     const cipherLanguages = [
-        { value: 'en', text: 'English' },
-        { value: 'ru', text: 'Russian' }
+        { value: 'en', text: 'Английский' },
+        { value: 'ru', text: 'Русский' }
     ];
 
     cipherLanguages.forEach(lang => {
@@ -86,7 +86,7 @@ async function createSettingsWindow() {
     settingsWindow.appendChild(cipherLanguageSelect);
 
     const folderPathEncryptLabel = document.createElement('label');
-    folderPathEncryptLabel.textContent = 'Folder Path for Encrypt:';
+    folderPathEncryptLabel.textContent = 'Путь к папке с результатами зашифрования:';
     settingsWindow.appendChild(folderPathEncryptLabel);
 
     const folderPathEncryptButton = document.createElement('button');
@@ -102,7 +102,7 @@ async function createSettingsWindow() {
     settingsWindow.appendChild(folderPathEncryptButton);
 
     const folderPathDecryptLabel = document.createElement('label');
-    folderPathDecryptLabel.textContent = 'Folder Path for Decrypt:';
+    folderPathDecryptLabel.textContent = 'Путь к папке с результатами расшифрования:';
     settingsWindow.appendChild(folderPathDecryptLabel);
 
     const folderPathDecryptButton = document.createElement('button');
@@ -142,10 +142,10 @@ async function createSettingsWindow() {
 async function selectFolder() {
     try {
         const folderHandle = await window.showDirectoryPicker();
-        console.log('Selected folder:', folderHandle.name);
+        console.log('Выбранная папка:', folderHandle.name);
         return folderHandle;
     } catch (error) {
-        console.error('Folder selection canceled or not supported:', error);
+        console.error('Выбор папки прекращен:', error);
         return null;
     }
 }
@@ -189,13 +189,13 @@ async function saveSettings() {
         });
 
         if (response.ok) {
-            showToast('Settings saved successfully!', 'success');
+            showToast('Настройки сохранены!', 'success');
         } else {
-            showToast('Failed to save settings!', 'error');
+            showToast('Не получилось сохранить настройки!', 'error');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while saving settings!');
+        alert('Возникла ошибка при сохранении настроек!');
     }
 
     closeSettings();
