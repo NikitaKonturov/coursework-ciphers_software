@@ -29,13 +29,13 @@ std::string define_language(std::wstring text)
             has_en = true;
         }
         if (has_ru && has_en) {
-            throw InvalidOpenText("Error: text contains multiple languages.");
+            throw InvalidOpenText("Ошибка: текст содержит несколько языков.");
         }
     }
 
     if (has_en) return "en";
-    if (has_ru) throw InvalidOpenText("Error: invalid language in text. Language must be English...");
-    throw InvalidOpenText("Error: invalid language in text.");
+    if (has_ru) throw InvalidOpenText("Ошибка: недопустимый язык в тексте. Язык должен быть английский...");
+    throw InvalidOpenText("Ошибка: недопустимый язык в тексте.");
 }
 
 std::pair<wchar_t, wchar_t> get_cipher_bigram(wchar_t firstCh, wchar_t secondCh, std::wstring key) {
@@ -193,7 +193,7 @@ std::wstring key_conversions(std::wstring key) {
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.size() < openTexts.size()) {
-        throw InvalidKey("Count of keys must be unless then count of open text...");
+        throw InvalidKey("Количество ключей должно быть равно количеству открытого текста...");
     }
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
     
@@ -203,7 +203,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             text.push_back(static_cast<wchar_t>(65));
         }
         if(define_language(text) != "en") {
-            throw InvalidOpenText("Invalid language, must be en...");
+            throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
         Permutation key_permutation(keys[i]);
         std::wstring completion = get_trivial_completion();
@@ -227,7 +227,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     
     for(auto& pair: keysAndCipherTexts) {
         if(define_language(pair.second) != "en") {
-            throw InvalidOpenText("Invalid language, must be en...");
+            throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
         Permutation key_permutation(pair.first);
         std::wstring completion = get_trivial_completion();
@@ -295,10 +295,10 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Key text_language must has string value...");
+            throw KeyPropertyError("Ключ text_language должен иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Value permutation_size must be ru or en...");
+            throw InvalidKey("Значение permutation_size должно быть ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());

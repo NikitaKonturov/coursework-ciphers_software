@@ -9,7 +9,7 @@
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(Plaifer_cipher, m) {
-    m.doc() = "Plaifer_cipher";
+    m.doc() = "Шифр Плейфера";
     m.def("encript", &encript);
     m.def("decript", &decript);
     m.def("gen_keys", &gen_keys);
