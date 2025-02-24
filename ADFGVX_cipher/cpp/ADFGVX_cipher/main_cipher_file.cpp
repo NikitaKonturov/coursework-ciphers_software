@@ -9,7 +9,7 @@
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(ADFGVX_cipher, m) {
-    m.doc() = "ADFGVX_cipher";
+    m.doc() = "Шифр ADFGVX";
     m.def("encript", &encript);
     m.def("decript", &decript);
     m.def("gen_keys", &gen_keys);

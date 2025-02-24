@@ -21,13 +21,13 @@ std::string define_language(std::wstring text)
             has_en = true;
         }
         if (has_ru && has_en) {
-            throw InvalidOpenText("Error: text contains multiple languages.");
+            throw InvalidOpenText("Ошибка: текст содержит несколько языков.");
         }
     }
 
     if (has_en) return "en";
-    if (has_ru) throw InvalidOpenText("Error: invalid language in text. Language must be English...");
-    throw InvalidOpenText("Error: invalid language in text.");
+    if (has_ru) throw InvalidOpenText("Ошибка: недопустимый язык в тексте. Язык должен быть английский...");
+    throw InvalidOpenText("Ошибка: недопустимый язык в тексте.");
 }
 
 static const std::wstring adfgvx = L"ADFGVX";
@@ -35,7 +35,7 @@ static const std::wstring adfgvx = L"ADFGVX";
 std::pair<wchar_t, wchar_t> get_cipher_bigram(wchar_t plainCh, const std::wstring& substitutionTable) {
     size_t pos = substitutionTable.find(plainCh);
     if(pos == std::wstring::npos) {
-        throw InvalidOpenText("Invalid character found in plaintext.");
+        throw InvalidOpenText("В открытом тексте обнаружен недопустимый символ.");
     }
     size_t row = pos / 6;
     size_t col = pos % 6;
@@ -47,12 +47,12 @@ wchar_t get_revers_cipher_bigram(wchar_t firstCh, wchar_t secondCh, const std::w
     size_t row = adfgvx.find(firstCh);
     size_t col = adfgvx.find(secondCh);
     if(row == std::wstring::npos || col == std::wstring::npos) {
-        throw InvalidOpenText("Invalid ADFGVX characters for reverse substitution.");
+        throw InvalidOpenText("Недопустимые символы ADFGVX для обратной замены.");
     }
 
     size_t pos = row * 6 + col;
     if(pos >= substitutionTable.size()) {
-        throw InvalidOpenText("Incorrect position in the substitution table.");
+        throw InvalidOpenText("Неправильная позиция в таблице замен.");
     }
     return substitutionTable[pos];
 }
@@ -156,7 +156,7 @@ std::vector<ADFGVXKeys> parse_keys(const std::vector<std::wstring>& keysV) {
 
         size_t delimPos = line.find(L'|');
         if (delimPos == std::wstring::npos) {
-            throw InvalidKey("Incorrect key format. The separator '|' is expected.");
+            throw InvalidKey("Неверный формат ключа. Разделитель '|' ожидается.");
         }
 
         ADFGVXKeys key;
@@ -170,7 +170,7 @@ std::vector<ADFGVXKeys> parse_keys(const std::vector<std::wstring>& keysV) {
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.size() < openTexts.size()) {
-        throw InvalidKey("Count of keys must be unless then count of open text...");
+        throw InvalidKey("Количество ключей должно быть равно количеству открытого текста...");
     }
     auto keysE = parse_keys(keys);
 
@@ -179,7 +179,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         if(define_language(text) != "en") {
-            throw InvalidOpenText("Invalid language, must be en...");
+            throw InvalidOpenText("Недопустимый язык, должен быть...");
         }
 
         std::wstring substitutionTable = get_trivial_completion();
@@ -211,13 +211,13 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     for (auto& pair : keysAndCipherTexts) {
 
         if(define_language(pair.second) != "en") {
-            throw InvalidOpenText("Invalid language, must be en...");
+            throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
         std::wstring fullKey = pair.first;
         std::wstring delimiter = L"\nThe transpositional key: ";
         size_t pos = fullKey.find(delimiter);
         if (pos == std::wstring::npos)
-            throw InvalidKey("Incorrect key format during decryption.");
+            throw InvalidKey("Неправильный формат ключа при расшифровке.");
         
         std::wstring printedSubstitution = fullKey.substr(0, pos);
         std::wstring transpositionKey = fullKey.substr(pos + delimiter.size());
@@ -230,7 +230,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         
         std::wstring openText;
         if (intermediate.size() % 2 != 0) {
-            throw InvalidOpenText("The intermediate text has an odd length..");
+            throw InvalidOpenText("Промежуточный текст имеет нечетную длину.");
         }
         
         for (size_t j = 0; j < intermediate.size(); j += 2) {
@@ -297,7 +297,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             for (size_t j = 0; j < 6; ++j) {
                 int idx = transpositionKeys[i][j];
                 if (idx < 0 || idx >= static_cast<int>(alphabet.size()))
-                    throw InvalidKey("Incorrect index while forming the key transposition.");
+                    throw InvalidKey("Неправильный индекс при формировании ключевой транспозиции.");
                 transKey.push_back(alphabet[idx]);
             }
             
@@ -327,7 +327,7 @@ void chekRequest(nlohmann::json keyPropertys)
             throw KeyPropertyError("Key text_language must has string value...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Value permutation_size must be ru or en...");
+            throw InvalidKey("Значение permutation_size должно быть ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
