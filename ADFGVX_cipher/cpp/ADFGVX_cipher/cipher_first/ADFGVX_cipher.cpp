@@ -139,6 +139,32 @@ std::wstring key_conversions(const std::wstring &key) {
     return wss.str();
 }
 
+std::wstring parse_substitution_table(const std::wstring& keyStr) {
+    std::wstringstream ss(keyStr);
+    std::wstring line;
+    std::wstring table;
+    while (std::getline(ss, line)) {
+        if (!line.empty() && line.front() == L'[' && line.back() == L']') {
+            std::wstring content = line.substr(1, line.size() - 2);
+            content.erase(std::remove(content.begin(), content.end(), L' '), content.end());
+            table += content;
+        }
+    }
+    return table;
+}
+
+std::wstring parse_transposition_key(const std::wstring& keyStr) {
+    std::wstring delimiter = L"The transpositional key: ";
+    size_t pos = keyStr.find(delimiter);
+    if (pos == std::wstring::npos)
+        throw InvalidKey("Транспозиционный ключ не найден в строке ключа.");
+    std::wstring transKey = keyStr.substr(pos + delimiter.size());
+    while (!transKey.empty() && std::isspace(transKey.front()))
+        transKey.erase(transKey.begin());
+    while (!transKey.empty() && std::isspace(transKey.back()))
+        transKey.pop_back();
+    return transKey;
+}
 
 /*======================== Структура для хранения ключей ADFGVX =========================*/
 struct ADFGVXKeys {
@@ -213,32 +239,27 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         if(define_language(pair.second) != "en") {
             throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
-        std::wstring fullKey = pair.first;
-        std::wstring delimiter = L"\nThe transpositional key: ";
-        size_t pos = fullKey.find(delimiter);
-        if (pos == std::wstring::npos)
-            throw InvalidKey("Неправильный формат ключа при расшифровке.");
-        
-        std::wstring printedSubstitution = fullKey.substr(0, pos);
-        std::wstring transpositionKey = fullKey.substr(pos + delimiter.size());
+        std::wstring cipherText = pair.second;
+        std::wstring keyStr = pair.first;
 
-        Permutation key_permutation(printedSubstitution);
-        std::wstring substitutionTable = get_trivial_completion();
-        key_permutation.apply(substitutionTable);
+        std::wstring substitutionTable = parse_substitution_table(keyStr);
+        std::wstring transpositionKey = parse_transposition_key(keyStr);
         
-        std::wstring intermediate = columnar_transposition_decrypt(pair.second, transpositionKey);
+        if (substitutionTable.empty())
+            throw InvalidKey("Извлечена пустая таблица подстановки.");
+        
+        std::wstring intermediate = columnar_transposition_decrypt(cipherText, transpositionKey);
+        
+        if (intermediate.size() % 2 != 0)
+            throw InvalidKey("Промежуточный текст имеет нечетную длину.");
         
         std::wstring openText;
-        if (intermediate.size() % 2 != 0) {
-            throw InvalidOpenText("Промежуточный текст имеет нечетную длину.");
-        }
-        
-        for (size_t j = 0; j < intermediate.size(); j += 2) {
-            wchar_t plainCh = get_revers_cipher_bigram(intermediate[j], intermediate[j+1], substitutionTable);
+        for (size_t i = 0; i < intermediate.size(); i += 2) {
+            wchar_t plainCh = get_revers_cipher_bigram(intermediate[i], intermediate[i+1], substitutionTable);
             openText.push_back(plainCh);
         }
         
-        keysAndOpenTexts[pair.first] = openText;
+        keysAndOpenTexts[keyStr] = openText;
     }
     
     return keysAndOpenTexts;
