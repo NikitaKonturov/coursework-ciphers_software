@@ -277,18 +277,13 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         
         std::wstring intermediate = columnar_transposition_decrypt(pair.second, transpositionKey);
         
-        std::wstring openText;
         if (intermediate.size() % 2 != 0) {
             throw InvalidOpenText("Промежуточный текст имеет нечетную длину.");
         }
-
-        Permutation key_permutation(substitutionTable);
-        std::wstring printedSubstitution = get_trivial_completion();
-        key_permutation.apply(printedSubstitution);
         
-
+        std::wstring openText;
         for (size_t i = 0; i < intermediate.size(); i += 2) {
-            wchar_t plainCh = get_revers_cipher_bigram(openText[i], openText[i+1], printedSubstitution);
+            wchar_t plainCh = get_revers_cipher_bigram(intermediate[i], intermediate[i+1], substitutionTable);
             openText.push_back(plainCh);
         }
         
