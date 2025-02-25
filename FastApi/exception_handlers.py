@@ -15,7 +15,13 @@ async def validatiion_exception(request, exc: ValidationError):
 
 
 async def value_exception(request, exc: ValueError):
-    return JSONResponse(status_code=469, content={"error": "Value error", "detail": str(exc)})
+    return JSONResponse(status_code=403, content={"error": "Value error", "detail": str(exc)})
+
+async def type_exception(request, exc: TypeError):
+    return JSONResponse(status_code=406, content={"error": "Type error", "detail": str(exc)})
+
+async def runtime_exception(request, exc: RuntimeError):
+    return JSONResponse(status_code=407, content={"error": "Runtime error", "detail": str(exc)})
 
 
 async def invalid_key_exception(request, exc: InvalidKey):

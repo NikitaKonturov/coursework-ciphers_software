@@ -15,7 +15,7 @@ from exception_handlers import (InvalidKey, InvalidOpenText, KeyPropertyError,
                                 invalid_open_text_exception,
                                 key_property_error_exception,
                                 unknown_exception, validatiion_exception,
-                                value_exception)
+                                value_exception, type_exception, runtime_exception)
 from file_converters.docxToTxt import (save_docx_as_txt,
                                        save_open_text_docx_as_bin_file)
 from file_converters.saveTxtFile import (save_as_txt_file,
@@ -40,7 +40,9 @@ app.add_exception_handler(ValidationError, validatiion_exception)
 app.add_exception_handler(InvalidKey, invalid_key_exception)
 app.add_exception_handler(InvalidOpenText, invalid_open_text_exception)
 app.add_exception_handler(KeyPropertyError, key_property_error_exception)
-app.add_exception_handler(RuntimeError, unknown_exception)
+app.add_exception_handler(TypeError, type_exception)
+app.add_exception_handler(RuntimeError, runtime_exception)
+app.add_exception_handler(Exception, unknown_exception)
 
 app.add_middleware(NoCacheMiddleware)
 

@@ -73,10 +73,10 @@ class CppCiphers:
     def __init__(self, pathToCiphersDir: str):
         if (not os.path.exists(pathToCiphersDir)):
             raise FileExistsError(
-                f"Path to ciphers directory was not found. Path: {pathToCiphersDir}")
+                f"Путь к шифрам не найден! Путь: {pathToCiphersDir}")
         if (not os.path.isdir(pathToCiphersDir)):
             raise FileExistsError(
-                f"Path to ciphers is not directory. Path: {pathToCiphersDir}")
+                f"Путь к шифрам не является папкой! Путь: {pathToCiphersDir}")
         self.__pathToCiphersDir = os.path.abspath(pathToCiphersDir)
         self.__cipherTitles = {}
 
@@ -131,7 +131,7 @@ class CppCiphers:
                     raise KeyPropertyError(str(err))
                 else:
                     # Re-raise unexpected exceptions
-                    print(f"Unexpected exception: {err}")
+                    print(f"Неизвестная ошибка: {err}")
                     raise
 
         return res
@@ -161,7 +161,7 @@ class CppCiphers:
             if (cipher in sys.modules):
                 res = sys.modules[cipher].decript(keusAndCipherText)
             else:
-                raise TypeError(f"Cipher {cipher} was not found....")
+                raise TypeError(f"Шифр {cipher} не найден!")
         except TypeError as err:
             print(err)
 
@@ -185,7 +185,7 @@ def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
         option.decompose()
 
     empty_option = settings_select_html.new_tag('option', value="Empty_tag")
-    empty_option.string = "Change cipher"
+    empty_option.string = "Выберите шифр"
     empty_option["disabled"] = True
     empty_option["selected"] = True
     select_tag.append(empty_option)
@@ -259,7 +259,7 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
         for paragraph in doc.paragraphs:
             allDataFromFile += paragraph.text
     else:
-        raise AttributeError("File must has .txt or .docx extension...")
+        raise AttributeError("Возможное расширение файла .txt или .docx!")
 
     regToKeys: str = r"\\key"
     regToText: str = r"\\text"
