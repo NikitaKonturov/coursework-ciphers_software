@@ -260,7 +260,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         
         std::vector<int32_t> trivialLetters(26);
         for (size_t i = 0; i < 26; ++i) {
-            trivialLetters[i] = static_cast<int32_t>(i);
+            trivialLetters[i] = static_cast<int32_t>(i + 1);
         }
         
         std::vector<uint8_t> entropy = get_entropy();
