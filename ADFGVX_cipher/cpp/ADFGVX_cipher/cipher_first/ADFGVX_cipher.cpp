@@ -10,6 +10,32 @@ std::wstring get_trivial_completion(){
     return L"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 }
 
+std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::string language)
+{
+    std::wstring en_alfabet;
+    
+    for (size_t i = 65; i < 91; ++i){
+        en_alfabet.push_back(static_cast<wchar_t>(i));
+    }
+
+    std::map<wchar_t, wchar_t> alfabetSubstitution; 
+
+    if(language == "en" && permut.size() == en_alfabet.size()) {
+        std::wstring temp = en_alfabet;
+        permut.apply(temp);
+        for (size_t i = 0; i < en_alfabet.size(); ++i) {
+            alfabetSubstitution[en_alfabet[i]] = temp[i];
+        }
+        return alfabetSubstitution;
+    }
+    
+    if(language == "ru") {
+        throw InvalidOpenText("Ошибка: недопустимый язык в тексте. Язык должен быть английский...");
+    }
+
+    throw std::invalid_argument("Permutation size was not equal to alfabet size...");
+}
+
 std::string define_language(std::wstring text)
 {
     bool has_ru = false, has_en = false;
@@ -55,74 +81,6 @@ wchar_t get_revers_cipher_bigram(wchar_t firstCh, wchar_t secondCh, const std::w
         throw InvalidOpenText("Неправильная позиция в таблице замен.");
     }
     return substitutionTable[pos];
-}
-
-std::wstring columnar_transposition_encrypt(const std::wstring& text, const std::wstring& transpositionKey) {
-    size_t numCols = transpositionKey.size();
-    size_t numRows = (text.size() + numCols - 1) / numCols;
-    
-    std::wstring padded = text;
-    while(padded.size() < numRows * numCols) {
-        padded.push_back(L'X');
-    }
-    
-    std::vector<std::wstring> matrix(numRows, std::wstring(numCols, L' '));
-    for (size_t i = 0; i < padded.size(); ++i) {
-        size_t row = i / numCols;
-        size_t col = i % numCols;
-        matrix[row][col] = padded[i];
-    }
-    
-    std::vector<size_t> order(numCols);
-    for (size_t i = 0; i < numCols; ++i) {
-        order[i] = i;
-    }
-    
-    std::sort(order.begin(), order.end(), [&](size_t a, size_t b) {
-        return transpositionKey[a] < transpositionKey[b];
-    });
-    
-    std::wstring cipher;
-
-    for (size_t col : order) {
-        for (size_t row = 0; row < numRows; ++row) {
-            cipher.push_back(matrix[row][col]);
-        }
-    }
-    
-    return cipher;
-}
-
-std::wstring columnar_transposition_decrypt(const std::wstring& cipher, const std::wstring& transpositionKey) {
-    size_t numCols = transpositionKey.size();
-    size_t numRows = cipher.size() / numCols;
-    
-    std::vector<size_t> order(numCols);
-    for (size_t i = 0; i < numCols; ++i) {
-        order[i] = i;
-    }
-    
-    std::sort(order.begin(), order.end(), [&](size_t a, size_t b) {
-        return transpositionKey[a] < transpositionKey[b];
-    });
-    
-    std::vector<std::wstring> matrix(numRows, std::wstring(numCols, L' '));
-    size_t pos = 0;
-    for (size_t sortedIndex = 0; sortedIndex < numCols; ++sortedIndex) {
-        size_t col = order[sortedIndex];
-        for (size_t row = 0; row < numRows; ++row) {
-            matrix[row][col] = cipher[pos++];
-        }
-    }
-    
-    std::wstring result;
-    for (size_t row = 0; row < numRows; ++row) {
-        for (size_t col = 0; col < numCols; ++col) {
-            result.push_back(matrix[row][col]);
-        }
-    }
-    
-    return result;
 }
 
 std::wstring key_conversions(const std::wstring &key) {
@@ -219,12 +177,18 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             intermediate.push_back(pair.second);
         }
         
-        std::wstring cipher = columnar_transposition_encrypt(intermediate, keysE[i].transpositionKey);
+        Permutation transpositionKey(keysE[i].transpositionKey);
+        std::map<wchar_t, wchar_t> substitution = get_alfabet_substitution(transpositionKey, define_language(openTexts[i]));
+        std::wstring cipherText = openTexts[i];
+        std::wcout << cipherText << std::endl;
+        for(wchar_t& symbol : cipherText) {
+            symbol = substitution[symbol];
+        }
         
         std::wstringstream wss;
         wss << key_conversions(substitutionTable)
             << L"The transpositional key: " << keysE[i].transpositionKey;
-        keysAndCiphersTexts[wss.str()] = cipher;
+        keysAndCiphersTexts[wss.str()] = cipherText;
     }
     
     return keysAndCiphersTexts;
@@ -245,21 +209,34 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         std::wstring substitutionTable = parse_substitution_table(keyStr);
         std::wstring transpositionKey = parse_transposition_key(keyStr);
         
-        if (substitutionTable.empty())
+        if (substitutionTable.empty()) {
             throw InvalidKey("Извлечена пустая таблица подстановки.");
-        
-        std::wstring intermediate = columnar_transposition_decrypt(cipherText, transpositionKey);
-        
-        if (intermediate.size() % 2 != 0)
-            throw InvalidKey("Промежуточный текст имеет нечетную длину.");
-        
-        std::wstring openText;
-        for (size_t i = 0; i < intermediate.size(); i += 2) {
-            wchar_t plainCh = get_revers_cipher_bigram(intermediate[i], intermediate[i+1], substitutionTable);
-            openText.push_back(plainCh);
         }
         
-        keysAndOpenTexts[keyStr] = openText;
+        Permutation key(transpositionKey);
+        key.inverse();
+        std::map<wchar_t, wchar_t> substitution = get_alfabet_substitution(key, define_language(cipherText));
+        std::wstring openText = cipherText;
+        for(wchar_t& symbol: openText) {
+            symbol = substitution[symbol];
+        }
+        
+        if (openText.size() % 2 != 0) {
+            throw InvalidOpenText("Промежуточный текст имеет нечетную длину.");
+        }
+
+        std::wstring text;
+        Permutation key_permutation(substitutionTable);
+        std::wstring printedSubstitution = get_trivial_completion();
+        key_permutation.apply(printedSubstitution);
+        
+
+        for (size_t i = 0; i < openText.size(); i += 2) {
+            wchar_t plainCh = get_revers_cipher_bigram(openText[i], openText[i+1], substitutionTable);
+            text.push_back(plainCh);
+        }
+        
+        keysAndOpenTexts[keyStr] = text;
     }
     
     return keysAndOpenTexts;
@@ -301,8 +278,6 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             transpositionKeys[i] = generat_permutation(trivialLetters, gen);
         }
         
-        std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        
         std::vector<std::string> result;
         for (size_t i = 0; i < count; ++i) {
             std::ostringstream subStream;
@@ -315,12 +290,11 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             }
             
             std::string transKey;
-            for (size_t j = 0; j < 6; ++j) {
-                int idx = transpositionKeys[i][j];
-                if (idx < 0 || idx >= static_cast<int>(alphabet.size()))
-                    throw InvalidKey("Неправильный индекс при формировании ключевой транспозиции.");
-                transKey.push_back(alphabet[idx]);
-            }
+            for (auto permut: transpositionKeys) {
+                std::ostringstream oss;
+                std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(oss, " "));
+                transKey = oss.str().substr(0, oss.str().size() - 1);
+            }    
             
             std::string combined = subKey + "|" + transKey;
             result.push_back(combined);
