@@ -1,4 +1,12 @@
 import { showError } from './errorHandler.js'
+
+function showErrorAndLog(error) {
+    const message = "Ошибка: " + error.message;
+    showError(message); 
+    console.error("Response error: ", error);  
+}
+
+
 export async function addBlockOfKeysSettings() {
     try {
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
@@ -11,7 +19,11 @@ export async function addBlockOfKeysSettings() {
         });
 
         if(!serverResponse.ok) {
-            throw WebTransportError("Bad server response...")
+            const errorData = await serverResponse.json();
+            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+            const errorDetail = errorData.detail || "Нет дополнительных данных";
+            
+            throw new Error(`${errorMessage}: ${errorDetail}`);
         }
 
         const settingsOfKeys = await serverResponse.json()
@@ -21,7 +33,6 @@ export async function addBlockOfKeysSettings() {
         keysSettingBlock.className = "keys-settings-block-class"
         keysSettingBlock.enctype = "multipart/form-data"
         
-
         let blockName = document.createElement("label");
         blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties:')
         keysSettingBlock.appendChild(blockName)
@@ -55,7 +66,6 @@ export async function addBlockOfKeysSettings() {
             keysSettingBlock.appendChild(blockConfirmKey)
         });
 
-        
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
@@ -63,17 +73,16 @@ export async function addBlockOfKeysSettings() {
             
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
-    } catch (error) {
-        showError("Failed to load settings: " + error.message);
-        console.error("Response error: ", error);
+    } catch (error) {  
+        showErrorAndLog(error);
     }
 }
 
 export function checkNumber(elementValue) {
-    if(Number(elementValue) == NaN) {
-        return elementValue
-    }  else {
-        return Number(elementValue)
+    if (isNaN(Number(elementValue))) {
+        return elementValue;  
+    } else {
+        return Number(elementValue); 
     }
 }
 
@@ -82,11 +91,9 @@ export async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
 
     dataToSliceTelegams.append("keysType", keysType)
-
     dataToSliceTelegams.forEach((fieldValue, key) => {
         console.log(key, fieldValue)
-    })    
-
+    })
 
     let telegramCuttingResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushTelegramsCuttingData",
         {
@@ -96,8 +103,17 @@ export async function sendEncriptRequest(formID, keysType) {
     )
 
     if (!telegramCuttingResponse.ok) {
-        console.error(telegramCuttingResponse.statusText)
-        return
+        try {
+            const errorData = await telegramCuttingResponse.json();
+            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+            const errorDetail = errorData.detail || "Нет дополнительных данных";
+            console.error(`Error: ${errorMessage} - ${errorDetail}`);
+            showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+        } catch (e) {
+            console.error(`Error: ${telegramCuttingResponse.statusText}`);
+            showError(`Ошибка: ${telegramCuttingResponse.statusText}`);
+        }
+        return;
     } 
 
     if(keysType == 'keys_settings') {
@@ -114,8 +130,17 @@ export async function sendEncriptRequest(formID, keysType) {
             });
 
         if (!keyPropertiesResponse.ok) {
-            console.error(keyPropertiesResponse.statusText) 
-            return
+            try {
+                const errorData = await keyPropertiesResponse.json();
+                const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+                const errorDetail = errorData.detail || "Нет дополнительных данных";
+                console.error(`Error: ${errorMessage} - ${errorDetail}`);
+                showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+            } catch (e) {
+                console.error(`Error: ${keyPropertiesResponse.statusText}`);
+                showError(`Ошибка: ${keyPropertiesResponse.statusText}`);
+            }
+            return;
         }
         else{
             showToast("Encryption successful!","success");
@@ -215,8 +240,6 @@ export async function addBlockOfGetUsersKeys() {
         formChooseKeysFile.appendChild(blockConfirmKey)
         blockWithChooseKey.appendChild(formChooseKeysFile)
 
-
-        
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
@@ -224,83 +247,13 @@ export async function addBlockOfGetUsersKeys() {
 
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
-        showError("Failed to load settings: " + error.message)
-        console.error("Mistake is caught:",error)
+        showErrorAndLog(error);
     }
 }
 
 export async function preventActionButton() {
     event.preventDefault()
 }
-
-// async function showDecriptSettings() {
-//     try {
-//         if(document.getElementById("ciphersList").value == "Empty_tag") {
-//             alert("Сhoose a cipher!")
-//         }else {
-//             let decriptBlock = document.createElement("div")
-//             decriptBlock.id = "decript-block"
-//             decriptBlock.className = "decript-block-class"
-
-//             let decriptBlockLabel = document.createElement("label")
-//             decriptBlockLabel.textContent = "Choose cipher text"
-//             decriptBlock.appendChild(decriptBlockLabel)
-
-//             let formChooseCipherTextFile = document.createElement("form")
-//             formChooseCipherTextFile.enctype="multipart/form-data"
-//             formChooseCipherTextFile.className = "cipher-text-choose-block"
-//             formChooseCipherTextFile.id = "cipher-text-choose-block"
-    
-//             let labelChooseElement = document.createElement("label")
-//             labelChooseElement.id = "input-file"
-    
-//             let spanCipherText = document.createElement("span")
-//             spanCipherText.id = "custom-file-label-cipher-text"
-//             spanCipherText.textContent = "Choose file with cipher text"
-    
-//             let inputCipherTexts = document.createElement("input")
-//             inputCipherTexts.id = "cipher-text-file"
-//             inputCipherTexts.addEventListener('change', function(){document.getElementById('choose-cipher-text-file').textContent = this.files[0].name}, true)
-//             inputCipherTexts.accept = ".doc,.docx,application/msword, text/plain"
-//             inputCipherTexts.name = "cipher_text_file"
-//             inputCipherTexts.addEventListener('change', function() {
-//                 document.getElementById('custom-file-label-cipher-text').textContent = this.files[0].name;
-//             })
-//             inputCipherTexts.required = ""
-//             inputCipherTexts.style = "display: none;"
-//             inputCipherTexts.type = "file"
-            
-//             let blockConfirmCipherText = document.createElement("div")
-//             blockConfirmCipherText.className = "keys-choose-block-class"
-    
-//             let buttonConfirm = document.createElement("button")
-//             buttonConfirm.textContent = "Confirm"
-//             buttonConfirm.addEventListener("click", function(){event.preventDefault()} ,true)
-    
-        
-//             labelChooseElement.appendChild(spanCipherText)
-//             labelChooseElement.appendChild(inputCipherTexts)
-//             formChooseCipherTextFile.appendChild(labelChooseElement)
-//             blockConfirmCipherText.appendChild(buttonConfirm)
-//             formChooseCipherTextFile.appendChild(blockConfirmCipherText)
-//             decriptBlock.appendChild(formChooseCipherTextFile)
-    
-    
-            
-//             Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
-//             Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
-//             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
-//             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => { elem.remove(); });
-            
-//             document.body.appendChild(decriptBlock)
-
-//         }
-//     }
-//     catch(err){
-//         console.error("Error occurred:", err);
-//     }
-// }
-
 
 export async function encriptSettings() {
     try {
@@ -343,10 +296,11 @@ export async function encriptSettings() {
         }
     }
     catch(err){
-        showError("Failed to load settings: " + err.message || err);
-        console.error("Error occurred:", err);
+        showErrorAndLog(err);
     }
 }
+
+
 
 window.encriptSettings = encriptSettings
 window.preventActionButton = preventActionButton
