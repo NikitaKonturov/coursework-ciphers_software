@@ -108,10 +108,10 @@ void chekRequest(nlohmann::json keyProperties)
 {
     try {
         if (!keyProperties.at("matrix_size").is_number()) {
-            throw KeyPropertyError("Ключ matrix_size должен иметь целое значение...");
+            throw KeyPropertyError("Значение \"Размер матрицы\" должен иметь целое значение...");
         }
         if (keyProperties["matrix_size"] <= 0) {
-            throw InvalidKey("Значение matrix_size должно быть натуральным...");
+            throw InvalidKey("Значение \"Размер матрицы\" должно быть натуральным...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
