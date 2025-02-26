@@ -79,7 +79,7 @@ std::optional<std::vector<uint8_t>> HMAC_DRBG::HMAC_DRBG_Generate_algorithm(size
 uint64_t convert_bytes_to_ddword(std::vector<uint8_t> bytes)
 {
     if(bytes.size() < 8) {
-        throw std::invalid_argument("Вектор байтов должен иметь размер больше или равный 8...");
+        throw std::invalid_argument("Размер вектора в байтах должен быть больше или равен 8 ...");
     }
 
     uint64_t res = 0;

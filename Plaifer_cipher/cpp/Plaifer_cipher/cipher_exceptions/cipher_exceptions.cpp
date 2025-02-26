@@ -8,10 +8,10 @@
 
 InvalidKey::InvalidKey() noexcept : std::exception()
 {
-    this->message = "Key property error";
+    this->message = "Ошибка в свойстве ключа";
 }
 
-InvalidKey::InvalidKey(const char* mes) noexcept : std::exception()
+InvalidKey::InvalidKey(const char* mes) noexcept : std::exception(mes)
 {
     this->message = mes;
 }
@@ -33,10 +33,10 @@ const char *InvalidKey::what() const noexcept
 
 KeyPropertyError::KeyPropertyError() noexcept : std::exception()
 {
-    this->message = "Key property error";
+    this->message = "Ошибка в свойстве ключа";
 }
 
-KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception()
+KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception(mes)
 {
     this->message = mes;
 }
@@ -59,10 +59,10 @@ const char *KeyPropertyError::what() const noexcept
 
 InvalidOpenText::InvalidOpenText() noexcept : std::exception()
 {
-    this->message = "Key property error";
+    this->message = "Ошибка в свойстве ключа";
 }
 
-InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception()
+InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception(mes)
 {
     this->message = mes;
 }

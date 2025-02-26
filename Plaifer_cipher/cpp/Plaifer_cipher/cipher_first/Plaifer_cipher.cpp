@@ -295,10 +295,10 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Ключ text_language должен иметь строковое значение...");
+            throw KeyPropertyError("Значение \"Язык текста\" должен иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Значение permutation_size должно быть ru или en...");
+            throw InvalidKey("Значение \"Язык текста\" должно быть ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());

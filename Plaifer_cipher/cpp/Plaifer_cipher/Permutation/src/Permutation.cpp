@@ -29,7 +29,7 @@ Permutation::Permutation(const std::vector<int32_t>& rhs)
     std::multiset<uint32_t> check;
     for (uint32_t i = 0; i < rhs.size(); ++i)
     {
-        if (rhs[i] - 1 != abs(rhs[i] - 1) || rhs[i] == 0) throw std::invalid_argument("Числа должны быть положительными и не нулевыми!!!"); // Проверка на наличие отрицательных чисел и числа 0 в векторе
+        if (rhs[i] - 1 != abs(rhs[i] - 1) || rhs[i] == 0) throw std::invalid_argument("Числа должны быть положительными и ненулевыми!"); // Проверка на наличие отрицательных чисел и числа 0 в векторе
         check.find(rhs[i] - 1) == check.end()? check.insert(rhs[i] - 1) : throw std::invalid_argument("Элементы строк отличаются друг от друга!!!"); // Проверка повторяющихся символов во второй строке
         this->SourcePermut.insert({i,( rhs[i] - 1)});
     }
@@ -50,7 +50,7 @@ Permutation::Permutation(std::string rhs)
     while (ss >> value)
     {
         if (value <= 0) 
-            throw std::invalid_argument("Числа должны быть положительными, а не нулевыми!!!");
+            throw std::invalid_argument("Числа должны быть положительными и ненулевыми!");
         
         if (check.find(value - 1) != check.end()) 
             throw std::invalid_argument("Элементы строк отличаются друг от друга!!!");
@@ -75,7 +75,7 @@ Permutation::Permutation(std::wstring rhs)
     while (ss >> value)
     {
         if (value <= 0) 
-            throw std::invalid_argument("Числа должны быть положительными и не нулевыми!!!");
+            throw std::invalid_argument("Числа должны быть положительными и ненулевыми!");
         
         if (check.find(value - 1) != check.end()) 
             throw std::invalid_argument("Элементы строк отличаются друг от друга!!!");
@@ -167,13 +167,13 @@ size_t Permutation::size()
     return this->SourcePermut.size();
 }
 
-uint32_t Permutation::operator()(int32_t& index)
+uint32_t Permutation::operator()(int32_t index)
 {
     // Проверка на допустимый индекс
     if (SourcePermut.find(index) == SourcePermut.end()) 
         throw std::out_of_range("Индекс находится вне диапазона для перестановки.");
     if (index <= 0) 
-            throw std::invalid_argument("Числа должны быть положительными, а не нулевыми!!!");
+            throw std::invalid_argument("Числа должны быть положительными и ненулевыми!");
     // Возвращаем элемент по индексу
     return SourcePermut.at(index);
 }
@@ -218,7 +218,7 @@ std::wistream& operator>>(std::wistream& in, Permutation& obj)
     for (uint32_t i = 0; i < obj.SourcePermut.size(); ++i)
     {
         in >> Second;
-        if (in.fail() || Second != abs(Second) || Second == 0) throw std::invalid_argument("Числа должны быть положительными и не нулевыми!!!"); // Проверка введенного значения(Значение не доллжно быть: словом/буквой, отрицвтельным число, нулём)
+        if (in.fail() || Second != abs(Second) || Second == 0) throw std::invalid_argument("Числа должны быть положительными и ненулевыми!"); // Проверка введенного значения(Значение не доллжно быть: словом/буквой, отрицвтельным число, нулём)
         check.find(Second) == check.end()? check.insert(Second) : throw std::invalid_argument("Элементы строк отличаются друг от друга!!!"); // Проверка повторяющихся символов во второй строке
         obj.SourcePermut[i] = Second - 1;
     }
