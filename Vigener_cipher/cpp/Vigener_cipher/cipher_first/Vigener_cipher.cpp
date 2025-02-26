@@ -365,7 +365,10 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         std::vector<std::string> keys;
 
         std::map<size_t, size_t> countedWords = count_words(prop["key_file_path"], language);
-        size_t allWordsCount = countedWords[keyWordLength];
+        size_t allWordsCount = 0;
+        for (const auto& pair : countedWords) {
+            allWordsCount += pair.second;
+        }
 
         bool* bannedWords = new bool[allWordsCount];
         for (size_t i = 0; i < allWordsCount; ++i) {
@@ -373,7 +376,8 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         }
 
         for (size_t i = 0; i < count; ++i) {
-            keys.push_back(give_word(prop["key_file_path"], language, countedWords, keyWordLength, bannedWords, allWordsCount));
+            std::string word = give_word(prop["key_file_path"], language, countedWords, keyWordLength, bannedWords, allWordsCount);
+            keys.push_back(word);
         }
         
         return keys;
