@@ -1,21 +1,20 @@
-#include <map>
-#include <vector>
-#include <string>
-#include <random>
+#include "homophone_generator.hpp"
 #include <stdexcept>
 #include <sstream>
 #include <iomanip>
 #include <cmath>
 
-int64_t get_random_number(const int64_t& leftBoarder, const int64_t& rightBoarder) {
+int64_t get_random_number(const int64_t& leftBoarder, const int64_t& rightBoarder, HMAC_DRBG &gen) {
     if (leftBoarder > rightBoarder) {
         throw std::invalid_argument("Неверный диапазон: левая граница больше правой.");
     }
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_int_distribution<int64_t> dis(leftBoarder, rightBoarder);
-    return dis(gen);
+    if (gen.HMAC_DRBG_Ressed_Check()) {
+        gen.HMAC_DRBG_Ressed(get_entropy());
+    }
+    uint64_t random_value = convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(8).value());
+    return leftBoarder + (random_value % (rightBoarder - leftBoarder + 1));
 }
+
 
 std::map<wchar_t, double> get_frequencies(const std::string& language) {
 
@@ -96,7 +95,8 @@ std::map<wchar_t, double> get_frequencies(const std::string& language) {
 std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     int64_t leftBoarder,
     int64_t rightBoarder,
-    std::string& language
+    std::string& language,
+    HMAC_DRBG &gen
 ) {
     if (language.empty()) {
         throw std::invalid_argument("Значение языка пусто. Невозможно вычислить частоты.");
@@ -162,7 +162,7 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     // 4. Назначаем ключи буквам
     for (const auto& [letter, keysCount] : requiredKeysPerLetter) {
         for (int j = 0; j < keysCount && !availableKeys.empty(); ++j) {
-            size_t index = get_random_number(0, availableKeys.size() - 1);
+            size_t index = get_random_number(0, availableKeys.size() - 1, gen);
             int64_t key = availableKeys[index];
             keysContainer[letter].push_back(format_number(key));
             availableKeys.erase(availableKeys.begin() + index);
@@ -173,7 +173,7 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     while (!availableKeys.empty()) {
         for (auto& [letter, keys] : keysContainer) {
             if (availableKeys.empty()) break;
-            size_t index = get_random_number(0, availableKeys.size() - 1);
+            size_t index = get_random_number(0, availableKeys.size() - 1, gen);
             int64_t key = availableKeys[index];
             keys.push_back(format_number(key));
             availableKeys.erase(availableKeys.begin() + index);

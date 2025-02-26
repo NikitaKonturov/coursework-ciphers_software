@@ -154,6 +154,7 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
     nlohmann::json prop;
     try {
         std::replace(keyPropertys.begin(), keyPropertys.end(), L'\'', L'"');
+
         prop = nlohmann::json::parse(keyPropertys);
         chekRequest(prop);
 
@@ -166,9 +167,13 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
         std::vector<std::wstring> result;
         for (size_t i = 0; i < count; ++i) {
             std::map<wchar_t, std::vector<std::wstring>> keys;
-            
+
+            std::vector<uint8_t> entropy = get_entropy();
+            std::vector<uint8_t> nonce = get_entropy();
+
+            HMAC_DRBG gen(entropy, nonce, {'H', 'o', 'm', 'o', 'p', 'h', 'o', 'n', 'e', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
             try {
-                keys = generate_keys(leftBoarder, rightBoarder, text_language);
+                keys = generate_keys(leftBoarder, rightBoarder, text_language, gen);
             } catch (const std::exception& e) {
                 throw KeyPropertyError(e.what());
             }
