@@ -231,7 +231,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         if(define_language(text) != "en") {
-            throw InvalidOpenText("Недопустимый язык, должен быть...");
+            throw InvalidOpenText("Недопустимый язык, должен быть английский...");
         }
 
         std::wstring substitutionTable = get_trivial_completion();
@@ -346,7 +346,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             for (size_t j = 0; j < 6; ++j) {
                 int idx = transpositionKeys[i][j];
                 if (idx < 0 || idx >= static_cast<int>(alphabet.size()))
-                    throw InvalidKey("Неправильный индекс при формировании перестановки клавиш.");
+                    throw InvalidKey("Неправильный индекс при формировании перестановки ключей.");
                 transKey.push_back(alphabet[idx]);
             }
             
