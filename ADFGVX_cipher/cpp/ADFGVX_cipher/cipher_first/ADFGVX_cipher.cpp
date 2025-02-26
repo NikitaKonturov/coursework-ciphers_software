@@ -33,7 +33,7 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::st
         throw InvalidOpenText("Ошибка: недопустимый язык в тексте. Язык должен быть английский...");
     }
 
-    throw std::invalid_argument("Permutation size was not equal to alfabet size...");
+    throw std::invalid_argument("Размер перестановки не был равен размеру алфавита...");
 }
 
 std::string define_language(std::wstring text)
@@ -346,7 +346,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             for (size_t j = 0; j < 6; ++j) {
                 int idx = transpositionKeys[i][j];
                 if (idx < 0 || idx >= static_cast<int>(alphabet.size()))
-                    throw InvalidKey("Incorrect index while forming the key transposition.");
+                    throw InvalidKey("Неправильный индекс при формировании перестановки клавиш.");
                 transKey.push_back(alphabet[idx]);
             }
             
@@ -373,10 +373,10 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Key text_language must has string value...");
+            throw KeyPropertyError("Значение \"Язык текста\" должен иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Значение permutation_size должно быть ru или en...");
+            throw InvalidKey("Значение \"Длина перестановки\" должно быть ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());

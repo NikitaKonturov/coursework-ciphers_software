@@ -79,7 +79,7 @@ std::optional<std::vector<uint8_t>> HMAC_DRBG::HMAC_DRBG_Generate_algorithm(size
 uint64_t convert_bytes_to_ddword(std::vector<uint8_t> bytes)
 {
     if(bytes.size() < 8) {
-        throw std::invalid_argument("Вектор байтов должен иметь размер больше или равный 8...");
+        throw std::invalid_argument("Размер вектора в байтах должен быть больше или равен 8 ...");
     }
 
     uint64_t res = 0;
@@ -101,13 +101,13 @@ std::vector<uint8_t> get_entropy()
     HCRYPTPROV hCryptProv = 0;
     
     if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) {
-        throw std::runtime_error("Ошибка во время CryptAcquireContext"); 
+        throw std::runtime_error("Ошибка при запуске CryptAcquireContext"); 
     }
 
     
     if (!CryptGenRandom(hCryptProv, 32, entropy.data())) {
         CryptReleaseContext(hCryptProv, 0); // Освобождаем хэндл
-        throw std::runtime_error("Ошибка во время CryptGenRandom");
+        throw std::runtime_error("Ошибка при запуске CryptGenRandom");
     }
 
     CryptReleaseContext(hCryptProv, 0);
@@ -121,7 +121,7 @@ std::vector<uint8_t> get_entropy() {
     std::ifstream urandom("/dev/urandom", std::ios::in | std::ios::binary);
 
     if (!urandom) {
-        throw std::runtime_error("Не удалось открыть/dev/urandom");
+        throw std::runtime_error("Не удалось открыть /dev/urandom");
     }
 
     urandom.read(reinterpret_cast<char*>(entropy.data()), entropy.size());
