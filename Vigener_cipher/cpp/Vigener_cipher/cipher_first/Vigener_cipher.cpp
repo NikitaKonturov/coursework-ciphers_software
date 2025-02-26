@@ -35,7 +35,7 @@ std::map<size_t, size_t> count_words(const std::string& keyFilePath, const std::
     size_t wordLength = 0;
     std::map<size_t, size_t> wordsCount;
     uint8_t buff;
-    for (size_t i = 0; i < fileSize; i++)
+    for (size_t i = 0; i < fileSize; ++i)
     {
         std::ifstream keyFile(keyFilePath, std::ios::binary);
         
@@ -289,15 +289,30 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     if(keys.size() < openTexts.size()) {
         throw InvalidKey("Количество ключей должно быть равно количеству открытого текста...");
     }
+    
+    std::vector<uint8_t> entropy = get_entropy();
+    std::vector<uint8_t> nonce = get_entropy();
+        
+    HMAC_DRBG gen(entropy, nonce, { 'V', 'I', 'G', 'E', 'N', 'E', 'R', '-', 'c', 'i', 'p', 'h', 'e', 'r' });
+    std::optional<std::vector<uint8_t>> randomBytesOpt = gen.HMAC_DRBG_Generate_algorithm(4);
+
+    if (!randomBytesOpt.has_value()) {
+        throw std::runtime_error("Ошибка генерации случайного числа через HMAC_DRBG.");
+    }
+
+    std::vector<uint8_t> randomBytes = randomBytesOpt.value();
+
+    uint32_t randomIndex = *reinterpret_cast<uint32_t*>(randomBytes.data()) % keys.size();
+
+    std::wstring chosenKey = keys[randomIndex];
 
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         std::wstring alphabet = get_alphabet(define_language(text));
-        std::wstring keyWord(keys[i].begin(), keys[i].end());
-        std::wstring cipher = vigenere_encrypt(text, keyWord, alphabet);
+        std::wstring cipher = vigenere_encrypt(text, chosenKey, alphabet);
         std::wstringstream wss;
-        wss << L"Vigenere key: " << keyWord;
+        wss << L"Vigenere key: " << chosenKey;
         keysAndCiphersTexts[wss.str()] = cipher;
     }
     return keysAndCiphersTexts;
