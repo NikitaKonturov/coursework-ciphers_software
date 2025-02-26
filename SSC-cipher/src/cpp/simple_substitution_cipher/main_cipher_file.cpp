@@ -9,7 +9,7 @@
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(Simple_substitution_cipher, m) {
-    m.doc() = "Simple_substitution_cipher";
+    m.doc() = "Шифр простой замены";
     m.def("encript", &encript);
     m.def("decript", &decript);
     m.def("gen_keys", &gen_keys);

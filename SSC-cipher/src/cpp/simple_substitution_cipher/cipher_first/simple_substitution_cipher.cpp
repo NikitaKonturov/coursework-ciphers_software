@@ -17,13 +17,13 @@ std::string define_language(std::wstring text)
             has_en = true;
         }
         if (has_ru && has_en) {
-            throw InvalidOpenText("Error: text contains multiple languages.");
+            throw InvalidOpenText("Ошибка: текст содержит несколько языков.");
         }
     }
 
     if (has_ru) return "ru";
     if (has_en) return "en";
-    throw InvalidOpenText("Error: invalid language in text.");
+    throw InvalidOpenText("Ошибка: неверный язык в тексте.");
 }
 
 std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::string language)
@@ -59,7 +59,7 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, std::st
         return alfabetSubstitution;
     }
 
-    throw std::invalid_argument("Permutation size was not equal to alfabet size...");
+    throw std::invalid_argument("Размер перестановки не был равен размеру алфавита...");
 }
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
@@ -67,7 +67,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     std::locale::global(std::locale("ru_RU.UTF-8")); 
     std::wcout.imbue(std::locale()); 
     if(keys.size() < openTexts.size()) {
-        throw InvalidKey("Count of keys must be unless then count of open text...");
+        throw InvalidKey("Количество ключей должно быть равным, если только количество открытого текста...");
     }
     
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
@@ -154,10 +154,10 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Key text_language must has string value...");
+            throw KeyPropertyError("Ключ text_language должен иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Value permutation_size must be ru or en...");
+            throw InvalidKey("Значение permutation_size должно быть ru или en...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
