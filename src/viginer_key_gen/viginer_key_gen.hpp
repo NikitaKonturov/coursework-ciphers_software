@@ -1,5 +1,5 @@
-#ifndef FILEMAPPING_HPP
-#define FILEMAPPING_HPP
+#ifndef VIGINER_KEY_GEN_HPP
+#define VIGINER_KEY_GEN_HPP
 
 #include <iostream>
 #include <fstream>
@@ -24,4 +24,4 @@ std::string give_word(
     const size_t& allWordsCount
 );
 
-#endif //FILEMAPPING_HPP
+#endif //VIGINER_KEY_GEN_HPP

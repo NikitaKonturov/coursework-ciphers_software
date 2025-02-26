@@ -1,0 +1,1 @@
+add_library(viginer_key_gen viginer_key_gen.cpp)

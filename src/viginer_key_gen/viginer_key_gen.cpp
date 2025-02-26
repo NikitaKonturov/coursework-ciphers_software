@@ -1,4 +1,4 @@
-#include "fileMapping.hpp"
+#include "viginer_key_gen.hpp"
 
 bool is_rus_alpha(uint8_t symbol) {
     return (symbol >= 192 && symbol <= 255) || symbol == 184 || symbol == 168;
