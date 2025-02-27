@@ -1,7 +1,13 @@
 import { showError } from './errorHandler.js'
 
+function showErrorAndLog(error) {
+    const message = "Ошибка: " + error.message;
+    showError(message); 
+    console.error("Response error: ", error);  
+}
 
-async function addBlockOfKeysSettings() {
+
+export async function addBlockOfKeysSettings() {
     try {
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
             {
@@ -13,7 +19,11 @@ async function addBlockOfKeysSettings() {
         });
 
         if(!serverResponse.ok) {
-            throw WebTransportError("Bad server response...")
+            const errorData = await serverResponse.json();
+            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+            const errorDetail = errorData.detail || "Нет дополнительных данных";
+            
+            throw new Error(`${errorMessage}: ${errorDetail}`);
         }
 
         const settingsOfKeys = await serverResponse.json()
@@ -23,9 +33,8 @@ async function addBlockOfKeysSettings() {
         keysSettingBlock.className = "keys-settings-block-class"
         keysSettingBlock.enctype = "multipart/form-data"
         
-
         let blockName = document.createElement("label");
-        blockName.textContent = ('Свойства для ' + document.getElementById("ciphersList").value + ':')
+        blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties:')
         keysSettingBlock.appendChild(blockName)
 
         settingsOfKeys.params.forEach(param => {
@@ -43,20 +52,20 @@ async function addBlockOfKeysSettings() {
                 inputLabel.min = param.min
                 inputLabel.max = param.max
             }
+            let blockConfirmKey = document.createElement("div")
+            blockConfirmKey.id = "keys-choose-block"
+            blockConfirmKey.className = "keys-choose-block-class"
+            let buttonConfirm = document.createElement("button")
+            buttonConfirm.textContent = "Confirm"
+            buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
+            blockConfirmKey.appendChild(buttonConfirm)    
+
             divParametr.appendChild(nameLabel)
             divParametr.appendChild(inputLabel)
             keysSettingBlock.appendChild(divParametr)
+            keysSettingBlock.appendChild(blockConfirmKey)
         });
-        let blockConfirmKey = document.createElement("div")
-        blockConfirmKey.id = "keys-choose-block"
-        blockConfirmKey.className = "keys-choose-block-class"
-        let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = "Подтвердить"
-        buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
-        blockConfirmKey.appendChild(buttonConfirm)    
-        keysSettingBlock.appendChild(blockConfirmKey)
 
-        
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
@@ -64,29 +73,27 @@ async function addBlockOfKeysSettings() {
             
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
-    } catch (error) {
-        console.error("Response error: ", error);
+    } catch (error) {  
+        showErrorAndLog(error);
     }
 }
 
-function checkNumber(elementValue) {
-    if(Number(elementValue) == NaN) {
-        return elementValue
-    }  else {
-        return Number(elementValue)
+export function checkNumber(elementValue) {
+    if (isNaN(Number(elementValue))) {
+        return elementValue;  
+    } else {
+        return Number(elementValue); 
     }
 }
 
 
-async function sendEncriptRequest(formID, keysType) {
+export async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
 
     dataToSliceTelegams.append("keysType", keysType)
-
     dataToSliceTelegams.forEach((fieldValue, key) => {
         console.log(key, fieldValue)
-    })    
-
+    })
 
     let telegramCuttingResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushTelegramsCuttingData",
         {
@@ -96,8 +103,17 @@ async function sendEncriptRequest(formID, keysType) {
     )
 
     if (!telegramCuttingResponse.ok) {
-        console.error(telegramCuttingResponse.statusText)
-        return
+        try {
+            const errorData = await telegramCuttingResponse.json();
+            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+            const errorDetail = errorData.detail || "Нет дополнительных данных";
+            console.error(`Error: ${errorMessage} - ${errorDetail}`);
+            showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+        } catch (e) {
+            console.error(`Error: ${telegramCuttingResponse.statusText}`);
+            showError(`Ошибка: ${telegramCuttingResponse.statusText}`);
+        }
+        return;
     } 
 
     if(keysType == 'keys_settings') {
@@ -114,12 +130,21 @@ async function sendEncriptRequest(formID, keysType) {
             });
 
         if (!keyPropertiesResponse.ok) {
-            console.error(keyPropertiesResponse.statusText) 
-            return
-        }   else {
-            showToast("Зашифрование успешно!","success");
+            try {
+                const errorData = await keyPropertiesResponse.json();
+                const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+                const errorDetail = errorData.detail || "Нет дополнительных данных";
+                console.error(`Error: ${errorMessage} - ${errorDetail}`);
+                showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+            } catch (e) {
+                console.error(`Error: ${keyPropertiesResponse.statusText}`);
+                showError(`Ошибка: ${keyPropertiesResponse.statusText}`);
+            }
+            return;
         }
-
+        else{
+            showToast("Encryption successful!","success");
+        }
     } else if (keysType == 'users_keys') {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
         Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)})
@@ -134,12 +159,12 @@ async function sendEncriptRequest(formID, keysType) {
             return
         }
         else{
-            showToast("Зашифрование успешно!","success");
+            showToast("Encryption successful!","success");
         }
     } 
 }
 
-async function sendDecriptRequest() 
+export async function sendDecriptRequest() 
 {
     let dataAboutCipherTextAndKeys = new FormData(document.getElementById("slice-telegrmas-form"))
     
@@ -147,14 +172,14 @@ async function sendDecriptRequest()
     dataAboutCipherTextAndKeys.delete("number")
 
     if(document.getElementById("ciphersList").value == "Empty_tag") {
-        alert("Выберите шифр!")
+        alert("Сhoose a cipher!")
         return
     } 
 
     const fileInput = document.getElementById("text-file");
 
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        alert("Выберите файл с текстом!");
+        alert("Choose a file with cipher text");
         return;
     }
 
@@ -169,14 +194,10 @@ async function sendDecriptRequest()
         console.error(responseFromDecript.statusText)
         return
     }
-    else{
-        showToast("Расшифрование успешно!","success");
-    }
-
     return
 }
 
-async function addBlockOfGetUsersKeys() {
+export async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
         blockWithChooseKey.className = "keys-choose-block-class"
@@ -191,7 +212,7 @@ async function addBlockOfGetUsersKeys() {
 
         let spanUsersKeys = document.createElement("span")
         spanUsersKeys.id = "custom-file-label-keys"
-        spanUsersKeys.textContent = "Выберите файл с ключами."
+        spanUsersKeys.textContent = "Choose file with keys"
 
         let inputUsersKeys = document.createElement("input")
         inputUsersKeys.id = "keys-file"
@@ -209,7 +230,7 @@ async function addBlockOfGetUsersKeys() {
         blockConfirmKey.className = "keys-choose-block-class"
 
         let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = "Подтвердить"
+        buttonConfirm.textContent = "Confirm"
         buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users_keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
@@ -219,8 +240,6 @@ async function addBlockOfGetUsersKeys() {
         formChooseKeysFile.appendChild(blockConfirmKey)
         blockWithChooseKey.appendChild(formChooseKeysFile)
 
-
-        
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
@@ -228,35 +247,33 @@ async function addBlockOfGetUsersKeys() {
 
         document.getElementById("main-keys-block").appendChild(blockWithChooseKey)
     } catch(error) {
-        showError("Failed to load settings: " + error.message)
-        console.error("Mistake is caught:",error)
+        showErrorAndLog(error);
     }
 }
 
-async function preventActionButton() {
+export async function preventActionButton() {
     event.preventDefault()
 }
 
-
-async function encriptSettings() {
+export async function encriptSettings() {
     try {
         if(document.getElementById("ciphersList").value == "Empty_tag") {
-            alert("Выберите шифр!")
+            alert("Сhoose a cipher!")
         } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
-                alert("Неверное количество символов в телеграммах или неверное количество телеграмм!")
+                alert("Count of telegrmas and size of telegrams must be nutural")
         } else if(Array.from(document.getElementById("text-file").files).length == 0) {
-                alert("Выберите файл с текстом")
+                alert("Choose file with text")
         }else {
             let selectKyesTypeBlock = document.createElement("div")
             selectKyesTypeBlock.id = "button-container"
             selectKyesTypeBlock.className = "button-container"
             let autoGenKeysButton = document.createElement("button")
-            autoGenKeysButton.textContent = "Генерация ключей"
+            autoGenKeysButton.textContent = "Auto keys generation"
             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
             selectKyesTypeBlock.appendChild(autoGenKeysButton)
 
             let getUserKeysButton = document.createElement("button")
-            getUserKeysButton.textContent = "Выбор ключей"
+            getUserKeysButton.textContent = "Select keys"
             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
             selectKyesTypeBlock.appendChild(getUserKeysButton)
 
@@ -268,20 +285,22 @@ async function encriptSettings() {
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
             Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
-            
+
             document.getElementById("ciphersList").addEventListener("change", () => {
                 document.querySelectorAll(".keys-settings-block-class, .keys-choose-block-class, .main-keys-block-class")
                     .forEach(elem => elem.remove());
             });
+
             document.body.appendChild(rigthBlock)
+
         }
     }
     catch(err){
-        showError("Failed to load settings: " + err.message || err);
-        console.error("Error occurred:", err);
+        showErrorAndLog(err);
     }
 }
 
+
+
 window.encriptSettings = encriptSettings
 window.preventActionButton = preventActionButton
-window.sendDecriptRequest = sendDecriptRequest
