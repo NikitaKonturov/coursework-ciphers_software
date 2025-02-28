@@ -1,7 +1,16 @@
 interfaceLanguage = 'en';
-cipherLanguage = 'ru';
+cipherLanguage = 'en';
 encryptFolderPath = 'testFiles';
 decryptFolderPath = 'testFiles';
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!document.getElementById("toast-container")) {
+        const container = document.createElement("div");
+        container.id = "toast-container";
+        document.body.appendChild(container);
+    }
+});
 
 async function showToast(message, type, duration = 3000) {
     console.log(`showToast called with: ${message}, type: ${type}`);

@@ -34,7 +34,7 @@ export async function addBlockOfKeysSettings() {
         keysSettingBlock.enctype = "multipart/form-data"
         
         let blockName = document.createElement("label");
-        blockName.textContent = (document.getElementById("ciphersList").value + ' keys properties:')
+        blockName.textContent = (document.getElementById("ciphersList").value + ' параметры ключа:')
         keysSettingBlock.appendChild(blockName)
 
         settingsOfKeys.params.forEach(param => {
@@ -56,7 +56,7 @@ export async function addBlockOfKeysSettings() {
             blockConfirmKey.id = "keys-choose-block"
             blockConfirmKey.className = "keys-choose-block-class"
             let buttonConfirm = document.createElement("button")
-            buttonConfirm.textContent = "Confirm"
+            buttonConfirm.textContent = "Подтвердить"
             buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
             blockConfirmKey.appendChild(buttonConfirm)    
 
@@ -143,7 +143,7 @@ export async function sendEncriptRequest(formID, keysType) {
             return;
         }
         else{
-            showToast("Encryption successful!","success");
+            showToast("Зашифрование прошло успешно!","success");
         }
     } else if (keysType == 'users_keys') {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
@@ -159,7 +159,7 @@ export async function sendEncriptRequest(formID, keysType) {
             return
         }
         else{
-            showToast("Encryption successful!","success");
+            showToast("Зашифрование прошло успешно","success");
         }
     } 
 }
@@ -172,14 +172,14 @@ export async function sendDecriptRequest()
     dataAboutCipherTextAndKeys.delete("number")
 
     if(document.getElementById("ciphersList").value == "Empty_tag") {
-        alert("Сhoose a cipher!")
+        alert("Выберите шифр")
         return
     } 
 
     const fileInput = document.getElementById("text-file");
 
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        alert("Choose a file with cipher text");
+        alert("Выберите файл с шифр текстом");
         return;
     }
 
@@ -212,7 +212,7 @@ export async function addBlockOfGetUsersKeys() {
 
         let spanUsersKeys = document.createElement("span")
         spanUsersKeys.id = "custom-file-label-keys"
-        spanUsersKeys.textContent = "Choose file with keys"
+        spanUsersKeys.textContent = "Выберите файл с ключами"
 
         let inputUsersKeys = document.createElement("input")
         inputUsersKeys.id = "keys-file"
@@ -230,7 +230,7 @@ export async function addBlockOfGetUsersKeys() {
         blockConfirmKey.className = "keys-choose-block-class"
 
         let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = "Confirm"
+        buttonConfirm.textContent = "Подтвердить"
         buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-choose-block", "users_keys")} ,true)
 
         labelChooseElement.appendChild(spanUsersKeys)
@@ -258,22 +258,22 @@ export async function preventActionButton() {
 export async function encriptSettings() {
     try {
         if(document.getElementById("ciphersList").value == "Empty_tag") {
-            alert("Сhoose a cipher!")
+            alert("Выберите шифр!")
         } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
-                alert("Count of telegrmas and size of telegrams must be nutural")
+                alert("Колличество телеграм и их размер должны быть натуральными")
         } else if(Array.from(document.getElementById("text-file").files).length == 0) {
-                alert("Choose file with text")
+                alert("Выберите файл с текстом")
         }else {
             let selectKyesTypeBlock = document.createElement("div")
             selectKyesTypeBlock.id = "button-container"
             selectKyesTypeBlock.className = "button-container"
             let autoGenKeysButton = document.createElement("button")
-            autoGenKeysButton.textContent = "Auto keys generation"
+            autoGenKeysButton.textContent = "Автоматическая генерация ключей"
             autoGenKeysButton.addEventListener('click', addBlockOfKeysSettings, true)
             selectKyesTypeBlock.appendChild(autoGenKeysButton)
 
             let getUserKeysButton = document.createElement("button")
-            getUserKeysButton.textContent = "Select keys"
+            getUserKeysButton.textContent = "Выберите ключ"
             getUserKeysButton.addEventListener('click', addBlockOfGetUsersKeys, true)
             selectKyesTypeBlock.appendChild(getUserKeysButton)
 
