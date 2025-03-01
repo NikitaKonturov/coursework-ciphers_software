@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from docx import Document
 from .cpp_exceptions import InvalidKey, KeyPropertyError, InvalidOpenText
 import platform
+import logging
 import sys
 import json
 import os
@@ -120,19 +121,18 @@ class CppCiphers:
         #    raise KeyPropertyError(err)
 
         except Exception as err:
-
+            print(err)
             # Dynamically check for cipher-specific exceptions
-            for key, name in self.get_ciphers_dict():
+            for key, name in self.get_ciphers_dict().items():
                 if hasattr(sys.modules[key], 'InvalidKey') and isinstance(err, sys.modules[key].InvalidKey):
                     raise InvalidKey(str(err))
                 elif hasattr(sys.modules[key], 'InvalidOpenText') and isinstance(err, sys.modules[key].InvalidOpenText):
                     raise InvalidOpenText(str(err))
                 elif hasattr(sys.modules[key], 'KeyPropertyError') and isinstance(err, sys.modules[key].KeyPropertyError):
                     raise KeyPropertyError(str(err))
-                else:
-                    # Re-raise unexpected exceptions
-                    print(f"Неизвестная ошибка: {err}")
-                    raise
+            
+            logging.error(f"Неизвестная ошибка: {err}")
+            raise Exception(err)
 
         return res
 

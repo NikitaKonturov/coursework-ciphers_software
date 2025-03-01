@@ -8,20 +8,20 @@
 
 InvalidKey::InvalidKey() noexcept : std::exception()
 {
-    this->message = "Key property error";
+    this->message = L"Key property error";
 }
 
-InvalidKey::InvalidKey(const char* mes) noexcept : std::exception(mes)
+InvalidKey::InvalidKey(const wchar_t* mes) noexcept
 {
     this->message = mes;
 }
 
-InvalidKey::InvalidKey(const InvalidKey& source) noexcept : std::exception() 
+InvalidKey::InvalidKey(const InvalidKey& source) noexcept 
 {
     this->message = source.message;
 }
 
-const char *InvalidKey::what() const noexcept
+const wchar_t *InvalidKey::what() const noexcept
 {
     return this->message.c_str();
 }
@@ -33,10 +33,10 @@ const char *InvalidKey::what() const noexcept
 
 KeyPropertyError::KeyPropertyError() noexcept : std::exception()
 {
-    this->message = "Key property error";
+    this->message = L"Key property error";
 }
 
-KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception(mes)
+KeyPropertyError::KeyPropertyError(const wchar_t* mes) noexcept 
 {
     this->message = mes;
 }
@@ -46,7 +46,7 @@ KeyPropertyError::KeyPropertyError(const KeyPropertyError& source) noexcept : st
     this->message = source.message;
 }
 
-const char *KeyPropertyError::what() const noexcept
+const wchar_t *KeyPropertyError::what() const noexcept
 {
     return this->message.c_str();
 }
@@ -57,22 +57,22 @@ const char *KeyPropertyError::what() const noexcept
 /*===============================================================================*/
 
 
-InvalidOpenText::InvalidOpenText() noexcept : std::exception()
+InvalidOpenText::InvalidOpenText() noexcept
 {
-    this->message = "Key property error";
+    this->message = L"Key property error";
 }
 
-InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception(mes)
+InvalidOpenText::InvalidOpenText(const wchar_t* mes) noexcept
 {
     this->message = mes;
 }
 
-InvalidOpenText::InvalidOpenText(const InvalidOpenText& source) noexcept : std::exception() 
+InvalidOpenText::InvalidOpenText(const InvalidOpenText& source) noexcept  
 {
     this->message = source.message;
 }
 
-const char *InvalidOpenText::what() const noexcept
+const wchar_t *InvalidOpenText::what() const noexcept
 {
     return this->message.c_str();
 }

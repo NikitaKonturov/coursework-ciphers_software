@@ -1,6 +1,7 @@
 from pydantic import ValidationError
 
 from fastapi.responses import JSONResponse
+import logging
 
 from ciphers_api_module.ciphers_api_module import InvalidKey, InvalidOpenText, KeyPropertyError
 """
@@ -15,6 +16,7 @@ async def validatiion_exception(request, exc: ValidationError):
 
 
 async def value_exception(request, exc: ValueError):
+    logging.error(str(exc))
     return JSONResponse(status_code=403, content={"error": "Value error", "detail": str(exc)})
 
 async def type_exception(request, exc: TypeError):
