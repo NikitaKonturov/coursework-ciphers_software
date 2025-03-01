@@ -1,14 +1,34 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+import logging
+import os
+import re
+import time
+from pathlib import Path
+from typing import BinaryIO
+
+import uvicorn
+import webview
+from docx import Document
+from dotenv import dotenv_values, find_dotenv, load_dotenv, set_key
 from pydantic import Field, ValidationError
+from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
-from dotenv import load_dotenv, find_dotenv, set_key, dotenv_values
-from pathlib import Path
-import uvicorn
-import re
-import webview
-import time
-import os
+
+logger = logging.getLogger('Logger')
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
+
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
@@ -16,6 +36,127 @@ class NoCacheMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
         response.headers["Cache-Control"] = "no-store"
         return response
+
+# ================================== Docx/Txt Converters ==========================================
+
+
+class FileLanguageError(Exception):
+    def __init__(self, errorLanguage: str, message: str = "Неизвестный язык файла."):
+        self.errorLanguage = errorLanguage
+        self.message = message
+        super().__init__(message)
+
+    def __str__(self):
+        return f"{self.message} (Язык: {self.errorLanguage})"
+
+
+def check_file_path(filePath: str):
+    if not os.path.exists(filePath):
+        raise FileExistsError(f'Файл {filePath} не существует')
+
+
+def save_open_text_docx_as_bin_file(language: str, openTextFile: BinaryIO, saveOpenTextTxtFile: Path):
+
+    doc = Document(openTextFile)
+
+    if (language.lower() == 'ru'):
+        with open(saveOpenTextTxtFile, 'bw') as binFile:
+            for para in doc.paragraphs:
+                checkPart = ''.join(re.findall(r'[A-Za-z]', para.text))
+                cleanedText = ''.join(re.findall(
+                    r'[А-Яа-я]', para.text)).upper()
+
+                if checkPart:
+                    raise FileLanguageError(
+                        f'Файл содержит символы другого языка!', errorLanguage="en")
+
+                if cleanedText:
+                    binFile.write(cleanedText.encode("utf-16-le"))
+
+    elif (language.lower() == 'en'):
+        with open(saveOpenTextTxtFile, 'bw') as binFile:
+            for para in doc.paragraphs:
+                checkPart = ''.join(re.findall(r'[А-Яа-я]', para.text))
+                cleanedText = ''.join(re.findall(
+                    r'[A-Za-z]', para.text)).upper()
+
+                if checkPart:
+                    raise FileLanguageError(
+                        f'Файл содержит символы другого языка!', errorLanguage="ru")
+
+                if cleanedText:
+                    binFile.write(cleanedText.encode("utf-16-le"))
+
+    else:
+        raise FileLanguageError(errorLanguage="Anny", message='Неверный язык!')
+
+
+def save_docx_as_txt(textFile: BinaryIO, saveTxtFile: Path):
+    doc = Document(textFile)
+    with open(saveTxtFile, "w", encoding='utf-8') as txtFile:
+        for paragraph in doc.paragraphs:
+            txtFile.write(paragraph.text)
+
+    return
+
+
+def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 20):
+    with open(pathToSaveTxt, "bw") as resBinFile:
+        dataBuffer: str = " "
+        while dataBuffer != '':
+            dataBuffer = file.read(bufferSize).decode('utf-8')
+            if (language.lower() == "ru"):
+                checkPart = ''.join(re.findall(r'[A-Za-z]', dataBuffer))
+                cleanedText = ''.join(re.findall(
+                    r'[А-Яа-я]', dataBuffer)).upper()
+
+                if checkPart:
+                    raise FileLanguageError(
+                        f'The file contains symbols from the other language', errorLanguage="en")
+
+                if cleanedText:
+                    resBinFile.write(cleanedText.encode("utf-16-le"))
+            elif (language.lower() == "en"):
+                checkPart = ''.join(re.findall(r'[А-Яа-я]', dataBuffer))
+                cleanedText = ''.join(re.findall(
+                    r'[A-Za-z]', dataBuffer)).upper()
+
+                if checkPart:
+                    raise FileLanguageError(
+                        f'The file contains symbols from the other language', errorLanguage="ru")
+
+                if cleanedText:
+                    resBinFile.write(cleanedText.encode("utf-16-le"))
+            else:
+                raise FileLanguageError(
+                    f'The language is not defined. Supported languages: ru, en', errorLanguage="any")
+    return
+
+
+def save_as_txt_file(file: BinaryIO, pathToSaveTxtFile: Path, bufferSize: int = 20):
+    with open(pathToSaveTxtFile, "bw", encoding="utf-8") as resTxtFile:
+        dataBuffer = b' '
+        while dataBuffer.decode('utf-8') != '':
+            dataBuffer = file.read(bufferSize)
+            resTxtFile.write(dataBuffer)
+    return
+
+
+def check_file_path(filePath: str):
+    if os.path.exists(filePath):
+        print(f'The file {filePath} exists, continuing work...')
+    else:
+        raise Exception(f'The file {filePath} does not exist')
+
+
+def save_to_docx(data: dict[str, str], docxFile: Path):
+    check_file_path(docxFile.parent)
+    doc = Document()
+    for key in data:
+        doc.add_paragraph(key)
+        doc.add_paragraph(data[key])
+        doc.save(docxFile.__str__())
+    return
 
 
 def check_path(path: Path) -> Path | None:
@@ -108,11 +249,13 @@ def search_directory(basePath: Path, dirname: str) -> None | Path:
 
 
 def start_server(settings: Settings) -> None:
+    cwd = Path(__file__).parent.resolve()
     uvicorn.run("__main__:app", host=settings.host,
                 port=settings.port, reload=False)
 
 
 def start_webview(settings: Settings) -> None:
     time.sleep(1)
-    webview.create_window(settings.app_name, settings.location)
+    webview.create_window(
+        settings.app_name, settings.location, width=1280, height=720)
     webview.start()
