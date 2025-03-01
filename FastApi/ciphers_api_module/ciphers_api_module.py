@@ -1,21 +1,23 @@
 import importlib
 import importlib.util
-from bs4 import BeautifulSoup
-from fastapi.responses import JSONResponse
-from pathlib import Path
-from ciphers_api_module.requestsClass.requestToEncript import RequToSliceAndEncript
-from file_converters.saveToDocx import save_to_docx
-from ciphers_api_module.telegrams_cutter import cut_telegrams
-from typing import Optional, BinaryIO
-from pydantic import BaseModel
-from docx import Document
-from .cpp_exceptions import InvalidKey, KeyPropertyError, InvalidOpenText
-import platform
-import sys
 import json
 import os
+import platform
 import re
+import sys
+from pathlib import Path
+from typing import BinaryIO, Optional
 
+from bs4 import BeautifulSoup
+from ciphers_api_module.requestsClass.requestToEncript import \
+    RequToSliceAndEncript
+from ciphers_api_module.telegrams_cutter import cut_telegrams
+from docx import Document
+from settings.config import save_to_docx
+
+from fastapi.responses import JSONResponse
+
+from .cpp_exceptions import InvalidKey, InvalidOpenText, KeyPropertyError
 
 # ===================================================================================#
 # ============== Класс обеспечивающий взаимодействие с модулями шифров ==============#
@@ -48,7 +50,7 @@ class CppCiphers:
             print(err)
 
     # метод загрузки всех библиотек из дериктории
-    def __load_moduls(self) -> None:
+    def __load_modules(self) -> None:
         filesList: list = os.listdir(self.__pathToCiphersDir)
         extension: str = ""
         # также обеспечение кросплатформенности(может не понадобиться)
@@ -80,7 +82,7 @@ class CppCiphers:
         self.__pathToCiphersDir = os.path.abspath(pathToCiphersDir)
         self.__cipherTitles = {}
 
-        self.__load_moduls()
+        self.__load_modules()
 
     # Получение словаря шифров где {название модуля шифра в текущей сесси python: название шифра на английском для frontend}
     def get_ciphers_dict(self) -> dict[str, str]:
@@ -89,7 +91,7 @@ class CppCiphers:
     # Зашифрование телерам по ключам или с генерацией ключей
     # для включения генерации шифров нужно установить keysGeneration флаг в True
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
-    def encript_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
+    def encrypt_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
         try:
             res: Optional[dict[str, str]]
             res = None
@@ -138,7 +140,7 @@ class CppCiphers:
 
     # Функция получения шаблона свойств ключа
 
-    def get_key_propertys(self, cipher: str) -> JSONResponse | None:
+    def get_key_properties(self, cipher: str) -> JSONResponse | None:
         res: Optional[JSONResponse] = None
         try:
             bodyContent: str = sys.modules[cipher].get_key_propertys()
@@ -154,7 +156,7 @@ class CppCiphers:
 
     # Функция расшифрования, в keysAndCipherText {ключ расшифровавние: о.т.}
     # cipher назание модуля шифра в текущей сесси python
-    def decript_telegrams(self, cipher: str, keusAndCipherText: dict[str, str]) -> dict[str, str] | None:
+    def decrypt_telegrams(self, cipher: str, keusAndCipherText: dict[str, str]) -> dict[str, str] | None:
         res: Optional[dict[str, str]]
         res = None
         try:
@@ -210,7 +212,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
     enc_resualt: dict = {}
 
     if (reqToSileAndEncript.selfKeysProperties):
-        enc_resualt = ciphers_object.encript_telegrams(
+        enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, None, reqToSileAndEncript.selfKeysProperties)
     else:
         AllKeys: str = ""
@@ -229,7 +231,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
                 tempLine = file.readline()
                 print(tempLine)
 
-        enc_resualt = ciphers_object.encript_telegrams(
+        enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
 
     save_to_docx(enc_resualt, pathToSaveFile)
@@ -237,7 +239,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
     return
 
 
-def check_encription_telegram(telegram: str) -> bool:
+def check_encryption_telegram(telegram: str) -> bool:
     if (telegram == ''):
         return False
     if (re.search(r"\\text", telegram) == None):
@@ -266,12 +268,12 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
     listOfTheEncriptTelegrams: list[str] = re.split(regToKeys, allDataFromFile)
     tempKeyAndCipherText: dict[str, str] = {}
     for telegram in listOfTheEncriptTelegrams:
-        if (check_encription_telegram(telegram)):
+        if (check_encryption_telegram(telegram)):
             tempKeyAndCipherText = re.split(regToText, telegram)
             keysAndCipherText[tempKeyAndCipherText[0]
                               ] = tempKeyAndCipherText[1]
 
-    dec_result: dict[str, str] = ciphers_object.decript_telegrams(
+    dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
         cipher, keysAndCipherText)
 
     save_to_docx(dec_result, pathToSaveFile)
