@@ -2,147 +2,41 @@
 #include <random>
 #include <algorithm>
 #include <fstream>
+#include <filesystem>
 
 /*================================================================*/
 /*======================== Шифр Виженера =========================*/
 /*================================================================*/
 
-bool is_ru_alpha(uint8_t symbol) {
-    return (symbol >= 192 && symbol <= 255) || symbol == 184 || symbol == 168;
-}
-
-bool is_en_alpha(uint8_t symbol) {
-    return (symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z');
-}
-
-std::map<size_t, size_t> count_words(const std::string& keyFilePath, const std::string& language)
-{
-    bool (*is_alpha) (uint8_t);
-    if (language == "ru") {
-        setlocale(LC_ALL, ".1251");
-        is_alpha = is_ru_alpha;
+std::string find_word_file(const std::string& directory) {
+    for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+        if (entry.path().extension() == ".txt") {
+            return entry.path().string();
+        }
     }
-    else if (language == "en") {
-        is_alpha = is_en_alpha;
+    throw std::runtime_error("Не найден файл со словами (.txt) в директории: " + directory);
+}
+
+std::vector<std::string> load_words(const std::string& filePath, size_t wordLength) {
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Не удалось открыть файл: " + filePath);
+    }
+
+    std::vector<std::string> words;
+    std::string word;
+    while (file >> word) {
+        if (word.length() == wordLength) {
+            words.push_back(word);
+        }
+    }
+
+    file.close();
+    if (words.empty()) {
+        throw std::runtime_error("Не найдено слов длины " + std::to_string(wordLength));
     }
     
-    
-    std::ifstream keyFile(keyFilePath, std::ios::binary);
-    keyFile.seekg(0, keyFile.end);
-    size_t fileSize = keyFile.tellg();
-    keyFile.close();
-    bool isWordMode = false;
-    size_t wordLength = 0;
-    std::map<size_t, size_t> wordsCount;
-    uint8_t buff;
-    for (size_t i = 0; i < fileSize; ++i)
-    {
-        std::ifstream keyFile(keyFilePath, std::ios::binary);
-        
-        keyFile.seekg(i);
-
-        keyFile.read((char*)&buff, 1);
-
-        if (is_alpha(buff))
-        {
-            ++wordLength;
-            if (!isWordMode) 
-            {
-                isWordMode = true;
-            }
-        } else if (isWordMode)
-        {
-            ++wordsCount[wordLength];
-            isWordMode = false;
-            wordLength = 0;
-        }
-        keyFile.close();
-    }
-    return wordsCount;
-}
-
-void set_final_key_word_num(size_t& keyWordNum, bool*& bannedWords)
-{
-    for (size_t i = 0; i < keyWordNum; ++i) {
-        if (bannedWords[i] == true) {
-            ++keyWordNum;
-        }
-    }
-    bannedWords[keyWordNum - 1] = true;
-}
-
-std::string give_word(
-    const std::string& keyFilePath, 
-    const std::string& language, 
-    std::map<size_t, size_t>& wordsCount,
-    const size_t& keyWordLength,
-    bool*& bannedWords,
-    const size_t& allWordsCount
-)
-{   
-    if (wordsCount.at(keyWordLength) == 0) {
-        return "End of words";
-    }
-
-    bool (*is_alpha) (uint8_t);
-    if (language == "ru") {
-        setlocale(LC_ALL, ".1251");
-        is_alpha = is_ru_alpha;
-    }
-    else if (language == "en") {
-        is_alpha = is_en_alpha;
-    }
-
-    srand(time(NULL));
-    size_t keyWordNum = (rand() % wordsCount.at(keyWordLength)) + 1;
-    set_final_key_word_num(keyWordNum, bannedWords);
-    wordsCount.at(keyWordLength) -= 1;
-
-    std::ifstream keyFile(keyFilePath, std::ios::binary);
-    keyFile.seekg(0, keyFile.end);
-    size_t fileSize = keyFile.tellg();
-    keyFile.close();
-    bool isWordMode = false;
-    uint8_t buff;
-    size_t wordLength = 0;
-    for (size_t i = 0; i < fileSize; i++)
-    {
-        std::ifstream keyFile(keyFilePath, std::ios::binary);
-        
-        keyFile.seekg(i);
-
-        keyFile.read((char*)&buff, 1);
-
-        if (is_alpha(buff)) 
-        {
-            ++wordLength;
-            if (!isWordMode) 
-            {
-                isWordMode = true;
-            }
-        } else if (isWordMode)
-        {
-            if (wordLength == keyWordLength) {
-                --keyWordNum;
-                if (keyWordNum == 0) { 
-                    keyFile.close(); 
-                    std::ifstream keyFile(keyFilePath, std::ios::binary);
-                    keyFile.seekg(i - keyWordLength); 
-                    std::string keyBuff(keyWordLength, ' ');
-                    for (size_t i = 0; i < keyWordLength; ++i)
-                    {
-                        keyFile.read((char*)&buff, 1);
-                        keyBuff[i] = (char) buff;
-                    }
-                    return keyBuff;
-                }
-            }
-            wordLength = 0; 
-            isWordMode = false;
-        }
-        keyFile.close(); 
-    }
-    return " "; 
+    return words;
 }
 
 std::string define_language(std::wstring text)
@@ -218,56 +112,9 @@ std::wstring vigenere_decrypt(const std::wstring& ciphertext, const std::wstring
     return openText;
 }
 
-std::string to_upper(const std::string& line, const std::string& language) {
-    std::string result;
-
-    if (language == "ru") {
-        std::locale loc("ru_RU.UTF-8");
-        for (char ch : line) {
-            result.push_back(std::use_facet<std::ctype<char>>(loc).toupper(ch));
-        }
-    } 
-    else {
-        for (char ch : line) {
-            result.push_back(static_cast<char>(std::toupper(static_cast<unsigned char>(ch))));
-        }
-    }
-    return result;
-}
-
-std::vector<std::string> extract_words(const std::string& keyFilePath, size_t keyWordLength, const std::string& language) {
-    std::ifstream file(keyFilePath);
-    
-    if (!file) {
-        throw std::runtime_error("Не удалось открыть файл с ключевыми словами.");
-    }
-
-    std::vector<std::string> wordsVector;
-    std::string word;
-    std::wstring alphabet = get_alphabet(language);
-    std::string allowed;
-    for (wchar_t wc : alphabet) {
-        allowed.push_back(static_cast<char>(wc));
-    }
-    
-    while (file >> word) {
-        std::string filtered;
-        for (char ch : word) {
-            std::string uppendCh = to_upper(std::string(1, ch), language);
-            if (allowed.find(uppendCh) != std::string::npos) {
-                filtered.append(uppendCh);
-            }
-        }
-        if (filtered.size() == keyWordLength) {
-            wordsVector.push_back(filtered);
-        }
-    }
-    return wordsVector;
-}
-
 std::string determine_language_from_key(const std::wstring& key) {
     if (key.empty()) {
-        throw std::invalid_argument("Ключ пуст.");
+        throw InvalidKey("Ключ пуст.");
     }
 
     wchar_t firstCh = key[0];
@@ -286,34 +133,24 @@ std::string determine_language_from_key(const std::wstring& key) {
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-    if(keys.size() < openTexts.size()) {
-        throw InvalidKey("Количество ключей должно быть равно количеству открытого текста...");
+    std::locale::global(std::locale("ru_RU.UTF-8")); 
+    std::wcout.imbue(std::locale()); 
+    if (keys.size() < openTexts.size()) {
+        throw InvalidKey("Количество ключей должно быть как минимум равно количеству открытых текстов...");
     }
-    
-    std::vector<uint8_t> entropy = get_entropy();
-    std::vector<uint8_t> nonce = get_entropy();
-        
-    HMAC_DRBG gen(entropy, nonce, { 'V', 'I', 'G', 'E', 'N', 'E', 'R', '-', 'c', 'i', 'p', 'h', 'e', 'r' });
-    std::optional<std::vector<uint8_t>> randomBytesOpt = gen.HMAC_DRBG_Generate_algorithm(4);
-
-    if (!randomBytesOpt.has_value()) {
-        throw std::runtime_error("Ошибка генерации случайного числа через HMAC_DRBG.");
-    }
-
-    std::vector<uint8_t> randomBytes = randomBytesOpt.value();
-
-    uint32_t randomIndex = *reinterpret_cast<uint32_t*>(randomBytes.data()) % keys.size();
-
-    std::wstring chosenKey = keys[randomIndex];
 
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
+
     for (size_t i = 0; i < openTexts.size(); ++i) {
-        std::wstring text = openTexts[i];
+        const std::wstring text = openTexts[i];
+        const std::wstring key = keys[i];
         std::wstring alphabet = get_alphabet(define_language(text));
-        std::wstring cipher = vigenere_encrypt(text, chosenKey, alphabet);
+
+        std::wstring cipherText = vigenere_encrypt(text, key, alphabet);
+
         std::wstringstream wss;
-        wss << L"Vigenere key: " << chosenKey;
-        keysAndCiphersTexts[wss.str()] = cipher;
+        wss << L"Ключ для шифра: " << key;
+        keysAndCiphersTexts[wss.str()] = cipherText;
     }
     return keysAndCiphersTexts;
 }
@@ -324,7 +161,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     for (const auto& pair : keysAndCipherTexts) {
         std::wstring keyStr = pair.first;
         std::wstring cipherText = pair.second;
-        std::wstring delimiter = L"Vigenere key: ";
+        std::wstring delimiter = L"Ключ для шифра: ";
         size_t pos = keyStr.find(delimiter);
         if (pos == std::wstring::npos) {
             throw InvalidKey("Ключ не найден в строке.");
@@ -354,31 +191,26 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         HMAC_DRBG gen(entropy, nonce, { 'V', 'I', 'G', 'E', 'N', 'E', 'R', '-', 'c', 'i', 'p', 'h', 'e', 'r' });
         
         std::string language = prop["text_language"];
+        std::string directory = prop["viginer_path_to_dir"];
         size_t keyWordLength = 6;
-        if (prop.contains("key_word_length") && prop["key_word_length"].is_number_integer()) {
-            keyWordLength = prop["key_word_length"].get<size_t>();
-            if (keyWordLength == 0) {
-            throw std::invalid_argument("Длина ключевого слова должна быть положительной.");
+
+        if (prop.contains("vigener_key_size") && prop["vigener_key_size"].is_number_integer()) {
+            keyWordLength = prop["vigener_key_size"].get<size_t>();
+            if (keyWordLength <= 0) {
+                throw InvalidKey("Длина ключевого слова должна быть положительной.");
             }
         }
 
-        std::vector<std::string> keys;
+        std::string filePath = find_word_file(directory);
+        std::vector<std::string> words = load_words(filePath, keyWordLength);
 
-        std::map<size_t, size_t> countedWords = count_words(prop["key_file_path"], language);
-        size_t allWordsCount = countedWords[keyWordLength];
-
-        bool* bannedWords = new bool[allWordsCount];
-        for (size_t i = 0; i < allWordsCount; ++i) {
-            bannedWords[i] = false;
-        }
-
+        std::vector<std::string> result;
         for (size_t i = 0; i < count; ++i) {
-            std::string word = give_word(prop["key_file_path"], language, countedWords, keyWordLength, bannedWords, allWordsCount);
-            keys.push_back(word);
+            uint64_t randomIndex = convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) % words.size();
+            result.push_back(words[randomIndex]);
         }
-        
-        return keys;
-        delete[] bannedWords;
+
+        return result;
 
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
@@ -388,7 +220,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
 // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"text_language": "en", "params": []})");
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"text_language": "en", "params": [{"name": "vigener_key_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Длина ключа"}]})");
     
     return keyProp.dump();
 }
@@ -397,11 +229,17 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Значение text_language должен иметь строковое значение...");
+            throw KeyPropertyError("Ключ text_language должен иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
-            throw InvalidKey("Значение text_language должно быть ru или en...");
+            throw InvalidKey("Значение \"Язык текста\" должно быть ru или en...");
         }
+        if(!keyPropertys.at("gamut_size").is_number()) {
+            throw KeyPropertyError("Ключ \"Длина ключа\" должен иметь числовое значение...");
+        }
+        if(keyPropertys.at("disk_count") <= 0) {
+            throw InvalidKey("Значение \"Длина ключа\" должно быть больше 0...");
+        }   
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
     }
