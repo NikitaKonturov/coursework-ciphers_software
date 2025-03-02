@@ -106,6 +106,7 @@ async def catchTelegramsCuttinngData(
 async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     keyPropDict["text_language"] = settings.ciphers_language
+    keyPropDict["viginer_path_to_dir"] = settings.path_to_viginer_dict
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfKeysProperties': keyPropDict})
