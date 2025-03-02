@@ -170,19 +170,13 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
                 gen.HMAC_DRBG_Ressed(get_entropy());
             }
 
-            std::wstringstream ss;
+            std::string ss;
             for (size_t i = 0; i < gamutSize; ++i) 
             {
-                auto random_opt = gen.HMAC_DRBG_Generate_algorithm(256);
-                if (!random_opt.has_value()) {
-                    throw KeyPropertyError("Не удалось сгенерировать случайное значение.");
-                }
-                uint64_t random_value = convert_bytes_to_ddword(random_opt.value());
-                ss << alphabet[random_value % alphabetSize];
+                ss += alphabet[convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) % alphabetSize];
             }
 
-            std::wstring wskey = ss.str();
-            result.push_back(std::string(wskey.begin(), wskey.end()));
+            result.push_back(ss);
         }
 
         return result;
