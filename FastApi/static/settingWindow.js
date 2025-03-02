@@ -1,8 +1,37 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'testFiles';
-decryptFolderPath = 'testFiles';
+encryptFolderPath = 'Графика';
+decryptFolderPath = 'Графика';
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!document.getElementById("toast-container")) {
+        const container = document.createElement("div");
+        container.id = "toast-container";
+        document.body.appendChild(container);
+    }
+});
+
+async function showToast(message, type, duration = 3000) {
+    console.log(`showToast called with: ${message}, type: ${type}`);
+
+    const container = document.getElementById("toast-container");
+    if (!container) {
+        console.error("Toast container not found!");
+        return;
+        }
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("hide");
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+}
 
 async function createSettingsWindow() {
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
@@ -11,38 +40,16 @@ async function createSettingsWindow() {
     settingsWindow.id = 'settingsWindow';
     settingsWindow.className = 'settingWindow-class';
 
+
+
     const heading = document.createElement('h3');
-    heading.textContent = 'Settings';
+    heading.textContent = 'Настройки';
     settingsWindow.appendChild(heading);
 
-    const uiLanguageLabel = document.createElement('label');
-    uiLanguageLabel.textContent = 'Interface Language:';
-    settingsWindow.appendChild(uiLanguageLabel);
-
-    const uiLanguageSelect = document.createElement('select');
-    uiLanguageSelect.name = 'uiLanguage';
-    uiLanguageSelect.id = 'uiLanguage';
-
-    const uiLanguages = [
-        { value: 'en', text: 'English' },
-        { value: 'ru', text: 'Russian' }
-    ];
-
-
-    uiLanguages.forEach(lang => {
-        const option = document.createElement('option');
-        option.value = lang.value;
-        option.textContent = lang.text;
-        if(lang.value == interfaceLanguage) {
-            option.selected = true;
-        }
-        uiLanguageSelect.appendChild(option);
-    });
-
-    settingsWindow.appendChild(uiLanguageSelect);
+    
 
     const cipherLanguageLabel = document.createElement('label');
-    cipherLanguageLabel.textContent = 'Cipher Language:';
+    cipherLanguageLabel.textContent = 'Язык текста:';
     settingsWindow.appendChild(cipherLanguageLabel);
 
     const cipherLanguageSelect = document.createElement('select');
@@ -50,8 +57,8 @@ async function createSettingsWindow() {
     cipherLanguageSelect.id = 'cipherLanguage';
 
     const cipherLanguages = [
-        { value: 'en', text: 'English' },
-        { value: 'ru', text: 'Russian' }
+        { value: 'en', text: 'Английский' },
+        { value: 'ru', text: 'Русский' }
     ];
 
     cipherLanguages.forEach(lang => {
@@ -66,7 +73,7 @@ async function createSettingsWindow() {
     settingsWindow.appendChild(cipherLanguageSelect);
 
     const folderPathEncryptLabel = document.createElement('label');
-    folderPathEncryptLabel.textContent = 'Folder Path for Encrypt:';
+    folderPathEncryptLabel.textContent = 'Путь к папке с результатами зашифрования:';
     settingsWindow.appendChild(folderPathEncryptLabel);
 
     const folderPathEncryptButton = document.createElement('button');
@@ -82,7 +89,7 @@ async function createSettingsWindow() {
     settingsWindow.appendChild(folderPathEncryptButton);
 
     const folderPathDecryptLabel = document.createElement('label');
-    folderPathDecryptLabel.textContent = 'Folder Path for Decrypt:';
+    folderPathDecryptLabel.textContent = 'Путь к папке с результатами расшифрования:';
     settingsWindow.appendChild(folderPathDecryptLabel);
 
     const folderPathDecryptButton = document.createElement('button');
@@ -99,11 +106,11 @@ async function createSettingsWindow() {
 
     const saveButton = document.createElement('button');
     saveButton.id = 'saveSettings';
-    saveButton.textContent = 'Save';
+    saveButton.textContent = 'Сохранить';
 
     const closeButton = document.createElement('button');
     closeButton.id = 'closeSettings';
-    closeButton.textContent = 'Close';
+    closeButton.textContent = 'Закрыть';
 
     const buttonContainer = document.createElement('div');
     buttonContainer.style.display = 'flex';
@@ -122,10 +129,10 @@ async function createSettingsWindow() {
 async function selectFolder() {
     try {
         const folderHandle = await window.showDirectoryPicker();
-        console.log('Selected folder:', folderHandle.name);
+        console.log('Выбранная папка:', folderHandle.name);
         return folderHandle;
     } catch (error) {
-        console.error('Folder selection canceled or not supported:', error);
+        console.error('Выбор папки прекращен:', error);
         return null;
     }
 }
@@ -169,14 +176,13 @@ async function saveSettings() {
         });
 
         if (response.ok) {
-            alert('Settings saved successfully!');
-            document.body.innerHTML = await response.text()
+            showToast('Настройки сохранены!', 'success');
         } else {
-            alert('Failed to save settings!');
+            showToast('Не получилось сохранить настройки!', 'error');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while saving settings!');
+        alert('Возникла ошибка при сохранении настроек!');
     }
 
     closeSettings();
