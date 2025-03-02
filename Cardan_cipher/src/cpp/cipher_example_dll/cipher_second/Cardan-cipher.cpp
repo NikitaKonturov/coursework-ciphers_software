@@ -7,24 +7,24 @@
 
 /*все алгоритмы лишь пример, и не один из них не являеться шифром*/
 
-std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.empty()) {
         throw InvalidKey("Ключи не найдены...");
     }
     
-    std::string text = "";
-    std::map<std::string, std::string> keysAndCipherTexts;
+    std::wstring text = L"";
+    std::map<std::wstring, std::wstring> keysAndCipherTexts;
     
     for (size_t i = 0; i < openTexts.size(); ++i) {
         text = openTexts[i];
         BoolMatrix matrix(keys[i]);
         if (text.size() % matrix.size() != 0) {
             size_t pad_length = matrix.size() - text.size() % matrix.size();
-            text.append(pad_length, 'A'); 
+            text.append(pad_length, L'A'); 
         }
 
-
+        std::wcout << L"Open text: " << text << std::endl;
         matrix.encryption(text);
         keysAndCipherTexts[keys[i]] = text;
     }
@@ -33,7 +33,7 @@ std::map<std::string, std::string> encript(std::vector<std::string> openTexts, s
     return keysAndCipherTexts;
 }
 
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText) 
+std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText) 
 {
     for (auto& [key, text] : keysAndText) {
         BoolMatrix keyMatrix(key);  
@@ -42,7 +42,7 @@ std::map<std::string, std::string> decript(std::map<std::string, std::string> ke
             throw InvalidKey("Длина зашифрованного текста должна быть кратна размеру ключа...");
         }
 
-        std::string decryptedText = keyMatrix.decryption(text);
+        std::wstring decryptedText = keyMatrix.decryption(text);
         text = decryptedText;
     }
 

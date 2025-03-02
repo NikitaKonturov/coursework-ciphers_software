@@ -10,7 +10,7 @@ BoolMatrix::BoolMatrix(int32_t init_n)
 {
     if (init_n <= 0) throw InvalidKey("Размерность матрицы не может быть отрицательной или нулевой!!!");
 
-    m_size = 2*init_n;
+    m_size = init_n;
     std::vector<std::vector<bool>> tempMatrix(m_size, std::vector<bool> (m_size, 0));
 
     b_matrix = tempMatrix;
@@ -36,7 +36,25 @@ BoolMatrix::BoolMatrix(const std::string& str)
     }
     m_size = size;
     b_matrix = tempMatrix;
-}                      
+}
+
+BoolMatrix::BoolMatrix(const std::wstring & str)
+{
+    uint32_t size = uint32_t(sqrt(str.length()));
+
+    if (size*size != str.length()) throw InvalidKey("Неверный размер строки. Длина строки должна быть равна квадрату числа!!!");
+    std::vector<std::vector<bool>> tempMatrix(size, std::vector<bool>(size, 0));
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        for (size_t j = 0; j < size; ++j)
+        {
+            tempMatrix[i][j] = (str[(i*size) + j] == '0' ? 0 : 1);
+        }
+    }
+    m_size = size;
+    b_matrix = tempMatrix;
+}
 
 BoolMatrix::~BoolMatrix() {}
 
@@ -80,13 +98,13 @@ void BoolMatrix::rotation()
     }
 }
 
-std::string BoolMatrix::decryption(const std::string& str)
+std::wstring BoolMatrix::decryption(const std::wstring& str)
 {
     if (str.length() % (m_size * m_size) != 0)  throw InvalidOpenText("Длина текста не кратна квадрату стороны матрицы!!!");
 
     size_t blockCount = str.length() / (m_size * m_size);
-    std::string resultString;
-    std::string temp;
+    std::wstring resultString;
+    std::wstring temp;
 
     for (size_t c = 0; c < blockCount; ++c)
     {
@@ -110,15 +128,17 @@ std::string BoolMatrix::decryption(const std::string& str)
 }
 
 
-std::string BoolMatrix::encryption(const std::string& str)
+std::wstring BoolMatrix::encryption(const std::wstring& str)
 {
     size_t textSize= m_size*m_size;
-    if (str.length() % textSize != 0) throw InvalidOpenText("Длина текста не кратна квадрату стороны матрицы!!!");
-
+    std::cout << "M_size: " << m_size << std::endl; 
+    std::cout << "Text size: " << str.length() << std::endl; 
+    if (str.length() % textSize != 0) throw InvalidOpenText("The length of the text is not a multiple of the square of the side of the matrix!!!");
+    
     size_t count = str.length()/(textSize);
-    std::string temp(textSize, ' ');
-    std::string block(temp);
-    std::string resultString;
+    std::wstring temp(textSize, ' ');
+    std::wstring block(temp);
+    std::wstring resultString;
     size_t tempPosition = 0;
 
     for (size_t c = 0; c < count; ++c)
