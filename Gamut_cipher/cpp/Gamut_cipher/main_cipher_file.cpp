@@ -8,7 +8,7 @@
 
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
-PYBIND11_MODULE(ADFGVX_cipher, m) {
+PYBIND11_MODULE(Gamut_cipher, m) {
     m.doc() = "Шифр гаммирования";
     m.def("encript", &encript);
     m.def("decript", &decript);

@@ -190,7 +190,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
 // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"text_language": "en", "params": [{"name": "gamut_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Размер гаммы: "}]})");
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "gamut_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Размер гаммы: "}]})");
     
     return keyProp.dump();
 }
@@ -207,7 +207,7 @@ void chekRequest(nlohmann::json keyPropertys)
         if(!keyPropertys.at("gamut_size").is_number()) {
             throw KeyPropertyError("Ключ \"Размер гаммы\" должен иметь числовое значение...");
         }
-        if(keyPropertys.at("disk_count") <= 0) {
+        if(keyPropertys.at("gamut_size") <= 0) {
             throw InvalidKey("Значение \"Размер гаммы\" должно быть больше 0...");
         }   
 

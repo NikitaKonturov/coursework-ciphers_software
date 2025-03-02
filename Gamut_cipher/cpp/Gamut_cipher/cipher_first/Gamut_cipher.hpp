@@ -1,5 +1,5 @@
-#ifndef Gamut_cipher
-#define Gamut_cipher
+#ifndef GAMUT_CIPHER
+#define GAMUT_CIPHER
 #include "../include/nlohmann/json.hpp"
 #include "../Permutation/src/Permutation.hpp"
 #include "../cipher_exceptions/cipher_exceptions.hpp"
@@ -32,4 +32,4 @@ std::string get_key_propertys();
 void chekRequest(nlohmann::json keyPropertys);
 
 
-#endif //Gamut_cipher
+#endif //GAMUT_CIPHER
