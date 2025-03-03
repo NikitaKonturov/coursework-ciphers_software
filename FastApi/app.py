@@ -106,13 +106,16 @@ async def catchTelegramsCuttinngData(
 async def catchKeysProperties(keyPropReq: Request):
     keyPropDict = (await keyPropReq.json())
     keyPropDict["text_language"] = settings.ciphers_language
-    keyPropDict["viginer_path_to_dir"] = settings.path_to_viginer_dict
+    logging.debug(f"Path to directory with viginer dicts: {settings.path_to_dir_viginer_dict}")
+    keyPropDict["viginer_path_to_dir"] = settings.path_to_dir_viginer_dict.__str__()
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfKeysProperties': keyPropDict})
     start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
                      'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
 
+    os.remove(requestToSliceAndEncript.selfTextFile)
+    
     return JSONResponse({"Status": 200})
 
 
@@ -131,6 +134,9 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
 
     start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
                      'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+
+    os.remove(requestToSliceAndEncript.selfTextFile)
+    os.remove(pathToUsersKeys)
 
     return JSONResponse({"Status": 200})
 

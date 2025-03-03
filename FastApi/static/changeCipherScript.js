@@ -52,19 +52,19 @@ export async function addBlockOfKeysSettings() {
                 inputLabel.min = param.min
                 inputLabel.max = param.max
             }
-            
+            let blockConfirmKey = document.createElement("div")
+            blockConfirmKey.id = "keys-choose-block"
+            blockConfirmKey.className = "keys-choose-block-class"
+            let buttonConfirm = document.createElement("button")
+            buttonConfirm.textContent = "Подтвердить"
+            buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
+            blockConfirmKey.appendChild(buttonConfirm)    
+
             divParametr.appendChild(nameLabel)
             divParametr.appendChild(inputLabel)
             keysSettingBlock.appendChild(divParametr)
+            keysSettingBlock.appendChild(blockConfirmKey)
         });
-        let buttonConfirm = document.createElement("button")
-        buttonConfirm.textContent = "Подтвердить"
-        buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
-        let blockConfirmKey = document.createElement("div")
-        blockConfirmKey.id = "keys-choose-block"
-        blockConfirmKey.className = "keys-choose-block-class"
-        blockConfirmKey.appendChild(buttonConfirm)    
-        keysSettingBlock.appendChild(blockConfirmKey)
 
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
