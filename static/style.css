@@ -194,13 +194,13 @@ div input {
 .button-container {
   position: relative;
   bottom: 10px;
-  width: 80%;
+  width: 55%;
   max-width: 200px;
   margin: 10px;
-  min-width: 50%;
+  min-width: 35%;
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 35px;
   left: 10%;
   padding-left: 8%;
 }
@@ -221,7 +221,7 @@ div input {
 
 .button-container button {
   padding: 12px 24px;
-  font-size: 15px;
+  font-size: 14px;
   background-color: #e7e9f1;
   color: #0a0707;
   border: 2px solid white;
@@ -230,17 +230,16 @@ div input {
   width: auto;
   transition: background-color 0.3s ease;
 }
-
 #button-container {
   position: relative;
   bottom: 10px;
-  width: 80%;
+  width: 55%;
   max-width: 200px;
   margin: 10px;
-  min-width: 50%;
+  min-width: 30%;
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 35px;
   left: 10%;
 }
 

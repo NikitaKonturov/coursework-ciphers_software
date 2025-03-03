@@ -190,6 +190,7 @@ class Settings(BaseSettings):
     decript_results_path: Path = Field(..., env="DECRIPT_RESULTS_PATH")
     interface_language: str = Field(..., env="INTERFACE_LANGUAGE")
     ciphers_language: str = Field(..., env="CIPHERS_LANGUAGE")
+    path_to_dir_viginer_dict: Path = Field(..., env="PATH_TO_DIR_VIGINER_DICT")
     host: str = Field(..., env="HOST")
     port: int = Field(..., env="PORT")
     location: str = Field(..., env="LOCATION")

@@ -1,7 +1,16 @@
 interfaceLanguage = 'ru';
-cipherLanguage = 'ru';
+cipherLanguage = 'en';
 encryptFolderPath = 'testFiles';
 decryptFolderPath = 'testFiles';
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!document.getElementById("toast-container")) {
+        const container = document.createElement("div");
+        container.id = "toast-container";
+        document.body.appendChild(container);
+    }
+});
 
 async function showToast(message, type, duration = 3000) {
     console.log(`showToast called with: ${message}, type: ${type}`);
@@ -25,41 +34,23 @@ async function showToast(message, type, duration = 3000) {
 }
 
 async function createSettingsWindow() {
+    Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
+    Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
+    Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
+
 
     const settingsWindow = document.createElement('div');
     settingsWindow.id = 'settingsWindow';
     settingsWindow.className = 'settingWindow-class';
 
+
+
     const heading = document.createElement('h3');
     heading.textContent = 'Настройки';
     settingsWindow.appendChild(heading);
 
-    const uiLanguageLabel = document.createElement('label');
-    uiLanguageLabel.textContent = 'Interface Language:';
-    settingsWindow.appendChild(uiLanguageLabel);
-
-    const uiLanguageSelect = document.createElement('select');
-    uiLanguageSelect.name = 'uiLanguage';
-    uiLanguageSelect.id = 'uiLanguage';
-
-    const uiLanguages = [
-        { value: 'en', text: 'English' },
-        { value: 'ru', text: 'Russian' }
-    ];
-
-
-    uiLanguages.forEach(lang => {
-        const option = document.createElement('option');
-        option.value = lang.value;
-        option.textContent = lang.text;
-        if(lang.value == interfaceLanguage) {
-            option.selected = true;
-        }
-        uiLanguageSelect.appendChild(option);
-    });
-
-    settingsWindow.appendChild(uiLanguageSelect);
+    
 
     const cipherLanguageLabel = document.createElement('label');
     cipherLanguageLabel.textContent = 'Язык текста:';
@@ -119,11 +110,11 @@ async function createSettingsWindow() {
 
     const saveButton = document.createElement('button');
     saveButton.id = 'saveSettings';
-    saveButton.textContent = 'Save';
+    saveButton.textContent = 'Сохранить';
 
     const closeButton = document.createElement('button');
     closeButton.id = 'closeSettings';
-    closeButton.textContent = 'Close';
+    closeButton.textContent = 'Закрыть';
 
     const buttonContainer = document.createElement('div');
     buttonContainer.style.display = 'flex';
@@ -137,6 +128,7 @@ async function createSettingsWindow() {
     closeButton.onclick = closeSettings;
     saveButton.onclick = saveSettings;
     document.body.appendChild(settingsWindow);
+
 }
 
 async function selectFolder() {
@@ -167,7 +159,7 @@ function closeSettings() {
 }
 
 async function saveSettings() {
-    interfaceLanguage = document.getElementById('uiLanguage').value;
+    interfaceLanguage = "ru";
     cipherLanguage = document.getElementById('cipherLanguage').value;
     encryptFolderPath = document.querySelector('button[data-encript-folder-path]').dataset.encriptFolderPath;
     decryptFolderPath = document.querySelector('button[data-decript-folder-path]').dataset.decriptFolderPath;
