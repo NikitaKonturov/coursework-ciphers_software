@@ -74,6 +74,8 @@ def load_settings(config_filename: str) -> None:
 
 
 def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
+    print(pathToJsFile)
+    print(parametrs)
     with open(pathToJsFile, "r", encoding="utf-8") as file:
         code = file.read()
     print(parametrs)
@@ -91,15 +93,12 @@ EXCLUDED_DIRS = {
     "$Recycle.Bin",
     "System Volume Information",
     "Windows",
-    "Program Files",
-    "Program Files (x86)",
     "ProgramData",
-    "AppData"
 }
 
 
 def search_directory(basePath: Path, dirname: str) -> None | Path:
-    for root, dirs, _ in os.walk("C:\\"):
+    for root, dirs, _ in os.walk(basePath.anchor):
         # Фильтруем системные папки
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
 
@@ -108,7 +107,8 @@ def search_directory(basePath: Path, dirname: str) -> None | Path:
     return None
 
 
-def start_server(settings: Settings) -> None:
+def start_server(settings: Settings, BASE_DIR: Path) -> None:
+    update_js_file(Path(BASE_DIR, "static", "settingWindow.js"), {'interfaceLanguage': settings.interface_language, 'cipherLanguage': settings.ciphers_language, 'encryptFolderPath': settings.encript_results_path.name, 'decryptFolderPath': settings.decript_results_path.name})
     uvicorn.run("__main__:app", host=settings.host,
                 port=settings.port, reload=False)
 
