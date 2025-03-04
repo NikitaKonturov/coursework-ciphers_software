@@ -304,3 +304,4 @@ export async function encriptSettings() {
 
 window.encriptSettings = encriptSettings
 window.preventActionButton = preventActionButton
+window.sendDecriptRequest = sendDecriptRequest
