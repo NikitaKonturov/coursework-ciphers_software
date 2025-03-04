@@ -1,4 +1,5 @@
 import logging
+import threading
 import os
 import re
 import time
@@ -257,6 +258,7 @@ def start_server(settings: Settings) -> None:
 
 def start_webview(settings: Settings) -> None:
     time.sleep(1)
-    webview.create_window(
-        settings.app_name, settings.location, width=1280, height=720)
+    webview.create_window(settings.app_name, settings.location, width=1280, height=720)
     webview.start()
+    
+    

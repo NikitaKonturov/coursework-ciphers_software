@@ -211,3 +211,4 @@ if __name__ == "__main__":
     server_thread.daemon = True
     server_thread.start()
     start_webview(settings)
+ 
