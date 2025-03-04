@@ -130,21 +130,30 @@ std::wstring BoolMatrix::decryption(const std::wstring& str)
 
 std::wstring BoolMatrix::encryption(const std::wstring& str)
 {
-    size_t textSize= m_size*m_size;
-    std::cout << "M_size: " << m_size << std::endl; 
-    std::cout << "Text size: " << str.length() << std::endl; 
-    if (str.length() % textSize != 0) throw InvalidOpenText("The length of the text is not a multiple of the square of the side of the matrix!!!");
+    std::wstring string = str;
+    size_t textSize = m_size * m_size;
     
-    size_t count = str.length()/(textSize);
-    std::wstring temp(textSize, ' ');
-    std::wstring block(temp);
+    std::cout << "M_size: " << m_size << std::endl; 
+    std::cout << "Text size: " << string.length() << std::endl;
+    
+    // Если длина не кратна textSize, дополняем текст его же началом
+    //if (string.length() % textSize != 0) {
+    //    size_t pad_length = textSize - (string.length() % textSize);
+    //    string.append(string.substr(0, pad_length)); 
+    //}
+    
+    if (string.length() % textSize != 0) {
+        throw InvalidOpenText("Длина текста не кратна квадрату стороны матрицы!!!");
+    }
+    
+    size_t count = string.length() / textSize;
     std::wstring resultString;
-    size_t tempPosition = 0;
-
+    
     for (size_t c = 0; c < count; ++c)
     {
-        block = temp;
-        tempPosition = 0;
+        std::wstring block(textSize, L' '); // Инициализируем новый блок пробелами
+        size_t tempPosition = 0;
+
         for (uint16_t k = 0; k < 4; ++k)
         {
             for (size_t i = 0; i < this->m_size; ++i)
@@ -153,17 +162,21 @@ std::wstring BoolMatrix::encryption(const std::wstring& str)
                 {
                     if (this->b_matrix[i][j] == 1) 
                     { 
-                        block[i * m_size + j] = str[tempPosition];
-                        ++tempPosition;
+                        if (tempPosition < textSize) {
+                            block[i * m_size + j] = string[c * textSize + tempPosition];
+                            ++tempPosition;
+                        }
                     }
                 }
             }
             this->rotation();
         }
+
         resultString.append(block);
     }
     return resultString;
 }
+
 
 /*================================================================================*/
 /*============================= Перегрузка операторов ============================*/
@@ -171,8 +184,8 @@ std::wstring BoolMatrix::encryption(const std::wstring& str)
 
 std::vector<bool>& BoolMatrix::operator[](int32_t i)
 {
-    if (i<0 || i >= m_size) throw std::invalid_argument("Неверный индекс в операторе []!!!\n");
-    return b_matrix.at(i);
+    if (i < 0 || i >= static_cast<int32_t>(m_size)) throw std::invalid_argument("Неверный индекс в операторе []!!!\n");
+    return b_matrix[i];
 }
 
 std::ostream& operator<<(std::ostream& out, const BoolMatrix& obj)
