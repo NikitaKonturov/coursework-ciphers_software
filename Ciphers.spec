@@ -23,6 +23,7 @@ a = Analysis(
     noarchive=False
 )
 
+a.datas += [('logo.ico', 'C:\\Development\\course_work\\coursework-ciphers_software\\logo.ico', 'DATA')]
 pyz = PYZ(a.pure, a.zipped_data)
 
 
@@ -45,4 +46,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='logo.ico' 
 )
