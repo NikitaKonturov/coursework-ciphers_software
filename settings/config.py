@@ -250,8 +250,8 @@ def search_directory(basePath: Path, dirname: str) -> None | Path:
     return None
 
 
-def start_server(settings: Settings) -> None:
-    cwd = Path(__file__).parent.resolve()
+def start_server(settings: Settings, BASE_DIR: Path) -> None:
+    update_js_file(Path(BASE_DIR, "static", "settingWindow.js"), {'interfaceLanguage': settings.interface_language, 'cipherLanguage': settings.ciphers_language, 'encryptFolderPath': settings.encript_results_path.name, 'decryptFolderPath': settings.decript_results_path.name})    
     uvicorn.run("__main__:app", host=settings.host,
                 port=settings.port, reload=False)
 
