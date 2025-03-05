@@ -94,9 +94,12 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         key.inverse();
         std::map<wchar_t, wchar_t> substitution = get_alfabet_substitution(key, define_language(keyAndCipherText.second));
         std::wstring openText = keyAndCipherText.second;
-        for(wchar_t& symbol: openText) {
-            symbol = substitution[symbol];
+        for (size_t i = 0; i < openText.size(); ++i) {
+            openText[i] = substitution[openText[i]];
         }
+        
+        std::wcout << "Open text: " << openText << std::endl;
+
         keysAndOpenTexts[keyAndCipherText.first] = openText;
     }
 
