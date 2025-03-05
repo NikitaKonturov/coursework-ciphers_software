@@ -34,10 +34,12 @@ async function showToast(message, type, duration = 3000) {
 }
 
 async function createSettingsWindow() {
+    Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
-    Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
+    Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => { elem.remove(); });
+
 
 
     const settingsWindow = document.createElement('div');
