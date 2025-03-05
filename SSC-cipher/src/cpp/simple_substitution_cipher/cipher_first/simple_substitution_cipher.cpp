@@ -103,7 +103,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         keysAndOpenTexts[keyAndCipherText.first] = openText;
     }
 
-    return keysAndCipherTexts;
+    return keysAndOpenTexts;
 }
 
 
