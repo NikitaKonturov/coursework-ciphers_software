@@ -18,14 +18,15 @@ public:
     BoolMatrix(std::vector<std::vector<bool>>&);   
     BoolMatrix(BoolMatrix&);            
     BoolMatrix(const std::string&);                // Для заполнения матрицы из строки вида "0010001000101", рассчет длины стороны матрицы = корень из длины строки, добавить проверку: сторона^2 == sqrt(str.size())
+    BoolMatrix(const std::wstring&);                // Для заполнения матрицы из строки вида "0010001000101", рассчет длины стороны матрицы = корень из длины строки, добавить проверку: сторона^2 == sqrt(str.size())
     ~BoolMatrix();
     
     // Методы и функции
     uint32_t size();
     void check();                                  // Для проверки корректности матрицы Кордано
     void rotation();                               // Для поворота матрицы на 90° направо
-    std::string decryption(const std::string&);    // Для применения матрицы к строке (Расшифрование)
-    std::string encryption(const std::string&);    // Для применения матрицы к строке (Зашифрование)
+    std::wstring decryption(const std::wstring&);    // Для применения матрицы к строке (Расшифрование)
+    std::wstring encryption(const std::wstring&);    // Для применения матрицы к строке (Зашифрование)
     
     // Перегрузка операторов
     std::vector<bool>& operator[](int32_t);

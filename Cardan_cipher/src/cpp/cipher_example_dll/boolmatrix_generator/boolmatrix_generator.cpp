@@ -1,59 +1,34 @@
 #include "boolmatrix_generator.hpp"
 
-void generatMatrix(BoolMatrix& mtrx, std::minstd_rand& gen)
+void generatMatrix(BoolMatrix& mtrx, HMAC_DRBG& gen)
 {
-    std::map<uint32_t, std::set<uint32_t>> usingBigrams;
-    // Создаём генератор на основе мультипликативной конгруэнтной последовательности
-    
-    // Создаём распределение от 0 до 2n-1
-    std::uniform_int_distribution<int32_t> distr(0, (mtrx.size()-1));
+    uint32_t n = mtrx.size();
+    uint32_t half_n = n / 2;  // Размер верхней левой четверти
 
-    mtrx = BoolMatrix(mtrx.size()/2);
+    for (uint32_t i = 0; i < half_n; ++i) {
+        for (uint32_t j = 0; j < half_n; ++j) {
+            // Генерируем случайный индекс [0,3] для выбора варианта поворота
+            auto randomBytes = gen.HMAC_DRBG_Generate_algorithm(8);
+            if (!randomBytes.has_value()) {
+                throw std::runtime_error("Ошибка генерации случайных чисел");
+            }
+            uint32_t variant = convert_bytes_to_ddword(randomBytes.value()) % 4;
 
-    // n^2
-    uint32_t onesCount = mtrx.size() * mtrx.size() / 4; 
-    uint32_t n = mtrx.size()/2;
-    for (size_t k = 0; k < onesCount; ++k) {
-        uint32_t i = 0;
-        uint32_t j = 0;
-        do {
-            i = distr(gen);
-            j = distr(gen);
-            // 0 поворот
-            if(usingBigrams.find(i) != usingBigrams.end() && usingBigrams.find(i)->second.find(j) != usingBigrams.find(i)->second.end()){
-                usingBigrams[i].insert(j);
-                continue;
+            uint32_t x, y;
+
+            // Выбираем только одну позицию для прокола
+            switch (variant) {
+                case 0: x = i; y = j; break;                    // Оригинальная позиция
+                case 1: x = j; y = n - i - 1; break;            // Поворот на 90°
+                case 2: x = n - i - 1; y = n - j - 1; break;    // Поворот на 180°
+                case 3: x = n - j - 1; y = i; break;            // Поворот на 270°
             }
-            uint32_t temp = i;
-            i = j;
-            j = n - temp + 1;
-            // 90 поворот
-            if(usingBigrams.find(i) != usingBigrams.end() && usingBigrams.find(i)->second.find(j) != usingBigrams.find(i)->second.end()){
-                usingBigrams[i].insert(j);
-                continue;
-            }
-            temp = i;
-            i = j;
-            j = n - temp + 1;
-            // 180 поворот
-            if(usingBigrams.find(i) != usingBigrams.end() && usingBigrams.find(i)->second.find(j) != usingBigrams.find(i)->second.end()){
-                usingBigrams[i].insert(j);
-                continue;
-            }
-            temp = i;
-            i = j;
-            j = n - temp + 1;
-            // 270 поворот
-            if(usingBigrams.find(i) != usingBigrams.end() && usingBigrams.find(i)->second.find(j) != usingBigrams.find(i)->second.end()){
-                usingBigrams[i].insert(j);
-                continue;
-            }
-            temp = i;
-            i = j;
-            j = n - temp + 1;
-            usingBigrams[i].insert(j);
-            mtrx[i][j] = 1;
-            break;
-        }while(true);
+
+            // Устанавливаем прокол только в одну выбранную позицию
+            mtrx[x][y] = 1;
+        }
     }
 }
+
+
+

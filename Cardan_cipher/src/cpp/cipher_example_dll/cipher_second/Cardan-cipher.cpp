@@ -7,42 +7,37 @@
 
 /*все алгоритмы лишь пример, и не один из них не являеться шифром*/
 
-std::map<std::string, std::string> encript(std::vector<std::string> openTexts, std::vector<std::string> keys)
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-    if(keys.empty()) {
-        throw InvalidKey("Keys not found...");
+    if (keys.empty()) {
+        throw InvalidKey("Ключи не найдены...");
     }
-    
-    std::string text = "";
-    std::map<std::string, std::string> keysAndCipherTexts;
-    
+
+    std::map<std::wstring, std::wstring> keysAndCipherTexts;
+
     for (size_t i = 0; i < openTexts.size(); ++i) {
-        text = openTexts[i];
+        std::wstring text = openTexts[i];
         BoolMatrix matrix(keys[i]);
-        if (text.size() % matrix.size() != 0) {
-            size_t pad_length = matrix.size() - text.size() % matrix.size();
-            text.append(pad_length, 'A'); 
-        }
 
-
-        matrix.encryption(text);
+        std::wcout << L"Open text: " << text << std::endl;
+        text = matrix.encryption(text);
         keysAndCipherTexts[keys[i]] = text;
     }
 
-    
     return keysAndCipherTexts;
 }
 
-std::map<std::string, std::string> decript(std::map<std::string, std::string> keysAndText) 
+
+std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText) 
 {
     for (auto& [key, text] : keysAndText) {
         BoolMatrix keyMatrix(key);  
 
         if (text.size() % keyMatrix.size() != 0) {
-            throw InvalidKey("Length of cipher text must be multiple of the key size...");
+            throw InvalidKey("Длина зашифрованного текста должна быть кратна размеру ключа...");
         }
 
-        std::string decryptedText = keyMatrix.decryption(text);
+        std::wstring decryptedText = keyMatrix.decryption(text);
         text = decryptedText;
     }
 
@@ -60,25 +55,37 @@ std::vector<std::string> gen_keys(std::string keyProperties, size_t count)
         prop = nlohmann::json::parse(keyProperties);
         chekRequest(prop);
 
+        // Инициализация HMAC_DRBG
+        std::vector<uint8_t> entropy = get_entropy(); // Получаем энтропию
+        std::vector<uint8_t> nonce = get_entropy();   // Получаем nonce
+        HMAC_DRBG gen(entropy, nonce, {'C', 'A', 'R', 'D', 'A', 'N', '-', 'c', 'i', 'p', 'h', 'e', 'r'}); 
+
+        std::vector<std::string> result;
+
         // Извлекаем размер матрицы
         int32_t matrix_size = prop["matrix_size"];
         if (matrix_size % 2 != 0) {
-            throw InvalidKey("Matrix size must be even.");
+            throw InvalidKey("Размер матрицы должен быть четным.");
         }
 
-        std::minstd_rand generator(static_cast<uint64_t>(time(NULL)));
+        for (size_t key = 0; key < count; ++key) {
+            // Проверяем, нужно ли выполнить повторную инициализацию
+            if (gen.HMAC_DRBG_Ressed_Check()) {
+                gen.HMAC_DRBG_Ressed(get_entropy());
+            }
 
-        std::vector<std::string> result;
-        for (size_t i = 0; i < count; ++i) {
+            // Создаем матрицу
             BoolMatrix matrix(matrix_size);
-            generatMatrix(matrix, generator);
+            generatMatrix(matrix, gen); // Используем HMAC_DRBG для генерации матрицы
+
+            // Преобразуем матрицу в строку
             std::ostringstream oss;
             oss << matrix;
             result.push_back(oss.str());
         }
 
-        return result;                              // Пример вывода функции:"1000111100000101" — это строковое представление 4x4 матрицы с элементами 0 и 1.
-    } catch (nlohmann::json::parse_error &err) {
+        return result; // Возвращаем сгенерированные матрицы
+    } catch (nlohmann::json::parse_error& err) {
         throw KeyPropertyError(err.what());
     }
 }
@@ -97,7 +104,7 @@ std::string get_key_propertys()
                 "value": 0,
                 "type": "number",
                 "default": 4,
-                "label": "Matrix Size"
+                "label": "Размер матрицы (Размер матрицы должен быть чётным) "
             }
         ]
     })");
@@ -108,10 +115,10 @@ void chekRequest(nlohmann::json keyProperties)
 {
     try {
         if (!keyProperties.at("matrix_size").is_number()) {
-            throw KeyPropertyError("Key matrix_size must have an int value...");
+            throw KeyPropertyError("Значение \"Размер матрицы\" должен иметь целое значение...");
         }
         if (keyProperties["matrix_size"] <= 0) {
-            throw InvalidKey("Value matrix_size must be natural...");
+            throw InvalidKey("Значение \"Размер матрицы\" должно быть натуральным...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
