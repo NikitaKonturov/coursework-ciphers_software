@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4B0AA874-044A-3380-878D-B33194A7903F}</ProjectGuid>
+    <ProjectGuid>{8100419E-F999-33AF-9849-D65544CE3C36}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -59,26 +59,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Plaifer_cipher_lib.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Plaifer_cipher_lib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Plaifer_cipher_lib.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Plaifer_cipher_lib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Plaifer_cipher_lib.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Plaifer_cipher_lib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Plaifer_cipher_lib.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Plaifer_cipher_lib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -99,10 +99,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -115,32 +115,31 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MinimalRebuild></MinimalRebuild>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization></Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -153,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -175,10 +174,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -191,7 +190,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -212,10 +211,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\..\include;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\src;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_exceptions;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\permutation_generator;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\DRBG;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\HMAC;C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -227,11 +226,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\CMakeLists.txt">
+    <CustomBuild Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher" "-BC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build" --check-stamp-file "C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher -BC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -240,11 +239,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher" "-BC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build" --check-stamp-file "C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher -BC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -253,11 +252,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher" "-BC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build" --check-stamp-file "C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher -BC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -266,11 +265,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_first/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher" "-BC:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build" --check-stamp-file "C:/Disk G/Course work/coursework-beard_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher -BC:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -279,42 +278,43 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\Plaifer_cipher.cpp" />
+    <ClCompile Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\Plaifer_cipher.cpp" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\ZERO_CHECK.vcxproj">
-      <Project>{27D70D90-7386-389B-A75E-404753314398}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\ZERO_CHECK.vcxproj">
+      <Project>{DA153AD7-017C-3A3B-BD81-3AED99F3A2E1}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\permutation_generator\DRBG\DRBG_lib.vcxproj">
-      <Project>{3D8DD41F-E7A4-35CF-8417-E3CA810B2AA9}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\permutation_generator\DRBG\DRBG_lib.vcxproj">
+      <Project>{3B6CA340-3073-3C0C-82EE-0DC4EAF4995F}</Project>
       <Name>DRBG_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\DRBG\HMAC\HMAC_lib.vcxproj">
-      <Project>{DDE4FF53-72B8-39BC-887C-28576B3CCA03}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\DRBG\HMAC\HMAC_lib.vcxproj">
+      <Project>{85DFB555-33B9-3F5D-B479-1780AB53BF77}</Project>
       <Name>HMAC_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\HMAC\SHA-256\SHA-256_lib.vcxproj">
-      <Project>{4F554DA2-FBB5-3BF4-A0AC-D0A5DAC96D81}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\HMAC\SHA-256\SHA-256_lib.vcxproj">
+      <Project>{F3A07A9E-A136-345B-8F44-E81ABACBF1CA}</Project>
       <Name>SHA-256_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\cipher_exceptions\cipher_exceptions_lib.vcxproj">
-      <Project>{6344EF4F-8D5F-357A-AD71-CB02BFE8D9D1}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\cipher_exceptions\cipher_exceptions_lib.vcxproj">
+      <Project>{7DC21B05-6A77-334B-BE5D-7B50A55D50D7}</Project>
       <Name>cipher_exceptions_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\permutation_generator\permutation_generator_lib.vcxproj">
-      <Project>{6B3BE46B-EF63-321D-90E7-69387363D943}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\permutation_generator\permutation_generator_lib.vcxproj">
+      <Project>{F5749221-4193-3BD8-808B-CD0BA3CD3982}</Project>
       <Name>permutation_generator_lib</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Permutation\permutation_lib.vcxproj">
-      <Project>{A690E916-B40B-34B3-B3E4-0CBA628387F5}</Project>
+    <ProjectReference Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\cipher_first\Permutation\permutation_lib.vcxproj">
+      <Project>{50211036-E89D-3D50-ABC2-012D05B38168}</Project>
       <Name>permutation_lib</Name>
     </ProjectReference>
   </ItemGroup>

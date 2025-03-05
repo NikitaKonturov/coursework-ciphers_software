@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\CMakeLists.txt" />
+    <CustomBuild Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\Permutation\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

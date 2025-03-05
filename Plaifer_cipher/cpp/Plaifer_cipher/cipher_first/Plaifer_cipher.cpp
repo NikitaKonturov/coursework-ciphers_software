@@ -229,11 +229,13 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         if(define_language(pair.second) != "en") {
             throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
-        Permutation key_permutation(pair.first);
-        std::wstring completion = get_trivial_completion();
-        key_permutation.apply(completion);
+        std::wregex cleaner(L"\\W+");
+        
+        std::wstring completion = std::regex_replace(pair.first, cleaner, L"");
+        std::wcout << "Filling in the square: " << completion << std::endl;
         for (size_t i = 0; i < pair.second.size(); i += 2) {
             std::pair<wchar_t, wchar_t> newBigram = get_revers_cipher_bigram(pair.second[i], pair.second[i+1], completion);
+            std::wcout << L"New bigram: " << newBigram.first << newBigram.second << std::endl;
             pair.second[i] = newBigram.first;
             pair.second[i+1] = newBigram.second;
         }

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Disk G\Course work\coursework-beard_software\Plaifer_cipher\cpp\Plaifer_cipher\build\CMakeFiles\09e75be2aa3b243ab11a43c40028944b\generate.stamp.rule">
+    <CustomBuild Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\build\CMakeFiles\5d1dea97ea921b5b8954268a177ac623\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{9A90DAD8-0729-3D5B-B79B-D529728916DD}</UniqueIdentifier>
+      <UniqueIdentifier>{9A772B1A-2A1A-3C25-923F-FAA3E00AD7CC}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
