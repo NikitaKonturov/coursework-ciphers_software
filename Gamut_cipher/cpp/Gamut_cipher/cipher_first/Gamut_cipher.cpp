@@ -3,17 +3,29 @@
 #include <algorithm>
 
 /*================================================================*/
-/*======================== Шифр Гаммирования =========================*/
+/*======================== Шифр Гаммирования =====================*/
 /*================================================================*/
 
 std::wstring get_en_completion()
 {
-    return L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::wstring en_alphabet;
+
+    for (size_t i = 65; i < 91; ++i){
+        en_alphabet.push_back(static_cast<wchar_t>(i));
+    }
+
+    return en_alphabet;
 }
 
 std::wstring get_ru_completion()
 {
-    return L"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ";
+    std::wstring ru_alphabet;
+
+    for (size_t i = 1040; i < 1072; ++i){
+        ru_alphabet.push_back(static_cast<wchar_t>(i));
+    }
+
+    return ru_alphabet;
 }
 
 std::string define_language(const std::wstring& text)
@@ -21,9 +33,9 @@ std::string define_language(const std::wstring& text)
     bool has_ru = false, has_en = false;
 
     for (wchar_t ch : text) {
-        if (ch >= L'А' && ch <= L'Я') {
+        if (static_cast<int>(ch) >= 1040 && static_cast<int>(ch) < 1072) {
             has_ru = true;
-        } else if (ch >= L'A' && ch <= L'Z') {
+        } else if (static_cast<int>(ch) >= 65 && static_cast<int>(ch) < 91) {
             has_en = true;
         }
         if (has_ru && has_en) {
@@ -55,8 +67,11 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             throw KeyPropertyError("Размер гаммы должен соответствовать размеру открытого текста!");
         }
 
+        std::wcout << "Text: " << text << std::endl;
         std::string lang = define_language(text);
+        std::cout << "Lang: " << lang << std::endl;  
         std::wstring alphabet = (lang == "ru") ? get_ru_completion() : get_en_completion();
+        std::wcout << L"Alfabet: " << alphabet << std::endl;
         size_t alphabetSize = alphabet.size();
 
         std::wstring gamma(keys[i].begin(), keys[i].end());
@@ -144,7 +159,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 }
 
 
-std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
+std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
 {
     nlohmann::json prop;
     try
@@ -157,7 +172,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         std::vector<uint8_t> nonce = get_entropy();
         HMAC_DRBG gen(entropy, nonce, {'G', 'a', 'm', 'u', 't', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
 
-        std::vector<std::string> result;
+        std::vector<std::wstring> result;
 
         std::wstring alphabet = (prop["text_language"] == "en") ? get_en_completion() : get_ru_completion();
         size_t alphabetSize = alphabet.size();
@@ -170,7 +185,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
                 gen.HMAC_DRBG_Ressed(get_entropy());
             }
 
-            std::string ss;
+            std::wstring ss;
             for (size_t i = 0; i < gamutSize; ++i) 
             {
                 ss += alphabet[convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) % alphabetSize];
