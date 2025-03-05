@@ -132,7 +132,7 @@ async def catchKeysProperties(keyPropReq: Request):
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfKeysProperties': keyPropDict})
     start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
-                     'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+                     'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
 
     os.remove(requestToSliceAndEncript.selfTextFile)
 
@@ -153,7 +153,7 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
         update={'selfFileWithUsersKeys': pathToUsersKeys})
 
     start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
-                     'encription-resualt-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+                     'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
 
     os.remove(requestToSliceAndEncript.selfTextFile)
     os.remove(pathToUsersKeys)
@@ -169,7 +169,7 @@ async def catchDecriptRequest(
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
     print(textFile.filename)
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
-        settings.decript_results_path, 'decription-resualt-' + cipher + '.docx'))
+        settings.decript_results_path, 'decription-result-' + cipher + '.docx'))
 
     return JSONResponse({"Status": 200})
 
