@@ -57,11 +57,56 @@ size_t give_words_count(std::wifstream& keyFile, const size_t& length, const std
     return wordsCount;
 }
 
-std::wstring give_random_key(const std::string& lang, const size_t& length)
+void sort_key_file(const std::string& keyFilePath, const std::string& lang)
+{
+    std::wifstream keyFile(keyFilePath);
+    std::wstring buff;
+    std::string res_dict_part_path;
+    if (lang == "ru") {
+        keyFile.imbue(std::locale("ru_RU.UTF-8"));
+        setlocale(LC_ALL, "ru_RU.UTF-8");
+    }
+    else if (lang == "en") {
+        keyFile.imbue(std::locale("en-US.UTF-8"));
+        setlocale(LC_ALL, "en_US.UTF-8");
+    }
+    while (std::getline(keyFile, buff)) {
+        if (buff.find(L'-') != std::wstring::npos) {
+            continue;
+        }
+        if (buff.find(L'.') != std::wstring::npos) {
+            continue;
+        }
+        res_dict_part_path =  "../../src/dictionaries/custom/custom_dict_"
+         + std::to_string(buff.length()) + ".txt";
+        std::wofstream res_dict_part(res_dict_part_path, std::ios::app);
+        if (lang == "ru") {
+            res_dict_part.imbue(std::locale("ru_RU.UTF-8"));
+        }
+        else if(lang == "en") {
+            res_dict_part.imbue(std::locale("en_US.UTF-8"));
+        }
+        res_dict_part << buff << '\n';
+        res_dict_part.close();
+    }
+}
+
+void clear_custom()
+{
+
+    for (size_t i = 2; i < 50; ++i) {
+        std::string custom_path =
+        "../../src/dictionaries/custom/custom_dict_" + std::to_string(i) + ".txt";
+        std::ofstream clear_file(custom_path);
+        clear_file.close();
+    }
+}
+
+std::wstring give_random_custom_key(const std::string& lang, const size_t& length)
 {
     srand(time(NULL));
-    std::string keyFilePath = "../../src/dictionaries/" + lang + '/'
-     + lang + "_dict_" + std::to_string(length) + ".txt";
+    std::string keyFilePath = "../../src/dictionaries/custom/custom_dict_"
+     + std::to_string(length) + ".txt";
 
     std::wifstream keyFile(keyFilePath, std::ios::binary);
     size_t wordsCount = give_words_count(keyFile, length, lang);
@@ -72,8 +117,7 @@ std::wstring give_random_key(const std::string& lang, const size_t& length)
         keyFile.imbue(std::locale("en_US.UTF-8"));
     }
 
-    std::string bannedWordsPath = "../../src/dictionaries/" + lang + '/'
-     + lang + "_ban_words.txt";
+    std::string bannedWordsPath = "../../src/dictionaries/custom/custom_ban_words.txt";
     std::wifstream bannedWordsIn(bannedWordsPath);
     if (!bannedWordsIn.is_open()) {
         bannedWordsIn.close();
@@ -130,4 +174,5 @@ void clear_cache()
 {
     std::wofstream clear_ru("../../src/dictionaries/ru/ru_ban_words.txt");
     std::wofstream clear_en("../../src/dictionaries/en/en_ban_words.txt");
+    std::wofstream clear_custom("../../src/dictionaries/custom/custom_ban_words.txt");
 }
