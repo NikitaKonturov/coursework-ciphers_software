@@ -155,8 +155,17 @@ export async function sendEncriptRequest(formID, keysType) {
             })
 
         if(!userKeysResponse.ok) {
-            console.error(userKeysResponse.statusText)
-            return
+            try {
+                const errorData = await userKeysResponse.json();
+                const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+                const errorDetail = errorData.detail || "Нет дополнительных данных";
+                console.error(`Error: ${errorMessage} - ${errorDetail}`);
+                showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+            } catch (e) {
+                console.error(`Error: ${userKeysResponse.statusText}`);
+                showError(`Ошибка: ${userKeysResponse.statusText}`);
+            }
+            return;
         }
         else{
             showToast("Зашифрование прошло успешно","success");
@@ -191,9 +200,21 @@ export async function sendDecriptRequest()
     )
 
     if(!responseFromDecript.ok) {
-        console.error(responseFromDecript.statusText)
-        return
-    }
+        try {
+            const errorData = await responseFromDecript.json();
+            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+            const errorDetail = errorData.detail || "Нет дополнительных данных";
+            console.error(`Error: ${errorMessage} - ${errorDetail}`);
+            showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
+        } catch (e) {
+            console.error(`Error: ${responseFromDecript.statusText}`);
+            showError(`Ошибка: ${responseFromDecript.statusText}`);
+        }
+        return;
+    } else {
+        showToast("Расшифрование прошло успешно","success");
+    } 
+
     return
 }
 
