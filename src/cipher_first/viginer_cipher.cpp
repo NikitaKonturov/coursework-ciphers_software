@@ -138,9 +138,13 @@ std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
         chekRequest(prop);
 
         if (std::filesystem::exists(prop["viginer_path_to_dir"] + "/keys.txt")) {
+            clear_custom(prop);
+            clear_cache(prop);
+            sort_key_file(prop);
             keys.push_back(give_random_custom_key(prop));
         }
         else {
+            clear_cache(prop);
             keys.push_back(give_random_key(prop));
         }
     } catch(nlohmann::json::parse_error &err) {
