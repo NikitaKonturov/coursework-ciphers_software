@@ -129,11 +129,20 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     return keysAndOpenTexts;
 }
 
-std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
+std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
 {
     nlohmann::json prop;
     try{
-        std::vector<std::string> keys;
+        std::vector<std::wstring> keys;
+        prop = nlohmann::json::parse(keyPropertys);
+        chekRequest(prop);
+
+        if (std::filesystem::exists(prop["viginer_path_to_dir"] + "/keys.txt")) {
+            keys.push_back(give_random_custom_key(prop));
+        }
+        else {
+            keys.push_back(give_random_key(prop));
+        }
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
     }
@@ -143,7 +152,13 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
     // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "key_length", "min": 2, "max": null, "value": 0, "type": "number", "default": 0, "label": "Длина ключа"}]})");
+    nlohmann::json keyProp = nlohmann::json::parse(
+        R"({"params": [
+        {"name": "key_length"},
+        {"name": "text_lamguage"},
+        {"name": "viginer_path_to_dir"}
+                ]
+        })");
     
     return keyProp.dump();
 }
@@ -157,11 +172,11 @@ void chekRequest(nlohmann::json keyPropertys)
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
             throw InvalidKey("Значение \"Язык текста\" должно быть ru или en...");
         }
-        if(!keyPropertys.at("disk_count").is_number()) {
-            throw KeyPropertyError("Ключ \"Количество дисков\" должен иметь числовое значение...");
+        if(!keyPropertys.at("key_length").is_number()) {
+            throw KeyPropertyError("Ключ \"Длина ключа\" должен иметь числовое значение...");
         }
-        if(keyPropertys.at("disk_count") <= 0) {
-            throw InvalidKey("Значение \"Количество дисков\" должно быть больше 0...");
+        if(keyPropertys.at("key_length") <= 1) {
+            throw InvalidKey("Значение \"Длина ключа\" должно быть больше 1...");
         }
         
     } catch (nlohmann::json::type_error &err) {

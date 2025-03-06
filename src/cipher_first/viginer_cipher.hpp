@@ -1,8 +1,8 @@
-#ifndef VIG_CIPHER
-#define VIG_CIPHER
+#ifndef VIGINER_CIPHER
+#define VIGINER_CIPHER
 #include "../HMAC_DRBG/DRBG/DRBG.hpp"
-#include "../include/nlohmann/json.hpp"
 #include "../cipher_exceptions/cipher_exceptions.hpp"
+#include "../cipher_key_gen/viginer_key_gen.hpp"
 #include <exception>
 #include <iostream>
 #include <sstream>
@@ -24,11 +24,11 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 // функция генерации ключей по параметрам ключа, возвращает вектор строк, сигнатура и названия строго  соблюдаются
 // keyPropertys строка в которой записаны параметры в формате .json, должны быть заполнены все поля влияющие на генерацию ключа
 // count числовой параметр обозначающий количество ключей 
-//std::vector<std::string> gen_keys(std::string keyPropertys, size_t count);
+std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count);
 // фунция возвращающая шаблон запроса на шифрование в формате .json, также записанный в строку  
-//std::string get_key_propertys();
+std::string get_key_propertys();
 // функция проверки строку на корректное шаблон
 void chekRequest(nlohmann::json keyPropertys);
 
 
-#endif //VIG_CIPHER
+#endif //VIGINER_CIPHER
