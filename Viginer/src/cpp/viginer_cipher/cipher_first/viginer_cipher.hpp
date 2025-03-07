@@ -15,7 +15,8 @@
 #include <fstream>
 #include <set>
 #include <filesystem>
-
+#include <locale>
+#include <codecvt>
 
 void sort_dict_words(const std::string& dictPath, const std::string& lang);
 
@@ -41,7 +42,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 // функция генерации ключей по параметрам ключа, возвращает вектор строк, сигнатура и названия строго  соблюдаются
 // keyPropertys строка в которой записаны параметры в формате .json, должны быть заполнены все поля влияющие на генерацию ключа
 // count числовой параметр обозначающий количество ключей 
-std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count);
+std::vector<std::string> gen_keys(std::string keyPropertys, size_t count);
 // фунция возвращающая шаблон запроса на шифрование в формате .json, также записанный в строку  
 std::string get_key_propertys();
 // функция проверки строку на корректное шаблон

@@ -9,7 +9,7 @@
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
 PYBIND11_MODULE(viginer_cipher, m) {
-    m.doc() = "Шифр вижинера";
+    m.doc() = "Шифр Виженера";
     m.def("encript", &encript);
     m.def("decript", &decript);
     m.def("gen_keys", &gen_keys);

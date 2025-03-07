@@ -68,7 +68,8 @@ std::wstring give_random_key(nlohmann::json prop)
     keyFilePath.push_back('/');
     keyFilePath.append(prop["text_language"]);
     keyFilePath.append("_dict_");
-    keyFilePath.append(prop["key_length"]);
+    int keyLen = prop["key_length"];
+    keyFilePath.append(std::to_string(keyLen));
     keyFilePath.append(".txt");
 
     std::wifstream keyFile(keyFilePath, std::ios::binary);
@@ -135,10 +136,6 @@ std::wstring give_random_key(nlohmann::json prop)
         bannedWordsOut << buffStr << '\n';
         bannedWordsOut.close();
         delete[] buff;
-        for (size_t i = 0; i < buffStr.length(); ++i) {
-                buffStr[i] = towupper(buffStr[i]);
-        }
-        
         return buffStr;
     }
     
@@ -199,7 +196,8 @@ std::wstring give_random_custom_key(nlohmann::json prop)
     keyFilePath.push_back('/');
     keyFilePath.append("custom");
     keyFilePath.append("_dict_");
-    keyFilePath.append(prop["key_length"]);
+    int keyLen = prop["key_length"];
+    keyFilePath.append(std::to_string(keyLen));
     keyFilePath.append(".txt");
     
     std::wifstream keyFile(keyFilePath, std::ios::binary);
@@ -404,7 +402,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     return keysAndOpenTexts;
 }
 
-std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
+std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
     nlohmann::json prop;
     try{
@@ -413,22 +411,13 @@ std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
         std::cout << keyPropertys << std::endl;
         prop = nlohmann::json::parse(keyPropertys);
         chekRequest(prop);
-        std::vector<std::wstring> keys;
+        std::vector<std::string> keys;
         
-        std::cout << prop["viginer_path_to_dir"] << '\n' << '\n';
-        std::cout << prop["text_language"] << '\n' << '\n';
-        prop["key_length"] = (int) prop["key_length"];
+        using convert_type = std::codecvt_utf8<wchar_t>;
+        std::wstring_convert<convert_type, wchar_t> converter;
 
-        if (std::filesystem::exists(prop["viginer_path_to_dir"] + "/keys.txt")) {
-            clear_custom(prop);
-            clear_cache(prop);
-            sort_key_file(prop);
-            keys.push_back(give_random_custom_key(prop));
-        }
-        else {
-            clear_cache(prop);
-            keys.push_back(give_random_key(prop));
-        }
+        keys.push_back(converter.to_bytes(give_random_key(prop)));
+
         return keys;
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
@@ -438,13 +427,7 @@ std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
     // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(
-        R"({"params": [
-        {"name": "key_length", "label" : "Длина ключа"}
-            ]
-        })");
-
-        std::cout << "OK";
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "key_length", "min": 2, "max": null, "value": 0, "type": "number", "default": 0, "label": "Длина ключа"}]})");
     
     return keyProp.dump();
 }
@@ -464,8 +447,6 @@ void chekRequest(nlohmann::json keyPropertys)
         if(keyPropertys.at("key_length") <= 1) {
             throw InvalidKey("Значение \"Длина ключа\" должно быть больше 1...");
         }
-
-        std::cout << "Double OK";
         
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
