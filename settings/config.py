@@ -231,12 +231,21 @@ def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
 
 EXCLUDED_DIRS = {
     "$Recycle.Bin",
+    "$RECYCLE.BIN"
     "System Volume Information",
     "Windows",
     "Program Files",
     "Program Files (x86)",
     "ProgramData",
-    "AppData"
+    "AppData",
+    "$RECYCLE.BIN",
+    "$RECYCLE.BIN",
+    "SYSTEM VOLUME INFORMATION",
+    "WINDOWS",
+    "PROGRAM FILES",
+    "PROGRAM FILES (X86)",
+    "PROGRAMDATA",
+    "APPDATA"
 }
 
 
@@ -245,7 +254,7 @@ def search_directory(basePath: Path, dirname: str) -> None | Path:
         # Фильтруем системные папки
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
 
-        if dirname in dirs:
+        if dirname.upper() in dirs:
             return Path(root) / dirname  # Возвращаем полный путь
     return None
 
