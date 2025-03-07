@@ -147,10 +147,10 @@ std::vector<std::wstring> gen_keys(std::string keyPropertys, size_t count)
             clear_cache(prop);
             keys.push_back(give_random_key(prop));
         }
+        return keys;
     } catch(nlohmann::json::parse_error &err) {
         throw KeyPropertyError(err.what());
     }
-    
 }
 
 std::string get_key_propertys()
