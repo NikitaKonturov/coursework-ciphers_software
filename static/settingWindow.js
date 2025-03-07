@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
-cipherLanguage = 'ru';
+cipherLanguage = 'en';
 encryptFolderPath = 'test';
-decryptFolderPath = 'testFiles';
+decryptFolderPath = 'test';
 
 
 document.addEventListener("DOMContentLoaded", () => {
