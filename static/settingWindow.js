@@ -1,6 +1,6 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'testFiles';
+encryptFolderPath = 'test';
 decryptFolderPath = 'testFiles';
 
 
