@@ -435,11 +435,16 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             clear_cache(prop);
             clear_custom(prop);
             sort_key_file(prop);
-            keys.push_back(converter.to_bytes(give_random_custom_key(prop)));
+            for (size_t i = 0; i < count; ++i) {
+                keys.push_back(converter.to_bytes(give_random_custom_key(prop)));
+            }
+            
         }
         else {
             clear_cache(prop);
-            keys.push_back(converter.to_bytes(give_random_key(prop)));
+            for (size_t i = 0; i < count; ++i) {
+                keys.push_back(converter.to_bytes(give_random_key(prop)));   
+            }
         }
 
         return keys;
