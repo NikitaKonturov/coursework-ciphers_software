@@ -173,7 +173,7 @@ def check_host(host: str) -> str | None:
 
 
 # Путь к файлу .env
-dotenv_path = find_dotenv("config.env")
+dotenv_path = find_dotenv("Config.env")
 
 # Загружаем переменные окружения
 env_values = dotenv_values(dotenv_path)

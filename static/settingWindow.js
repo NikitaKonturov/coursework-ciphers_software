@@ -1,5 +1,5 @@
 interfaceLanguage = 'ru';
-cipherLanguage = 'en';
+cipherLanguage = 'ru';
 encryptFolderPath = 'testFiles';
 decryptFolderPath = 'testFiles';
 
