@@ -72,6 +72,8 @@ std::wstring give_random_key(nlohmann::json prop)
     keyFilePath.append(std::to_string(keyLen));
     keyFilePath.append(".txt");
 
+    std::cout << keyFilePath << '\n';
+
     std::wifstream keyFile(keyFilePath, std::ios::binary);
     size_t wordsCount = give_words_count(keyFile, prop["key_length"], prop["text_language"]);
     if (prop["text_language"] == "ru") {
@@ -144,7 +146,7 @@ std::wstring give_random_key(nlohmann::json prop)
 void sort_key_file(nlohmann::json prop)
 {
     std::string keyFilePath = prop["viginer_path_to_dir"];
-    keyFilePath.push_back('/');
+    keyFilePath.push_back('\\');
     keyFilePath.append("keys.txt");
     std::wifstream keyFile(keyFilePath);
     std::wstring buff;
@@ -164,7 +166,9 @@ void sort_key_file(nlohmann::json prop)
         if (buff.find(L'.') != std::wstring::npos) {
             continue;
         }
-        res_dict_part_path =  "../../src/dictionaries/custom/custom_dict_"
+        keyFilePath = prop["viginer_path_to_dir"];
+
+        res_dict_part_path =  keyFilePath + "/custom_dict_"
          + std::to_string(buff.length()) + ".txt";
         std::wofstream res_dict_part(res_dict_part_path, std::ios::app);
         if (prop["text_language"] == "ru") {
@@ -181,8 +185,9 @@ void sort_key_file(nlohmann::json prop)
 void clear_custom(nlohmann::json prop)
 {
     for (size_t i = 2; i < 50; ++i) {
+        std::string pathViginer = prop["viginer_path_to_dir"];
         std::string custom_path =
-        prop["viginer_path_to_dir"] + "custom_dict_" + std::to_string(i) + ".txt";
+        pathViginer + "/custom_dict_" + std::to_string(i) + ".txt";
         std::ofstream clear_file(custom_path);
         clear_file.close();
     }
@@ -199,7 +204,8 @@ std::wstring give_random_custom_key(nlohmann::json prop)
     int keyLen = prop["key_length"];
     keyFilePath.append(std::to_string(keyLen));
     keyFilePath.append(".txt");
-    
+
+
     std::wifstream keyFile(keyFilePath, std::ios::binary);
     size_t wordsCount = give_words_count(keyFile, prop["key_length"], prop["text_language"]);
     if (prop["text_language"] == "ru") {
@@ -209,7 +215,8 @@ std::wstring give_random_custom_key(nlohmann::json prop)
         keyFile.imbue(std::locale("en_US.UTF-8"));
     }
 
-    std::string bannedWordsPath = "../../src/dictionaries/custom/custom_ban_words.txt";
+    std::string bannedWordsPath = prop["viginer_path_to_dir"];
+    keyFilePath.append("\\custom_ban_words.txt");
     std::wifstream bannedWordsIn(bannedWordsPath);
     if (!bannedWordsIn.is_open()) {
         bannedWordsIn.close();
@@ -234,7 +241,10 @@ std::wstring give_random_custom_key(nlohmann::json prop)
             generator.HMAC_DRBG_Ressed(get_entropy());
         }
         size_t generatedNum = convert_bytes_to_ddword(generatedBytes.value());
+        std::cout << "gen_num : " << generatedNum << '\n';
+        std::cout << "wordsCount : " << wordsCount << '\n';
         size_t randomPos = generatedNum % wordsCount;
+        std::cout << "random : " << randomPos << '\n';
         keyFile.seekg(keyFile.beg);
         if (prop["text_language"] == "ru") {
             keyFile.seekg(2 * randomPos * (prop["key_length"] + 1));
@@ -245,6 +255,7 @@ std::wstring give_random_custom_key(nlohmann::json prop)
         keyFile.read(buff, prop["key_length"]);
         buff[prop["key_length"]] = L'\0';
         buffStr = buff;
+        std::wcout << "buffstr = " << buffStr << '\n';;
         while (std::getline(bannedWordsIn, bannedWord)) {
             if (buffStr == bannedWord) {
                 srand(randomPos);
@@ -269,9 +280,10 @@ std::wstring give_random_custom_key(nlohmann::json prop)
 
 void clear_cache(nlohmann::json prop)
 {
-    std::wofstream clear_ru(prop["viginer_path_to_dir"] + "/ru_ban_words.txt");
-    std::wofstream clear_en(prop["viginer_path_to_dir"] + "/en_ban_words.txt");
-    std::wofstream clear_custom(prop["viginer_path_to_dir"] + "/custom_ban_words.txt");
+    std::string viginerPath = prop["viginer_path_to_dir"];
+    std::wofstream clear_ru(viginerPath + "/ru_ban_words.txt");
+    std::wofstream clear_en(viginerPath + "/en_ban_words.txt");
+    std::wofstream clear_custom(viginerPath + "/custom_ban_words.txt");
 }
 
 /*================================================================*/
@@ -361,7 +373,7 @@ wchar_t put_viginer_off_char(const wchar_t& cipherTextChar, const wchar_t& keyCh
         openTextChar = static_cast<wchar_t>(buff);
     }
     else if (lang == "en") {
-        int16_t buff = static_cast<uint16_t>(cipherTextChar) - 65 + static_cast<uint16_t>(keyChar);
+        int16_t buff = static_cast<uint16_t>(cipherTextChar) + 65 - static_cast<uint16_t>(keyChar);
         if (buff < 65) { buff += 26;};
         openTextChar = static_cast<wchar_t>(buff);
     }
@@ -416,7 +428,19 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         using convert_type = std::codecvt_utf8<wchar_t>;
         std::wstring_convert<convert_type, wchar_t> converter;
 
-        keys.push_back(converter.to_bytes(give_random_key(prop)));
+        std::string keyFilePath = prop["viginer_path_to_dir"];
+        keyFilePath.append("\\keys.txt");
+        std::ifstream keyFileCheck(keyFilePath);
+        if (keyFileCheck.is_open()) {
+            clear_cache(prop);
+            clear_custom(prop);
+            sort_key_file(prop);
+            keys.push_back(converter.to_bytes(give_random_custom_key(prop)));
+        }
+        else {
+            clear_cache(prop);
+            keys.push_back(converter.to_bytes(give_random_key(prop)));
+        }
 
         return keys;
     } catch(nlohmann::json::parse_error &err) {
