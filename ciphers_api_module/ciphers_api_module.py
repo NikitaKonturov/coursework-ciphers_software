@@ -104,8 +104,7 @@ class CppCiphers:
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
                 # !!!!!!!! Ошибка !!!!!!!!! не обрабатывается
-                raise AttributeError(
-                    "Keys count must be not less than open text count...")
+                raise AttributeError("Колличество ключей должно быть больше или равно колличеству открытых текстов...")
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         except TypeError as err:
             print(err)
