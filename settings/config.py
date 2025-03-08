@@ -254,7 +254,7 @@ def search_directory(basePath: Path, dirname: str) -> None | Path:
         # Фильтруем системные папки
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
 
-        if dirname.upper() in dirs:
+        if dirname in dirs:
             return Path(root) / dirname  # Возвращаем полный путь
     return None
 
