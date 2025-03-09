@@ -9,7 +9,7 @@
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
     if(keys.empty()) {
-        throw InvalidKey("Keys not found...");
+        throw InvalidKey("Ключи не найдены...");
     }
     
     std::wstring text = L"";
@@ -22,7 +22,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         
         permut = Permutation((keys[i]));
         if(text.size() % permut.size() != 0) {
-            throw InvalidOpenText("The size of the plaintext must be divided by the size of the key...");
+            throw InvalidOpenText("Размер открытого текста должен быть разделен на размер ключа...");
         }
         permut.apply(text);
         tempss << permut;
@@ -39,7 +39,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     for (auto& [key, text]: keysAndText) {
         Permutation keyPermut(key);
         if(text.size() % keyPermut.size() != 0) {
-            throw InvalidKey("Lenght cipher text must be multiple of the size permutation...");
+            throw InvalidKey("Длина зашифрованного текста должна быть кратна перестановке размеров...");
         }
         keyPermut.inverse();
         keyPermut.apply(text);
@@ -94,7 +94,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 std::string get_key_propertys()
 {
 // сам шаблон как должен выглядеть .json запрос с параметрами
-    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "permutation_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Permutation Size"}]})");
+    nlohmann::json keyProp = nlohmann::json::parse(R"({"params": [{"name": "permutation_size", "min": 1, "max": null, "value": 0, "type": "number", "default": 0, "label": "Длина перестановки"}]})");
    
     return keyProp.dump();
 }
@@ -103,10 +103,10 @@ void chekRequest(nlohmann::json keyPropertys)
 {
     try {
         if(!keyPropertys.at("permutation_size").is_number()) {
-            throw KeyPropertyError("Key permutation_size must has int value...");
+            throw KeyPropertyError("Ключ permutation_size должен иметь значение int...");
         }
         if(keyPropertys["permutation_size"] <= 0) {
-            throw InvalidKey("Value permutation_size must be natural...");
+            throw InvalidKey("Значение \"Длина перестановки\" должно быть натуральным...");
         }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
