@@ -15,21 +15,21 @@ from pydantic_settings import BaseSettings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
-logger = logging.getLogger('Logger')
-logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger('Logger')
+# logger.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+# formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
-file_handler = logging.FileHandler('app.log')
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
+# file_handler = logging.FileHandler('app.log')
+# file_handler.setLevel(logging.DEBUG)
+# file_handler.setFormatter(formatter)
 
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(formatter)
+# console_handler = logging.StreamHandler()
+# console_handler.setLevel(logging.INFO)
+# console_handler.setFormatter(formatter)
 
-logger.addHandler(file_handler)
-logger.addHandler(console_handler)
+# logger.addHandler(file_handler)
+# logger.addHandler(console_handler)
 
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
@@ -269,5 +269,6 @@ def start_webview(settings: Settings) -> None:
     time.sleep(1)
     webview.create_window(settings.app_name, settings.location, width=1280, height=720)
     webview.start()
+    
     
     

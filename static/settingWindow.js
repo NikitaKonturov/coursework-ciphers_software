@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'en';
-encryptFolderPath = 'testFiles';
-decryptFolderPath = 'testFiles';
+encryptFolderPath = 'coursework\-ciphers_software';
+decryptFolderPath = 'coursework\-ciphers_software';
 
 
 document.addEventListener("DOMContentLoaded", () => {
