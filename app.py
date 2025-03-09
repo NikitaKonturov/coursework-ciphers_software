@@ -167,7 +167,6 @@ async def catchDecriptRequest(
     textFile: UploadFile = File(...)
 ):
     extension: str = re.search(".[A-Za-z]+$", textFile.filename).group()
-    print(textFile.filename)
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
         settings.decript_results_path, 'decription-result-' + cipher + '.docx'))
 

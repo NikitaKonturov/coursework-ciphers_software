@@ -48,7 +48,7 @@ class CppCiphers:
             sys.modules[newModule.__name__] = newModule
 
         except AttributeError as err:
-            print(err)
+            raise Exception(err)
 
     # метод загрузки всех библиотек из дериктории
     def __load_modules(self) -> None:
@@ -99,30 +99,14 @@ class CppCiphers:
             if (keys == None):
                 keys = sys.modules[cipher].gen_keys(
                     str(keyProperties), len(openTexts))
-                print(keys)
             if (len(openTexts) <= len(keys)):
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
                 # !!!!!!!! Ошибка !!!!!!!!! не обрабатывается
                 raise AttributeError("Колличество ключей должно быть больше или равно колличеству открытых текстов...")
                 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        except TypeError as err:
-            print(err)
-
-        except RuntimeError as err:
-            print(err)
-
-        # except sys.modules[cipher].InvalidKey as err:
-        #    raise InvalidKey(err)
-
-        # except sys.modules[cipher].InvalidOpenText as err:
-        #    raise InvalidOpenText(err)
-
-        # except sys.modules[cipher].KeyPropertyError as err:
-        #    raise KeyPropertyError(err)
 
         except Exception as err:
-            print(err)
             # Dynamically check for cipher-specific exceptions
             for key, name in self.get_ciphers_dict().items():
                 if hasattr(sys.modules[key], 'InvalidKey') and isinstance(err, sys.modules[key].InvalidKey):
@@ -131,7 +115,7 @@ class CppCiphers:
                     raise InvalidOpenText(str(err))
                 elif hasattr(sys.modules[key], 'KeyPropertyError') and isinstance(err, sys.modules[key].KeyPropertyError):
                     raise KeyPropertyError(str(err))
-            logging.error(err.__str__())
+            
             
             raise Exception(err)
 
@@ -146,10 +130,9 @@ class CppCiphers:
             bodyContent: str = sys.modules[cipher].get_key_propertys()
             bodyContent = bodyContent.strip('\\')
             bodyContentDict: dict = json.loads(bodyContent)
-            print(bodyContentDict)
             res = JSONResponse(content=bodyContentDict)
         except KeyError as err:
-            print(err)
+            raise Exception(err)
 
         return res
 
@@ -163,10 +146,9 @@ class CppCiphers:
                 res = sys.modules[cipher].decript(keusAndCipherText)
             else:
                 raise TypeError(f"Шифр {cipher} не найден!")
-        except TypeError as err:
-            print(err)
+
         except Exception as err:
-            print(err)
+            
             # Dynamically check for cipher-specific exceptions
             for key, name in self.get_ciphers_dict().items():
                 if hasattr(sys.modules[key], 'InvalidKey') and isinstance(err, sys.modules[key].InvalidKey):
@@ -176,12 +158,11 @@ class CppCiphers:
                 elif hasattr(sys.modules[key], 'KeyPropertyError') and isinstance(err, sys.modules[key].KeyPropertyError):
                     raise KeyPropertyError(str(err))
             
-            logging.error(f"Неизвестная ошибка: {err}")
             raise Exception(err)
 
         return res
 
-        return res
+      
 
 
 def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
@@ -221,7 +202,6 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(
     ), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
 
-    print(telegrams)
 
     enc_resualt: dict = {}
 
@@ -243,7 +223,6 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
                     break
                 AllKeys = AllKeys + tempLine
                 tempLine = file.readline()
-                print(tempLine)
 
         enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
