@@ -4,18 +4,26 @@
 a = Analysis(
     ['app.py'],
     pathex=['C:/Development/course_work/coursework-ciphers_software'],
-    binaries=[],
+    binaries=[
+        ('C:/Development/course_work/coursework-ciphers_software/ciphers_api_module/cpp_exceptions.pyd', 'ciphers_api_module/'),
+        ('C:/Development/course_work/coursework-ciphers_software/ciphers_api_module/telegrams_cutter.pyd', 'ciphers_api_module/')
+    ],
     datas=[
         ('templates', 'templates'),  # Шаблоны для Jinja2
         ('static', 'static'),  # Статические файлы
         ('settings/config.py', 'settings'),  # Конфиги
-        ("Ciphers/", "Ciphers/") # Шифры
+        ("Ciphers/", "Ciphers/"), # Шифры
+        ("Dictionaries/", "Dictionaries/"), # Словари
+        ("custom/", "custom/")
     ],
     hiddenimports=[
         'ciphers_api_module',
         'ciphers_api_module.ciphers_api_module',
         'ciphers_api_module.requestsClass.requestToEncript',
         'exception_handlers'
+        'cpp_exceptions', 
+        'ciphers_api_module.telegrams_cutter'  
+  
     ],
     hookspath=[],
     runtime_hooks=[],

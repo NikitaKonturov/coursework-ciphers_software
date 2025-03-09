@@ -148,7 +148,6 @@ class CppCiphers:
             bodyContentDict: dict = json.loads(bodyContent)
             print(bodyContentDict)
             res = JSONResponse(content=bodyContentDict)
-            print(res.body)
         except KeyError as err:
             print(err)
 
