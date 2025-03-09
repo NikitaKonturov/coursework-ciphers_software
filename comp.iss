@@ -22,8 +22,10 @@ ChangesAssociations=yes
 DefaultGroupName=CiphersApp
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
+
 OutputDir=C:\Development\course_work
 OutputBaseFilename=CipherApp_setup
+
 SolidCompression=yes
 WizardStyle=modern
 
@@ -34,6 +36,7 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
+
 Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Config.env"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers\*"; DestDir: "{app}\Ciphers"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -41,7 +44,12 @@ Source: "C:\Development\course_work\coursework-ciphers_software\Dictionaries\*";
 Source: "C:\Development\course_work\coursework-ciphers_software\custom"; DestDir: "{app}\custom"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\static\*"; DestDir: "{app}\static"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\templates\*"; DestDir: "{app}\templates"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Development\course_work\coursework-ciphers_software\vc_redist.x64.exe"; DestDir: "{app}"; Flags: deleteafterinstall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Run]
+Filename: "{app}\vc_redist.x64.exe"; Parameters: "/install /quiet /norestart"; StatusMsg: "Устанавливаем Microsoft Visual C++ Redistributable (x64)"
+
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\.myp\OpenWithProgids"; ValueType: string; ValueName: "CiphersAppFile.myp"; ValueData: ""; Flags: uninsdeletevalue
@@ -97,5 +105,5 @@ begin
   end;
 end;
 [Run]
-Filename: "{app}\Ciphers.exe"; Description: "{cm:LaunchProgram,CiphersApp}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\Ciphers.exe"; Description: "{cm:LaunchProgram,CiphersApp}"; Flags: nowait postinstall
 
