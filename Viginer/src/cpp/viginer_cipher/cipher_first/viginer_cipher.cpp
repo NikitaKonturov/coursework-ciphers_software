@@ -119,7 +119,7 @@ std::wstring give_random_key(nlohmann::json prop)
             keyFile.seekg(randomPos * (2 * prop["key_length"] + 1));
         }
         else if (prop["text_language"] == "en") {
-            //keyFile.seekg(randomPos * (prop["key_length"] + 2));
+            keyFile.seekg(randomPos * (prop["key_length"] + 2));
         }
         keyFile.read(buff, prop["key_length"]);
         buff[prop["key_length"]] = L'\0';
