@@ -14,7 +14,6 @@ a = Analysis(
         ('settings/config.py', 'settings'),  # Конфиги
         ("Ciphers/", "Ciphers/"), # Шифры
         ("Dictionaries/", "Dictionaries/"), # Словари
-        ("custom/", "custom/")
     ],
     hiddenimports=[
         'ciphers_api_module',
