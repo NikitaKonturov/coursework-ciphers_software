@@ -6,13 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(PYBIND11_FINDPYTHON ON)
 set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded" CACHE STRING "Runtime Library" FORCE)
-set(pybind11_DIR "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/share/cmake/pybind11")
-set(Python3_EXECUTABLE "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python.exe")
+set(pybind11_DIR "C:/Users/Suprim/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/share/cmake/pybind11")
+set(Python3_EXECUTABLE "C:/Users/Suprim/AppData/Local/Programs/Python/Python312/python.exe")
 # Чтобы получить путь устанавливаем через pip install pybind11
 # И выполняем команду python pip -m pybind11 --cmakedir она вернёт нам путь к папке который мы и подставляем в set(pybind11_DIR <path>)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 # путь заменить на свой 
-set(Python3_LIBRARY "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/libs/python312.lib")
+set(Python3_LIBRARY "C:/Users/Suprim/AppData/Local/Programs/Python/Python312/libs/python312.lib")
 find_package(pybind11 REQUIRED)
 # добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
 add_subdirectory("cipher_first" "${CMAKE_BINARY_DIR}/cipher_first")
@@ -35,15 +35,15 @@ target_link_libraries(viginer_cipher PUBLIC viginer_cipher_lib)
 # настройки выходного файла
 set_target_properties(viginer_cipher PROPERTIES
     PREFIX ""
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\py"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\..\\py"
     LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\..\\py\\include_ciphers"
-    OUTPUT_NAME "viginer_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
+    OUTPUT_NAME "Viginer_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
 )
 
 # обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
 if(WIN32)
     set_target_properties(viginer_cipher PROPERTIES SUFFIX ".pyd")
-    set(PYTHON_DLL_PATH "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/python312.dll")
+    set(PYTHON_DLL_PATH "C:/Users/Suprim/AppData/Local/Programs/Python/Python312/python312.dll")
 elseif(APPLE)
     set_target_properties(viginer_cipher PROPERTIES SUFFIX ".dylib")
 else()

@@ -8,7 +8,7 @@
 
 
 // главный макрос позволяющий экспортировать функции и типы данных в python
-PYBIND11_MODULE(viginer_cipher, m) {
+PYBIND11_MODULE(Viginer_cipher, m) {
     m.doc() = "Шифр Виженера";
     m.def("encript", &encript);
     m.def("decript", &decript);
