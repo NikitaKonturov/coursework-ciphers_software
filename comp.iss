@@ -37,14 +37,14 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 
-Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Development\course_work\coursework-ciphers_software\dist\Ciphers.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Config.env"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers\*"; DestDir: "{app}\Ciphers"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\Dictionaries\*"; DestDir: "{app}\Dictionaries"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\custom"; DestDir: "{app}\custom"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\static\*"; DestDir: "{app}\static"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\templates\*"; DestDir: "{app}\templates"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Development\course_work\coursework-ciphers_software\vc_redist.x64.exe"; DestDir: "{app}"; Flags: deleteafterinstall
+Source: "C:\Development\course_work\coursework-ciphers_software\VC_redist.x64.exe"; DestDir: "{app}"; Flags: deleteafterinstall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
