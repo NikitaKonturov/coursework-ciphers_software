@@ -63,6 +63,7 @@ size_t give_words_count(std::wifstream& keyFile, const size_t& length, const std
 
 std::wstring give_random_key(nlohmann::json prop)
 {
+    std::cout << "give_random_key enter\n";
     HMAC_DRBG generator(get_entropy(), get_entropy());
     std::string keyFilePath = prop["viginer_path_to_dir"];
     keyFilePath.push_back('/');
@@ -78,6 +79,7 @@ std::wstring give_random_key(nlohmann::json prop)
     size_t wordsCount = give_words_count(keyFile, prop["key_length"], prop["text_language"]);
     if (prop["text_language"] == "ru") {
         keyFile.imbue(std::locale("ru-RU.UTF-8"));
+        setlocale(LC_ALL, "ru_RU.UTF-8");
     }
     else if (prop["text_language"] == "en") {
         keyFile.imbue(std::locale("en_US.UTF-8"));
@@ -114,14 +116,19 @@ std::wstring give_random_key(nlohmann::json prop)
         size_t randomPos = generatedNum % wordsCount;
         keyFile.seekg(keyFile.beg);
         if (prop["text_language"] == "ru") {
-            keyFile.seekg(2 * randomPos * (prop["key_length"] + 1));
+            keyFile.seekg(randomPos * (2 * prop["key_length"] + 1));
         }
         else if (prop["text_language"] == "en") {
-            keyFile.seekg(randomPos * (prop["key_length"] + 2));
+            //keyFile.seekg(randomPos * (prop["key_length"] + 2));
         }
         keyFile.read(buff, prop["key_length"]);
         buff[prop["key_length"]] = L'\0';
+        std::cout << "Unmoded key: ";
+        for (size_t i = 0; i < prop["key_length"]; ++i) {
+            std::wcout << buff[i];
+        }
         buffStr = buff;
+        std::wcout << L"\nKey: " << buffStr << '\n';
         while (std::getline(bannedWordsIn, bannedWord)) {
             if (buffStr == bannedWord) {
                 continue;
@@ -418,7 +425,6 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
     nlohmann::json prop;
     try{
-        
         std::replace(keyPropertys.begin(), keyPropertys.end(), '\'', '\"');
         std::cout << keyPropertys << std::endl;
         prop = nlohmann::json::parse(keyPropertys);
@@ -437,6 +443,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
             sort_key_file(prop);
             for (size_t i = 0; i < count; ++i) {
                 keys.push_back(converter.to_bytes(give_random_custom_key(prop)));
+                std::cout << keys[i];
             }
             
         }
