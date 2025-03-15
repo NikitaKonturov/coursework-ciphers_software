@@ -52,7 +52,7 @@ size_t give_words_count(std::wifstream& keyFile, const size_t& length, const std
     keyFile.seekg(0, std::ios::end);
     size_t wordsCount;
     if (lang == "ru") {
-        wordsCount = keyFile.tellg() / 2 / (length + 1);
+        wordsCount = keyFile.tellg() / (2 * length + 1);
     }
     else if (lang == "en") {
         wordsCount = keyFile.tellg() / (length + 2);
@@ -84,7 +84,18 @@ std::wstring give_random_key(nlohmann::json prop)
     else if (prop["text_language"] == "en") {
         keyFile.imbue(std::locale("en_US.UTF-8"));
     }
-
+    
+    std::wstring buffStr;
+    wchar_t* buff = new wchar_t[prop["key_length"] + 1];
+    /*
+    for (size_t i = 0; i < wordsCount; ++i) {
+        keyFile.read(buff, prop["key_length"]);
+        buff[prop["key_length"]] = '\0';
+        buffStr = buff;
+        std::wcout << L"\nKey: " << buffStr << '\n';
+    }
+    */
+    
     std::string bannedWordsPath = prop["viginer_path_to_dir"];
     bannedWordsPath.push_back('/');
     bannedWordsPath.append(prop["text_language"]);
@@ -103,10 +114,8 @@ std::wstring give_random_key(nlohmann::json prop)
         bannedWordsIn.imbue(std::locale("en_US.UTF-8"));
     }
     
-    wchar_t* buff = new wchar_t[prop["key_length"] + 1];
-    std::wstring buffStr;
     std::wstring bannedWord;
-
+    
     while (true) {
         std::optional<std::vector<uint8_t>> generatedBytes = generator.HMAC_DRBG_Generate_algorithm(8);
         if (generator.HMAC_DRBG_Ressed_Check()) {
@@ -116,12 +125,18 @@ std::wstring give_random_key(nlohmann::json prop)
         size_t randomPos = generatedNum % wordsCount;
         keyFile.seekg(keyFile.beg);
         if (prop["text_language"] == "ru") {
+            //std::cout << prop["key_length"] + 1 << '\n';
+            //std::cout << randomPos << '\n';
+            std::cout << wordsCount;
             keyFile.seekg(randomPos * (2 * prop["key_length"] + 1));
+            //keyFile.seekg(1026810 - 1);
+            
         }
         else if (prop["text_language"] == "en") {
             keyFile.seekg(randomPos * (prop["key_length"] + 2));
         }
         keyFile.read(buff, prop["key_length"]);
+        keyFile.seekg(std::ios::cur, 1);
         buff[prop["key_length"]] = L'\0';
         std::cout << "Unmoded key: ";
         for (size_t i = 0; i < prop["key_length"]; ++i) {
