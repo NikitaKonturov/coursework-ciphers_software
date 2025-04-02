@@ -5,12 +5,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded" CACHE STRING "Runtime Library" FORCE)
-set(pybind11_DIR "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pybind11\\share\\cmake\\pybind11")
+set(pybind11_DIR "C:\\Users\\BEPKUT\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pybind11\\share\\cmake\\pybind11")
 # Чтобы получить путь устанавливаем через pip install pybind11
 # И выполняем команду python pip -m pybind11 --cmakedir она вернёт нам путь к папке который мы и подставляем в set(pybind11_DIR <path>)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 # путь заменить на свой 
-set(Python3_LIBRARY "C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\libs\\python312.lib")
+set(Python3_LIBRARY "C:\\Users\\BEPKUT\\AppData\\Local\\Programs\\Python\\Python312\\libs\\python312.lib")
 find_package(pybind11 REQUIRED)
 # добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
 add_subdirectory("Homophone_cipher" "${CMAKE_BINARY_DIR}/Homophone_cipher")
@@ -21,7 +21,7 @@ target_link_libraries(Homophone_cipher PRIVATE ${Python3_LIBRARY})
 # подключаем библиотеку для экспорта функции в python
 target_link_libraries(Homophone_cipher PRIVATE pybind11::pybind11)
 
-#link_directories("C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\libs")
+#link_directories("C:\\Users\\BEPKUT\\AppData\\Local\\Programs\\Python\\Python311\\libs")
 
 #install(TARGETS Homophone_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
 # подключаем библиотеку шифра

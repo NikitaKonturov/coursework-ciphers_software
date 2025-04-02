@@ -179,14 +179,6 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
             availableKeys.erase(availableKeys.begin() + index);
         }
     }
-
-    // 6. Добавляем **один** 0 в конец списка ключей для каждой буквы
-    for (auto& [letter, keys] : keysContainer) {
-        if (!keys.empty() && keys.back() != L"0") {
-            keys.push_back(L"0");
-        }
-    }
-
     return keysContainer;
 }
 

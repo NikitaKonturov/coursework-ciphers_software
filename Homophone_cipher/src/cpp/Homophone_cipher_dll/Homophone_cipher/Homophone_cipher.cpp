@@ -9,11 +9,7 @@
 // Индекс для выбора ключа обновляется после каждого использования.
 // Возвращает map, где ключ — обновленный ключ шифрования, а значение — зашифрованный текст.
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys) {
-    if (keys.empty()) {
-        throw InvalidKey("Ключи не найдены");
-    }
-
-    std::map<std::wstring, std::wstring> keysAndCipherTexts;
+    std::map<std::wstring, std::wstring> result;
 
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
@@ -21,53 +17,48 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         std::wistringstream keyStream(key);
         std::map<wchar_t, std::vector<std::wstring>> substitutionMap;
         std::map<wchar_t, size_t> letterIndices;
-        std::wstring letter, number;
 
-        // **Разбираем ключ**
-        while (keyStream >> letter) {
-            std::vector<std::wstring> numbers;
-            while (keyStream >> number && number != L"0") {
-                numbers.push_back(number);
-            }
+        // Чтение ключа (без нулей в конце)
+        std::wstring line;
+        while (std::getline(keyStream, line)) {
+            std::wistringstream lineStream(line);
+            std::wstring letter;
+            if (!(lineStream >> letter)) continue;
+            
             wchar_t charKey = letter[0];
-
-            // **Устанавливаем начальный индекс в 0**
-            letterIndices[charKey] = 0;
-            substitutionMap[charKey] = numbers;
+            std::wstring number;
+            while (lineStream >> number) {  // Читаем до конца строки
+                substitutionMap[charKey].push_back(number);
+            }
+            letterIndices[charKey] = 0;  // Инициализация индекса
         }
 
+        // Шифрование текста
         std::wstring cipherText;
-
-        // **Шифруем текст**
         for (wchar_t ch : text) {
-            if (substitutionMap.count(ch) && !substitutionMap[ch].empty()) {
+            if (substitutionMap.count(ch)) {
                 size_t& index = letterIndices[ch];
-
-                // **Заменяем букву на текущий ключ**
                 cipherText += substitutionMap[ch][index] + L" ";
-
-                // **Обновляем индекс: если достигли конца - сбрасываем**
                 index = (index + 1) % substitutionMap[ch].size();
             } else {
-                cipherText += ch;  // **Оставляем символ без изменений**
+                cipherText += ch;
             }
         }
 
-        // **Формируем обновленный ключ**
+        // Формируем ключ
         std::wstringstream updatedKey;
         for (const auto& [charKey, numbers] : substitutionMap) {
             updatedKey << charKey << L" ";
             for (const auto& num : numbers) {
                 updatedKey << num << L" ";
             }
-            updatedKey << letterIndices[charKey] << L"\n"; // **Добавляем новый индекс**
+            updatedKey << L"\n";  // Просто перевод строки
         }
 
-        // **Добавляем в map обновленный ключ и зашифрованный текст**
-        keysAndCipherTexts[updatedKey.str()] = cipherText;
+        result[updatedKey.str()] = cipherText;
     }
 
-    return keysAndCipherTexts;
+    return result;
 }
 
 
@@ -80,69 +71,37 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 
     for (const auto& [key, cipherText] : keysAndText) {
         std::wistringstream keyStream(key);
-        std::map<wchar_t, std::vector<std::wstring>> substitutionLists;
-        std::map<wchar_t, size_t> letterIndices;
+        std::map<std::wstring, wchar_t> reverseMap;  // Число → буква
         std::wstring line;
 
-        // **Разбираем ключ и создаем таблицу подстановок**
+        // Строим обратный map (число → буква)
         while (std::getline(keyStream, line)) {
             std::wistringstream lineStream(line);
             std::wstring letter;
-            std::vector<std::wstring> numbers;
-            size_t index;
-
             if (!(lineStream >> letter)) continue;
+
             wchar_t charKey = letter[0];
             std::wstring number;
-            
             while (lineStream >> number) {
-                if (lineStream.peek() == '\n' || lineStream.eof()) {
-                    break;
-                }
-                numbers.push_back(number);
+                reverseMap[number] = charKey;  // Например, "45" → 'А'
             }
-            
-            if (lineStream >> index) {
-                letterIndices[charKey] = index;
-            } else {
-                letterIndices[charKey] = 0;
-            }
-            
-            substitutionLists[charKey] = numbers;
         }
 
+        // Расшифровываем текст
         std::wistringstream cipherStream(cipherText);
         std::wstring token;
         std::wstring originalText;
 
-        // **Расшифровываем текст**
         while (cipherStream >> token) {
-            bool found = false;
-            for (auto& [charKey, numbers] : substitutionLists) {
-                size_t& index = letterIndices[charKey];
-                if (index < numbers.size() && numbers[index] == token) {
-                    originalText += charKey;
-                    index = (index + 1) % numbers.size();
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                originalText += token; // **Оставляем символ без изменений**
+            if (reverseMap.count(token)) {
+                originalText += reverseMap[token];  // Заменяем число на букву
+            } else {
+                originalText += token;  // Оставляем как есть (если число не найдено)
             }
         }
 
-        // **Формируем обновленный ключ**
-        std::wstringstream updatedKey;
-        for (const auto& [charKey, numbers] : substitutionLists) {
-            updatedKey << charKey << L" ";
-            for (const auto& num : numbers) {
-                updatedKey << num << L" ";
-            }
-            updatedKey << letterIndices[charKey] << L"\n";
-        }
-
-        decryptedTexts[updatedKey.str()] = originalText;
+        // Возвращаем результат с исходным ключом (без изменений)
+        decryptedTexts[key] = originalText;
     }
 
     return decryptedTexts;
