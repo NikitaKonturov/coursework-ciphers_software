@@ -34,6 +34,7 @@ async function showToast(message, type, duration = 3000) {
 }
 
 async function createSettingsWindow() {
+    console.log('Creat setting window...');
     Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
     Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
@@ -77,6 +78,28 @@ async function createSettingsWindow() {
         cipherLanguageSelect.appendChild(option);
     });
     settingsWindow.appendChild(cipherLanguageSelect);
+    
+    console.log('Adding checkbox...');
+    const fiveGramsContainer = document.createElement('div');
+    fiveGramsContainer.style.margin = '10px 0';
+    
+    const fiveGramsCheckbox = document.createElement('input');
+    fiveGramsCheckbox.type = 'checkbox';
+    fiveGramsCheckbox.id = 'fiveGramsCheckboxId';
+    fiveGramsCheckbox.name = 'fiveGramsCheckbox';
+    fiveGramsCheckbox.checked = false; // или true, в зависимости от вашей логики
+    // Здесь нужно установить начальное состояние чекбокса
+    // fiveGramsCheckbox.checked = fiveGramsEnabled; // если у вас есть такая переменная
+    
+    const fiveGramsLabel = document.createElement('label');
+    fiveGramsLabel.htmlFor = 'fiveGramsCheckbox';
+    fiveGramsLabel.textContent = 'Использовать 5-граммы';
+    fiveGramsLabel.style.marginLeft = '5px';
+    
+    fiveGramsContainer.appendChild(fiveGramsCheckbox);
+    fiveGramsContainer.appendChild(fiveGramsLabel);
+    settingsWindow.appendChild(fiveGramsContainer);
+
 
     const folderPathEncryptLabel = document.createElement('label');
     folderPathEncryptLabel.textContent = 'Путь к папке с результатами зашифрования:';
@@ -126,6 +149,7 @@ async function createSettingsWindow() {
     buttonContainer.appendChild(saveButton);
     buttonContainer.appendChild(closeButton);
     settingsWindow.appendChild(buttonContainer);
+    
 
     closeButton.onclick = closeSettings;
     saveButton.onclick = saveSettings;
@@ -147,8 +171,10 @@ async function selectFolder() {
 function openSettings() {
     const settingsWindow = document.getElementById('settingsWindow');
     if (!settingsWindow) {
+        console.log("Create setting window...")
         createSettingsWindow();
     } else {
+        console.log('Showing existing settings window');
         settingsWindow.style.display = 'block';
     }
 }
@@ -165,12 +191,14 @@ async function saveSettings() {
     cipherLanguage = document.getElementById('cipherLanguage').value;
     encryptFolderPath = document.querySelector('button[data-encript-folder-path]').dataset.encriptFolderPath;
     decryptFolderPath = document.querySelector('button[data-decript-folder-path]').dataset.decriptFolderPath;
+    fiveGramsEnabled = document.getElementById('fiveGramsCheckboxId').checked;
 
     const data = {
         "interfaceLanguage": interfaceLanguage,
         "cipherLanguage": cipherLanguage,
         "encryptFolderPath": encryptFolderPath,
         "decryptFolderPath": decryptFolderPath,
+        "fiveGramsEnabled": fiveGramsEnabled 
     };
 
     try {

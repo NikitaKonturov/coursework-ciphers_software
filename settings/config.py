@@ -34,8 +34,20 @@ from starlette.responses import Response
 
 class NoCacheMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
-        response: Response = await call_next(request)
-        response.headers["Cache-Control"] = "no-store"
+        response = await call_next(request)
+        
+        # Применяем только к статическим файлам и HTML
+        path = request.url.path
+        if (path.endswith(('.html', '.js', '.css', '.png', '.jpg', '.jpeg', '.gif')) or 
+            path.startswith('/static/')):
+            
+            response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+            
+            # Добавляем уникальный ETag на основе времени
+            response.headers["ETag"] = f'"{int(time.time())}"'
+        
         return response
 
 # ================================== Docx/Txt Converters ==========================================
