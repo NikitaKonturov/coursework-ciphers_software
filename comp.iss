@@ -37,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 
-Source: "C:\Development\course_work\coursework-ciphers_software\dist\Ciphers.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Config.env"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Development\course_work\coursework-ciphers_software\Ciphers\*"; DestDir: "{app}\Ciphers"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Development\course_work\coursework-ciphers_software\Dictionaries\*"; DestDir: "{app}\Dictionaries"; Flags: ignoreversion recursesubdirs createallsubdirs

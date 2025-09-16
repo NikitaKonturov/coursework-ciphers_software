@@ -126,7 +126,8 @@ export async function sendEncriptRequest(formID, keysType) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(dataFromKeySettingForm)
+                body: JSON.stringify(dataFromKeySettingForm),
+                credentials: 'omit'
             });
 
         if (!keyPropertiesResponse.ok) {
