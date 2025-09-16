@@ -26,7 +26,8 @@ async def type_exception(request, exc: TypeError):
 
 async def runtime_exception(request, exc: RuntimeError):
     # logger.error(msg=str(exc))
-    return JSONResponse(status_code=407, content={"error": "Runtime error", "detail": str(exc)})
+    print(str(exc))
+    return JSONResponse(status_code=417, content={"error": "Runtime error", "detail": str(exc)})
 
 
 async def invalid_key_exception(request, exc: InvalidKey):

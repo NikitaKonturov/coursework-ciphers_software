@@ -1,6 +1,6 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'CiphersApp';
+I1\ print\ august';
 decryptFolderPath = 'CiphersApp';
 
 

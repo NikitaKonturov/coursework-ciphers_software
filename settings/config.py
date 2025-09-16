@@ -63,13 +63,13 @@ def save_open_text_docx_as_bin_file(language: str, openTextFile: BinaryIO, saveO
     if (language.lower() == 'ru'):
         with open(saveOpenTextTxtFile, 'bw') as binFile:
             for para in doc.paragraphs:
-                checkPart = ''.join(re.findall(r'[A-Za-z]', para.text))
+                # checkPart = ''.join(re.findall(r'[A-Za-z]', para.text))
                 cleanedText = ''.join(re.findall(
                     r'[А-Яа-я]', para.text)).upper()
 
-                if checkPart:
-                    raise FileLanguageError(
-                        f'Файл содержит символы другого языка!', errorLanguage="en")
+                # if checkPart:
+                #     raise FileLanguageError(
+                #         f'Файл содержит символы другого языка!', errorLanguage="en")
 
                 if cleanedText:
                     binFile.write(cleanedText.encode("utf-16-le"))
@@ -77,13 +77,13 @@ def save_open_text_docx_as_bin_file(language: str, openTextFile: BinaryIO, saveO
     elif (language.lower() == 'en'):
         with open(saveOpenTextTxtFile, 'bw') as binFile:
             for para in doc.paragraphs:
-                checkPart = ''.join(re.findall(r'[А-Яа-я]', para.text))
+                # checkPart = ''.join(re.findall(r'[А-Яа-я]', para.text))
                 cleanedText = ''.join(re.findall(
                     r'[A-Za-z]', para.text)).upper()
 
-                if checkPart:
-                    raise FileLanguageError(
-                        f'Файл содержит символы другого языка!', errorLanguage="ru")
+                # if checkPart:
+                #     raise FileLanguageError(
+                #         f'Файл содержит символы другого языка!', errorLanguage="ru")
 
                 if cleanedText:
                     binFile.write(cleanedText.encode("utf-16-le"))
@@ -103,28 +103,28 @@ def save_docx_as_txt(textFile: BinaryIO, saveTxtFile: Path):
 
 def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 20):
     with open(pathToSaveTxt, "bw") as resBinFile:
-        dataBuffer: str = " "
+        dataBuffer: bytes = b''
         while dataBuffer != '':
-            dataBuffer = file.read(bufferSize).decode('utf-8')
+            dataBuffer : bytes = file.read(bufferSize)
+            try:
+                dataBuffer = dataBuffer.decode('utf-8')
+            except:
+                dataBuffer += file.read(1)
+                dataBuffer = dataBuffer.decode('utf-8')
             if (language.lower() == "ru"):
-                checkPart = ''.join(re.findall(r'[A-Za-z]', dataBuffer))
+                # checkPart = ''.join(re.findall(r'[A-Za-z]', dataBuffer))
                 cleanedText = ''.join(re.findall(
                     r'[А-Яа-я]', dataBuffer)).upper()
-
-                if checkPart:
-                    raise FileLanguageError(
-                        f'The file contains symbols from the other language', errorLanguage="en")
-
                 if cleanedText:
                     resBinFile.write(cleanedText.encode("utf-16-le"))
             elif (language.lower() == "en"):
-                checkPart = ''.join(re.findall(r'[А-Яа-я]', dataBuffer))
+                # checkPart = ''.join(re.findall(r'[А-Яа-я]', dataBuffer))
                 cleanedText = ''.join(re.findall(
                     r'[A-Za-z]', dataBuffer)).upper()
 
-                if checkPart:
-                    raise FileLanguageError(
-                        f'The file contains symbols from the other language', errorLanguage="ru")
+                # if checkPart:
+                #     raise FileLanguageError(
+                #         f'The file contains symbols from the other language', errorLanguage="ru")
 
                 if cleanedText:
                     resBinFile.write(cleanedText.encode("utf-16-le"))
