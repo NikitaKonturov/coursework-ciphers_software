@@ -14,7 +14,7 @@ from ciphers_api_module.requestsClass.requestToEncript import \
     RequToSliceAndEncript
 from ciphers_api_module.telegrams_cutter import cut_telegrams
 from docx import Document
-from settings.config import save_to_docx
+from settings.config import save_to_docx, Settings
 
 from fastapi.responses import JSONResponse
 
@@ -198,7 +198,7 @@ def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
     file.close()
 
 
-def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers):
+def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers, fiveGrams: str):
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(
     ), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
 
@@ -227,7 +227,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
         enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
 
-    save_to_docx(enc_resualt, pathToSaveFile)
+    save_to_docx(enc_resualt, pathToSaveFile, fiveGrams)
 
     return
 
