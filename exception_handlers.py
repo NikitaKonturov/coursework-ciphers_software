@@ -29,6 +29,9 @@ async def runtime_exception(request, exc: RuntimeError):
     print(str(exc))
     return JSONResponse(status_code=417, content={"error": "Runtime error", "detail": str(exc)})
 
+async def path_exception(request, exc: FileExistsError):
+    print(str(exc))
+    return JSONResponse(status_code=418, content={"error": "Path error", "detail": str(exc)})
 
 async def invalid_key_exception(request, exc: InvalidKey):
     # logger.error(msg=str(exc))

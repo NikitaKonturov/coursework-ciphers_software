@@ -150,7 +150,7 @@ async def catchKeysProperties(keyPropReq: Request):
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfKeysProperties': keyPropDict})
     start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
-                     'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+                     'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj, settings.fiveGramsEnabled)
 
     os.remove(requestToSliceAndEncript.selfTextFile)
 
@@ -170,8 +170,7 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
         update={'selfFileWithUsersKeys': pathToUsersKeys})
 
-    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,
-                     'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj)
+    start_encryption(requestToSliceAndEncript, Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj, settings.fiveGramsEnabled)
 
     os.remove(requestToSliceAndEncript.selfTextFile)
     os.remove(pathToUsersKeys)
@@ -199,11 +198,18 @@ async def select_cipher(reqToKeyProperty: Request):
 @app.post('/settings', response_class=HTMLResponse)
 async def save_settings(reqToSetting: Request):
     settingJson: dict = dict(await reqToSetting.json())
-    update_js_file(Path(BASE_DIR, "static", "settingWindow.js"), settingJson)
-    settingJson['encryptFolderPath'] = str(
-        search_directory(BASE_DIR, settingJson['encryptFolderPath']))
-    settingJson['decryptFolderPath'] = str(
-        search_directory(BASE_DIR, settingJson['decryptFolderPath']))
+    print(settingJson)
+    
+    encryptFolderPath = search_directory(BASE_DIR, settingJson['encryptFolderPath'])
+    if not encryptFolderPath.exists():
+        raise FileExistsError('Неверная папка с результатом зашифрования.')
+    settingJson['encryptFolderPath'] = str(encryptFolderPath)
+    
+    decryptFolderPath = search_directory(BASE_DIR, settingJson['decryptFolderPath'])
+    if not decryptFolderPath.exists():
+        raise FileExistsError('Неверная папка с результатом расшифрования.')
+    settingJson['decryptFolderPath'] = str(decryptFolderPath)
+    
     settings.update_settings("encript_results_path",
                              settingJson['encryptFolderPath'])
     settings.update_settings("decript_results_path",
@@ -211,6 +217,9 @@ async def save_settings(reqToSetting: Request):
     settings.update_settings("interface_language",
                              settingJson['interfaceLanguage'])
     settings.update_settings("ciphers_language", settingJson['cipherLanguage'])
+    settings.update_settings("fiveGramsEnabled", str(settingJson['fiveGramsEnabled']).lower())
+    print("start update")
+    update_js_file(Path(BASE_DIR, "static", "settingWindow.js"), settingJson)
 
     return templates.TemplateResponse(request=reqToSetting, name='select.html')
 

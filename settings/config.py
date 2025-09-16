@@ -162,14 +162,7 @@ def check_file_path(filePath: str):
         raise Exception(f'The file {filePath} does not exist')
 
 
-def save_to_docx(data: dict[str, str], docxFile: Path):
-    check_file_path(docxFile.parent)
-    doc = Document()
-    for key in data:
-        doc.add_paragraph(key)
-        doc.add_paragraph(data[key])
-        doc.save(docxFile.__str__())
-    return
+
 
 
 def check_path(path: Path) -> Path | None:
@@ -193,6 +186,7 @@ env_values = dotenv_values(dotenv_path)
 
 class Settings(BaseSettings):
     app_name: str = Field(..., env="APP_NAME")
+    fiveGramsEnabled: str = Field(..., env="FIVEGRAMSENABLED")
     base_dir_path: Path = Field(..., env="BASE_DIR_PATH")
     path_to_ciphers: Path = Field(..., env="PATH_TO_CIPHERS")
     path_to_templates: Path = Field(..., env="PATH_TO_TEMPLATES")
@@ -213,6 +207,7 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
     def update_settings(self, field: str, value: str) -> None:
+        print(field, value)
         path_to_env = find_dotenv(dotenv_path)
         if not hasattr(self, field):
             raise ValueError(f"{field} was not found...")
@@ -233,13 +228,29 @@ def update_js_file(pathToJsFile: Path, parametrs: dict[str, str]) -> None:
     print(parametrs)
 
     for key, value in parametrs.items():
-        value = re.escape(value)
+        value = re.escape(str(value))
         pattern = rf"({key}\s*=\s*['\"])[^'\"]*(['\"];)"
         code = re.sub(pattern, rf'\1{value}\2', code)
 
     with open(pathToJsFile, "w", encoding="utf-8") as file:
         file.write(code)
+        
+def insert_every_n(text, symbol, n=6):
+    return symbol.join(text[i:i+n] for i in range(0, len(text), n))
+    
 
+
+def save_to_docx(data: dict[str, str], docxFile: Path, fiveGrams: str):
+    check_file_path(docxFile.parent)
+    doc = Document()
+    for key in data:
+        doc.add_paragraph(key)
+        text = data[key]
+        if(fiveGrams == "true"):
+            text = insert_every_n(text, ' ', 5)
+        doc.add_paragraph(text)
+        doc.save(docxFile.__str__())
+    return
 
 EXCLUDED_DIRS = {
     "$Recycle.Bin",

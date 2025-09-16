@@ -1,8 +1,8 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'testFiles';
-decryptFolderPath = 'testFiles';
-
+encryptFolderPath = 'C:\Users\Lenovo\ IdeaPad5\Desktop\Новая\ папка';
+decryptFolderPath = 'C:\Development\course_work\testFiles';
+fiveGramsEnabled = 'false'
 
 document.addEventListener("DOMContentLoaded", () => {
     if (!document.getElementById("toast-container")) {
@@ -87,7 +87,7 @@ async function createSettingsWindow() {
     fiveGramsCheckbox.type = 'checkbox';
     fiveGramsCheckbox.id = 'fiveGramsCheckboxId';
     fiveGramsCheckbox.name = 'fiveGramsCheckbox';
-    fiveGramsCheckbox.checked = false; // или true, в зависимости от вашей логики
+    fiveGramsCheckbox.checked = Boolean(fiveGramsEnabled); // или true, в зависимости от вашей логики
     // Здесь нужно установить начальное состояние чекбокса
     // fiveGramsCheckbox.checked = fiveGramsEnabled; // если у вас есть такая переменная
     
