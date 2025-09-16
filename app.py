@@ -5,6 +5,7 @@ import re
 import sys
 import threading
 from pathlib import Path
+import time
 
 
 from ciphers_api_module.ciphers_api_module import (CppCiphers,
@@ -61,8 +62,6 @@ app.add_exception_handler(Exception, unknown_exception)
 # ========================== Middleware Intialization =========================
 
 
-app.add_middleware(NoCacheMiddleware)
-
 
 BASE_DIR = settings.base_dir_path
 
@@ -81,11 +80,30 @@ requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfKeysProperties={}
 )
 
-templates = Jinja2Templates(directory=str(settings.path_to_templates))
 
-app.mount(
-    '/static', StaticFiles(directory=str(settings.path_to_static)), name='static')
+class NoCacheStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        
+        # Добавляем заголовки против кэширования
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        response.headers["ETag"] = f'"{int(time.time())}"'
+        
+        return response
 
+
+app.mount('/static', NoCacheStaticFiles(directory=str(settings.path_to_static)), name='static')
+
+app.add_middleware(NoCacheMiddleware)
+
+
+templates = Jinja2Templates(
+    directory=str(settings.path_to_templates),
+    auto_reload=True,  # Автоматически перезагружать шаблоны
+    cache_size=0       # Не кэшировать шаблоны
+)
 
 # ================================= EndPoints ===================================
 
