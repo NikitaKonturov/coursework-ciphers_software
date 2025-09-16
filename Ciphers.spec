@@ -3,10 +3,10 @@
 
 a = Analysis(
     ['app.py'],
-    pathex=['C:/Development/course_work/coursework-ciphers_software'],
+    pathex=['C:/Development/course_work/temp_repo/coursework-ciphers_software'],
     binaries=[
-        ('C:/Development/course_work/coursework-ciphers_software/ciphers_api_module/cpp_exceptions.pyd', 'ciphers_api_module/'),
-        ('C:/Development/course_work/coursework-ciphers_software/ciphers_api_module/telegrams_cutter.pyd', 'ciphers_api_module/')
+        ('C:/Development/course_work/temp_repo/coursework-ciphers_software/ciphers_api_module/cpp_exceptions.pyd', 'ciphers_api_module/'),
+        ('C:/Development/course_work/temp_repo/coursework-ciphers_software/ciphers_api_module/telegrams_cutter.pyd', 'ciphers_api_module/')
     ],
     datas=[
         ('templates', 'templates'),  # Шаблоны для Jinja2
@@ -30,7 +30,7 @@ a = Analysis(
     noarchive=False
 )
 
-a.datas += [('logo.ico', 'C:\\Development\\course_work\\coursework-ciphers_software\\logo.ico', 'DATA')]
+a.datas += [('logo.ico', 'C:\\Development\\course_work\\temp_repo\\coursework-ciphers_software\\logo.ico', 'DATA')]
 pyz = PYZ(a.pure, a.zipped_data)
 
 

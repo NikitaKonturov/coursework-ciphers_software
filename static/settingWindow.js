@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-I1\ print\ august';
-decryptFolderPath = 'CiphersApp';
+encryptFolderPath = 'testFiles';
+decryptFolderPath = 'testFiles';
 
 
 document.addEventListener("DOMContentLoaded", () => {
