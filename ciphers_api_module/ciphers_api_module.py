@@ -94,6 +94,7 @@ class CppCiphers:
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
     def encrypt_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
         try:
+            
             res: Optional[dict[str, str]]
             res = None
             if (keys == None):
@@ -226,6 +227,14 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
 
         enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
+    
+    plain_text_keys: dict = {}
+    i=0
+    for _ in enc_resualt:
+        plain_text_keys[_] = telegrams[i]
+        i+=1
+
+    save_to_docx(plain_text_keys, Path(str(pathToSaveFile)[:-5:]+'PlainText.docx'), fiveGrams=False)
 
     save_to_docx(enc_resualt, pathToSaveFile, fiveGrams)
 

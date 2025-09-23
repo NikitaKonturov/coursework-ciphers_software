@@ -24,9 +24,9 @@ from exception_handlers import (InvalidKey, InvalidOpenText, KeyPropertyError,
                                 key_property_error_exception,
                                 runtime_exception, type_exception,
                                 unknown_exception, validatiion_exception,
-                                value_exception)
+                                value_exception, path_exception)
 
-from settings.config import (NoCacheMiddleware, Settings, search_directory,
+from settings.config import (NoCacheMiddleware, Settings, match, search_directory,
                              start_server, start_webview, update_js_file, save_docx_as_txt,
                              save_open_text_docx_as_bin_file, save_as_txt_file,
                              save_open_text_as_bin_file)
@@ -57,6 +57,7 @@ app.add_exception_handler(ValidationError, validatiion_exception)
 app.add_exception_handler(TypeError, type_exception)
 app.add_exception_handler(RuntimeError, runtime_exception)
 app.add_exception_handler(Exception, unknown_exception)
+app.add_exception_handler(FileExistsError, path_exception)
 
 
 # ========================== Middleware Intialization =========================
@@ -201,12 +202,12 @@ async def save_settings(reqToSetting: Request):
     print(settingJson)
     
     encryptFolderPath = search_directory(BASE_DIR, settingJson['encryptFolderPath'])
-    if not encryptFolderPath.exists():
-        raise FileExistsError('Неверная папка с результатом зашифрования.')
+    if not encryptFolderPath.exists() or match(str(encryptFolderPath)) or not os.access(encryptFolderPath, os.X_OK):
+        raise FileExistsError(f'Неверная папка с результатом зашифрования.')
     settingJson['encryptFolderPath'] = str(encryptFolderPath)
     
     decryptFolderPath = search_directory(BASE_DIR, settingJson['decryptFolderPath'])
-    if not decryptFolderPath.exists():
+    if not decryptFolderPath.exists() or match(str(decryptFolderPath)) or not os.access(decryptFolderPath, os.X_OK):
         raise FileExistsError('Неверная папка с результатом расшифрования.')
     settingJson['decryptFolderPath'] = str(decryptFolderPath)
     

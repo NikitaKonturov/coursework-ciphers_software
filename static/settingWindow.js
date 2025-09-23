@@ -1,8 +1,27 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'Новая\ папка';
-decryptFolderPath = 'testFiles';
+encryptFolderPath = 'CiphersApp';
+decryptFolderPath = 'CiphersApp';
 fiveGramsEnabled = 'false'
+
+function showError(message) {
+    console.log("showError вызван с сообщением:", message);
+
+    let existingError = document.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    let errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+
+    document.body.appendChild(errorDiv);
+
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     if (!document.getElementById("toast-container")) {
@@ -202,7 +221,7 @@ async function saveSettings() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/settings', {
+        let response = await fetch('http://127.0.0.1:8000/settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -213,7 +232,11 @@ async function saveSettings() {
         if (response.ok) {
             showToast('Настройки сохранены!', 'success');
         } else {
-            showToast('Не получилось сохранить настройки!', 'error');
+            const errorData = await response.json();
+                            const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
+                            const errorDetail = errorData.detail || "Нет дополнительных данных";
+                            console.error(`Error: ${errorMessage} - ${errorDetail}`);
+                            showError(`Ошибка: ${errorMessage} - ${errorDetail}`);
         }
     } catch (error) {
         console.error('Error:', error);
