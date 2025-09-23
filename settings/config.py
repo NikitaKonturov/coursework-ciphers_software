@@ -62,6 +62,8 @@ class FileLanguageError(Exception):
     def __str__(self):
         return f"{self.message} (Язык: {self.errorLanguage})"
 
+def match(text, alphabet=set('абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ')):
+    return not alphabet.isdisjoint(text)
 
 def check_file_path(filePath: str):
     if not os.path.exists(filePath):
