@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'C:\Users\Lenovo\ IdeaPad5\Desktop\Новая\ папка';
-decryptFolderPath = 'C:\Development\course_work\testFiles';
+encryptFolderPath = 'Новая\ папка';
+decryptFolderPath = 'testFiles';
 fiveGramsEnabled = 'false'
 
 document.addEventListener("DOMContentLoaded", () => {
