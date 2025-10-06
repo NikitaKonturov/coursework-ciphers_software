@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'CiphersApp';
-decryptFolderPath = 'CiphersApp';
+encryptFolderPath = 'Cardano';
+decryptFolderPath = 'Cardano';
 fiveGramsEnabled = 'false'
 
 function showError(message) {
