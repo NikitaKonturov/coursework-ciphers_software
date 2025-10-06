@@ -115,36 +115,22 @@ def save_docx_as_txt(textFile: BinaryIO, saveTxtFile: Path):
     return
 
 
-def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 20):
-    with open(pathToSaveTxt, "bw") as resBinFile:
-        dataBuffer: bytes = b''
-        while dataBuffer != '':
-            dataBuffer : bytes = file.read(bufferSize)
-            try:
-                dataBuffer = dataBuffer.decode('utf-8')
-            except:
-                dataBuffer += file.read(1)
-                dataBuffer = dataBuffer.decode('utf-8')
-            if (language.lower() == "ru"):
-                # checkPart = ''.join(re.findall(r'[A-Za-z]', dataBuffer))
-                cleanedText = ''.join(re.findall(
-                    r'[А-Яа-я]', dataBuffer)).upper()
-                if cleanedText:
-                    resBinFile.write(cleanedText.encode("utf-16-le"))
-            elif (language.lower() == "en"):
-                # checkPart = ''.join(re.findall(r'[А-Яа-я]', dataBuffer))
-                cleanedText = ''.join(re.findall(
-                    r'[A-Za-z]', dataBuffer)).upper()
-
-                # if checkPart:
-                #     raise FileLanguageError(
-                #         f'The file contains symbols from the other language', errorLanguage="ru")
-
-                if cleanedText:
-                    resBinFile.write(cleanedText.encode("utf-16-le"))
-            else:
-                raise FileLanguageError(
-                    f'The language is not defined. Supported languages: ru, en', errorLanguage="any")
+def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Path, bufferSize: int = 1024):
+    with open(pathToSaveTxt, "wb") as resBinFile:
+        dataText : str = file.read().decode("utf-8")
+        if (language.lower() == "ru"):
+            cleanedText = ''.join(re.findall( r'[А-Яа-я]', dataText)).upper()
+            print(cleanedText)
+            if cleanedText:
+                resBinFile.write(cleanedText.encode("utf-16-le"))
+        elif (language.lower() == "en"):
+            cleanedText = ''.join(re.findall(
+                r'[A-Za-z]', dataText)).upper()
+            if cleanedText:
+                resBinFile.write(cleanedText.encode("utf-16-le"))
+        else:
+            raise FileLanguageError(
+                f'The language is not defined. Supported languages: ru, en', errorLanguage="any")
     return
 
 
