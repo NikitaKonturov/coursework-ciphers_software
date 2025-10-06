@@ -278,4 +278,4 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
     dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
         cipher, keysAndCipherText)
 
-    save_to_docx(dec_result, pathToSaveFile)
+    save_to_docx(dec_result, pathToSaveFile, "false")
