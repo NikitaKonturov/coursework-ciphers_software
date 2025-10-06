@@ -132,21 +132,43 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         std::wstring currentNumber;
         
         for (wchar_t ch : cipherText) {
-            // Пропускаем пробелы и другие не-цифровые символы (кроме цифр)
             if (iswdigit(ch)) {
                 currentNumber += ch;
-            } else if (!currentNumber.empty()) {
+                // Проверяем, является ли текущая последовательность цифр валидным числом
                 if (reverseMap.count(currentNumber)) {
                     originalText += reverseMap[currentNumber];
+                    currentNumber.clear();
                 }
-                currentNumber.clear();
+            } else if (!currentNumber.empty()) {
+                // Если встретили не-цифру и у нас есть накопленное число - пытаемся найти наиболее длинное совпадение
+                // Пытаемся найти совпадение, начиная с самой длинной подстроки
+                bool found = false;
+                for (size_t len = currentNumber.length(); len > 0; --len) {
+                    std::wstring candidate = currentNumber.substr(0, len);
+                    if (reverseMap.count(candidate)) {
+                        originalText += reverseMap[candidate];
+                        currentNumber = currentNumber.substr(len);
+                        found = true;
+                        break;
+                    }
+                }
+                // Если не нашли совпадение, очищаем currentNumber
+                if (!found) {
+                    currentNumber.clear();
+                }
             }
         }
         
         // Обработать последнее число, если есть
         if (!currentNumber.empty()) {
-            if (reverseMap.count(currentNumber)) {
-                originalText += reverseMap[currentNumber];
+            // Пытаемся найти наиболее длинное совпадение для оставшихся цифр
+            for (size_t len = currentNumber.length(); len > 0; --len) {
+                std::wstring candidate = currentNumber.substr(0, len);
+                if (reverseMap.count(candidate)) {
+                    originalText += reverseMap[candidate];
+                    currentNumber = currentNumber.substr(len);
+                    break;
+                }
             }
         }
 
