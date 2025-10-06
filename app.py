@@ -31,7 +31,7 @@ from settings.config import (NoCacheMiddleware, Settings, match, search_director
                              save_open_text_docx_as_bin_file, save_as_txt_file,
                              save_open_text_as_bin_file)
 
-
+                            
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -80,7 +80,6 @@ requestToSliceAndEncript: RequToSliceAndEncript = RequToSliceAndEncript(
     selfNumberOfTelegram=1,
     selfKeysProperties={}
 )
-
 
 class NoCacheStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope):

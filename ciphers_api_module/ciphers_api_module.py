@@ -231,14 +231,8 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
         enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
     
-    plain_text_keys: dict = {}
-    
-    i=0
-    for _ in enc_resualt:
-        plain_text_keys[_] = telegrams[i]
-        i+=1
 
-    save_to_docx(plain_text_keys, Path(str(pathToSaveFile)[:-5:]+'PlainText.docx'), fiveGrams=False)
+    save_to_docx(ciphers_object.decrypt_telegrams(reqToSileAndEncript.selfCipher, enc_resualt), Path(str(pathToSaveFile)[:-5:]+'PlainText.docx'), fiveGrams=False)
 
     save_to_docx(enc_resualt, pathToSaveFile, fiveGrams)
 
@@ -277,7 +271,7 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
         if (check_encryption_telegram(telegram)):
             tempKeyAndCipherText = re.split(regToText, telegram)
             keysAndCipherText[tempKeyAndCipherText[0]
-                              ] = tempKeyAndCipherText[1]
+                              ] = ''.join(re.findall( r'[А-Яа-яA-Za-z0-9]', tempKeyAndCipherText[1])) 
 
     dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
         cipher, keysAndCipherText)
