@@ -201,6 +201,8 @@ def form_cipher_select_options(ciphers_obj: CppCiphers, dir: Path):
 
 
 def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile: Path, ciphers_object: CppCiphers, fiveGrams: str):
+    if(reqToSileAndEncript.selfLengthTelegram >= 2 ** 32 or reqToSileAndEncript.selfNumberOfTelegram >= 2 ** 32):
+        raise RuntimeError("Длинна телеграммы и их колличество должно быть меньше чем 2^32...")
     telegrams: list[str] = cut_telegrams(reqToSileAndEncript.selfTextFile.__str__(
     ), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
 
