@@ -142,6 +142,7 @@ class CppCiphers:
     def decrypt_telegrams(self, cipher: str, keusAndCipherText: dict[str, str]) -> dict[str, str] | None:
         res: Optional[dict[str, str]]
         res = None
+        
         try:
             if (cipher in sys.modules):
                 res = sys.modules[cipher].decript(keusAndCipherText)
@@ -229,6 +230,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
     
     plain_text_keys: dict = {}
+    
     i=0
     for _ in enc_resualt:
         plain_text_keys[_] = telegrams[i]

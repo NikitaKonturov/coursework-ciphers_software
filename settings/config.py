@@ -234,6 +234,7 @@ def save_to_docx(data: dict[str, str], docxFile: Path, fiveGrams: str):
     for key in data:
         doc.add_paragraph(key)
         text = data[key]
+        text = text.replace(' ', '')
         if(fiveGrams == "true"):
             text = insert_every_n(text, ' ', 5)
         doc.add_paragraph(text)
