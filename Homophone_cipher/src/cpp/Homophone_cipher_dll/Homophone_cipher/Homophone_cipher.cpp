@@ -78,9 +78,8 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         for (wchar_t ch : text) {
             if (substitutionMap.count(ch) && !substitutionMap[ch].empty()) {
                 size_t& index = letterIndices[ch];
-                // Защита на случай, если index вдруг больше размера (на всякий случай)
                 if (index >= substitutionMap[ch].size()) index = 0;
-                cipherText += substitutionMap[ch][index] + L" ";
+                cipherText += substitutionMap[ch][index];
                 index = (index + 1) % substitutionMap[ch].size();
             } else {
                 cipherText += ch;
@@ -129,20 +128,30 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
             }
         }
 
-        // Расшифровываем текст
-        std::wistringstream cipherStream(cipherText);
-        std::wstring token;
         std::wstring originalText;
-
-        while (cipherStream >> token) {
-            if (reverseMap.count(token)) {
-                originalText += reverseMap[token];  // Заменяем число на букву
+        std::wstring currentNumber;
+        
+        for (wchar_t ch : cipherText) {
+            if (iswdigit(ch)) {
+                currentNumber += ch;
             } else {
-                originalText += token;  // Оставляем как есть (если число не найдено)
+                if (!currentNumber.empty()) {
+                    if (reverseMap.count(currentNumber)) {
+                        originalText += reverseMap[currentNumber];
+                    }
+                    currentNumber.clear();
+                }
+                originalText += ch;  
+            }
+        }
+        
+        // Обработать последнее число, если есть
+        if (!currentNumber.empty()) {
+            if (reverseMap.count(currentNumber)) {
+                originalText += reverseMap[currentNumber];
             }
         }
 
-        // Возвращаем результат с исходным ключом (без изменений)
         decryptedTexts[key] = originalText;
     }
 
