@@ -18,26 +18,68 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         std::map<wchar_t, std::vector<std::wstring>> substitutionMap;
         std::map<wchar_t, size_t> letterIndices;
 
-        // Чтение ключа (без нулей в конце)
+        // Чтение ключа (если в исходном ключе был индекс в конце строки — распознаём его и НЕ добавляем в список подстановок)
         std::wstring line;
         while (std::getline(keyStream, line)) {
             std::wistringstream lineStream(line);
             std::wstring letter;
             if (!(lineStream >> letter)) continue;
-            
+
             wchar_t charKey = letter[0];
-            std::wstring number;
-            while (lineStream >> number) {  // Читаем до конца строки
-                substitutionMap[charKey].push_back(number);
+            std::vector<std::wstring> tokens;
+            std::wstring token;
+            while (lineStream >> token) {
+                tokens.push_back(token);
             }
-            letterIndices[charKey] = 0;  // Инициализация индекса
+
+            // Если нет никаких токенов — просто инициализируем пустой вектор и индекс 0
+            if (tokens.empty()) {
+                substitutionMap[charKey] = {};
+                letterIndices[charKey] = 0;
+                continue;
+            }
+
+            // Попробуем определить, является ли последний токен индексом:
+            // индекс рассматриваем как числовой токен, значение которого < (количество токенов - 1)
+            size_t detectedIndex = 0;
+            bool hasIndex = false;
+            if (tokens.size() >= 2) {
+                bool alldigits = true;
+                for (wchar_t wc : tokens.back()) {
+                    if (!iswdigit(wc)) { alldigits = false; break; }
+                }
+                if (alldigits) {
+                    try {
+                        unsigned long val = std::stoul(tokens.back());
+                        // если значение индекса меньше числа реальных ключей (tokens.size()-1), считаем его индексом
+                        if (val < tokens.size() - 1) {
+                            hasIndex = true;
+                            detectedIndex = static_cast<size_t>(val);
+                        }
+                    } catch (...) {
+                        hasIndex = false;
+                    }
+                }
+            }
+
+            // Заполняем substitutionMap ключами (без индекса)
+            size_t limit = tokens.size();
+            if (hasIndex) limit = tokens.size() - 1; // не включаем последний токен
+            for (size_t k = 0; k < limit; ++k) {
+                substitutionMap[charKey].push_back(tokens[k]);
+            }
+
+            // Инициализация индекса: либо найденный, либо 0
+            letterIndices[charKey] = hasIndex ? detectedIndex : 0;
         }
 
         // Шифрование текста
         std::wstring cipherText;
         for (wchar_t ch : text) {
-            if (substitutionMap.count(ch)) {
+            if (substitutionMap.count(ch) && !substitutionMap[ch].empty()) {
                 size_t& index = letterIndices[ch];
+                // Защита на случай, если index вдруг больше размера (на всякий случай)
+                if (index >= substitutionMap[ch].size()) index = 0;
                 cipherText += substitutionMap[ch][index] + L" ";
                 index = (index + 1) % substitutionMap[ch].size();
             } else {
@@ -45,14 +87,14 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             }
         }
 
-        // Формируем ключ
+        // Формируем ключ (без индексов в конце строк)
         std::wstringstream updatedKey;
         for (const auto& [charKey, numbers] : substitutionMap) {
             updatedKey << charKey << L" ";
             for (const auto& num : numbers) {
                 updatedKey << num << L" ";
             }
-            updatedKey << L"\n";  // Просто перевод строки
+            updatedKey << L"\n";
         }
 
         result[updatedKey.str()] = cipherText;
