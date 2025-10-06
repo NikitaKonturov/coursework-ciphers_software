@@ -126,6 +126,8 @@ async def catchTelegramsCuttinngData(
     elif (extension == '.docx'):
         save_open_text_docx_as_bin_file(
             settings.ciphers_language, textFile.file, pathToOpenText)
+    else:
+        raise RuntimeError("Расширение файла должно быть либо .txt либо .docx")
 
     global requestToSliceAndEncript
     requestToSliceAndEncript = RequToSliceAndEncript(
