@@ -115,7 +115,8 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         std::map<std::wstring, wchar_t> reverseMap;  // Число → буква
         std::wstring line;
 
-        // Строим обратный map (число → буква)
+        // Строим обратный map и находим максимальную длину чисел
+        size_t maxNumberLength = 0;
         while (std::getline(keyStream, line)) {
             std::wistringstream lineStream(line);
             std::wstring letter;
@@ -124,52 +125,35 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
             wchar_t charKey = letter[0];
             std::wstring number;
             while (lineStream >> number) {
-                reverseMap[number] = charKey;  // Например, "45" → 'А'
+                reverseMap[number] = charKey;
+                if (number.length() > maxNumberLength) {
+                    maxNumberLength = number.length();
+                }
             }
         }
 
         std::wstring originalText;
-        std::wstring currentNumber;
+        size_t pos = 0;
+        size_t cipherLen = cipherText.length();
         
-        for (wchar_t ch : cipherText) {
-            if (iswdigit(ch)) {
-                currentNumber += ch;
-                // Проверяем, является ли текущая последовательность цифр валидным числом
-                if (reverseMap.count(currentNumber)) {
-                    originalText += reverseMap[currentNumber];
-                    currentNumber.clear();
-                }
-            } else if (!currentNumber.empty()) {
-                // Если встретили не-цифру и у нас есть накопленное число - пытаемся найти наиболее длинное совпадение
-                // Пытаемся найти совпадение, начиная с самой длинной подстроки
-                bool found = false;
-                for (size_t len = currentNumber.length(); len > 0; --len) {
-                    std::wstring candidate = currentNumber.substr(0, len);
-                    if (reverseMap.count(candidate)) {
-                        originalText += reverseMap[candidate];
-                        currentNumber = currentNumber.substr(len);
-                        found = true;
-                        break;
-                    }
-                }
-                // Если не нашли совпадение, очищаем currentNumber
-                if (!found) {
-                    currentNumber.clear();
-                }
+        // Делим шифртекст на блоки фиксированной длины
+        while (pos + maxNumberLength <= cipherLen) {
+            std::wstring numberBlock = cipherText.substr(pos, maxNumberLength);
+            
+            // Убираем ведущие нули для поиска в reverseMap
+            std::wstring numberWithoutLeadingZeros = numberBlock;
+            size_t firstNonZero = numberBlock.find_first_not_of(L'0');
+            if (firstNonZero != std::wstring::npos) {
+                numberWithoutLeadingZeros = numberBlock.substr(firstNonZero);
+            } else {
+                numberWithoutLeadingZeros = L"0"; // все нули
             }
-        }
-        
-        // Обработать последнее число, если есть
-        if (!currentNumber.empty()) {
-            // Пытаемся найти наиболее длинное совпадение для оставшихся цифр
-            for (size_t len = currentNumber.length(); len > 0; --len) {
-                std::wstring candidate = currentNumber.substr(0, len);
-                if (reverseMap.count(candidate)) {
-                    originalText += reverseMap[candidate];
-                    currentNumber = currentNumber.substr(len);
-                    break;
-                }
+            
+            if (reverseMap.count(numberWithoutLeadingZeros)) {
+                originalText += reverseMap[numberWithoutLeadingZeros];
             }
+            
+            pos += maxNumberLength;
         }
 
         decryptedTexts[key] = originalText;

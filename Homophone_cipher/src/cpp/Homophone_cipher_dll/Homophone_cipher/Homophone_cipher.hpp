@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <map>
+#include <map>  
 #include <iomanip>
 // функция зашифрования о.т., сигнатура и название должны строго соблюдаться, 
 // возвращает в качестве значения std::map где ключ для map это ключ зашифрования о.т. а сам ш.т. это значение map
