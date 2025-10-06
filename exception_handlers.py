@@ -20,7 +20,7 @@ async def value_exception(request, exc: ValueError):
 
 
 async def type_exception(request, exc: TypeError):
-    # logger.error(msg=str(exc))
+    print(str(exc))
     return JSONResponse(status_code=406, content={"error": "Type error", "detail": str(exc)})
 
 
