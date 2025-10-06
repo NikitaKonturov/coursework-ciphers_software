@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'C:\Development\course_work';
-decryptFolderPath = 'C:\Development\course_work';
+encryptFolderPath = 'course_work';
+decryptFolderPath = 'course_work';
 fiveGramsEnabled = 'false'
 
 function showError(message) {
@@ -220,6 +220,7 @@ async function saveSettings() {
         "fiveGramsEnabled": fiveGramsEnabled 
     };
 
+    showLoadingIndicator();
     try {
         let response = await fetch('http://127.0.0.1:8000/settings', {
             method: 'POST',
@@ -241,7 +242,50 @@ async function saveSettings() {
     } catch (error) {
         console.error('Error:', error);
         alert('Возникла ошибка при сохранении настроек!');
+    }  finally {
+        hideLoadingIndicator();
     }
 
     closeSettings();
 }
+
+function showLoadingIndicator() {
+    // Создаем элемент для индикатора загрузки, если его еще нет
+    let loader = document.getElementById('loadingIndicator');
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'loadingIndicator';
+        // loader.innerHTML = '⏳'; // или можно использовать CSS-анимацию
+        loader.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            z-index: 9999;
+            cursor: wait;
+        `;
+        document.body.appendChild(loader);
+    }
+    
+    // Устанавливаем курсор "wait" для всей страницы
+    document.body.style.cursor = 'wait';
+    loader.style.display = 'flex';
+}
+
+function hideLoadingIndicator() {
+    // Скрываем индикатор загрузки
+    const loader = document.getElementById('loadingIndicator');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+    
+    // Восстанавливаем обычный курсор
+    document.body.style.cursor = 'default';
+}
+

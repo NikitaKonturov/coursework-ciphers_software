@@ -9,6 +9,7 @@ function showErrorAndLog(error) {
 
 export async function addBlockOfKeysSettings() {
     try {
+        showLoadingIndicator();
         let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
             {
                 method: "POST",
@@ -17,7 +18,7 @@ export async function addBlockOfKeysSettings() {
                 },
                 body: JSON.stringify({cipher: document.getElementById('ciphersList').value})
         });
-
+        hideLoadingIndicator();
         if(!serverResponse.ok) {
             const errorData = await serverResponse.json();
             const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
@@ -94,14 +95,14 @@ export async function sendEncriptRequest(formID, keysType) {
     dataToSliceTelegams.forEach((fieldValue, key) => {
         console.log(key, fieldValue)
     })
-
+    showLoadingIndicator();
     let telegramCuttingResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushTelegramsCuttingData",
         {
             method: "POST",
             body: dataToSliceTelegams
         }
     )
-
+    hideLoadingIndicator();
     if (!telegramCuttingResponse.ok) {
         try {
             const errorData = await telegramCuttingResponse.json();
@@ -120,6 +121,7 @@ export async function sendEncriptRequest(formID, keysType) {
         let dataFromKeySettingForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
         console.log(dataFromKeySettingForm)
 
+        showLoadingIndicator();
         let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
             {
                 method: "POST",
@@ -129,7 +131,7 @@ export async function sendEncriptRequest(formID, keysType) {
                 body: JSON.stringify(dataFromKeySettingForm),
                 credentials: 'omit'
             });
-
+        hideLoadingIndicator();
         if (!keyPropertiesResponse.ok) {
             try {
                 const errorData = await keyPropertiesResponse.json();
@@ -148,13 +150,14 @@ export async function sendEncriptRequest(formID, keysType) {
         }
     } else if (keysType == 'users_keys') {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
-        Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)})
+        Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)}) 
+        showLoadingIndicator();
         let userKeysResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushUserKeys",
             {
                 method: "POST",
                 body: dataFromUserKeysForm
             })
-
+        hideLoadingIndicator();
         if(!userKeysResponse.ok) {
             try {
                 const errorData = await userKeysResponse.json();
@@ -193,13 +196,14 @@ export async function sendDecriptRequest()
         return;
     }
 
+    showLoadingIndicator();
     let responseFromDecript = await fetch("http://127.0.0.1:8000/startDecoder", 
         {
             method: "POST",
             body: dataAboutCipherTextAndKeys
         }
     )
-
+    hideLoadingIndicator();
     if(!responseFromDecript.ok) {
         try {
             const errorData = await responseFromDecript.json();
@@ -215,6 +219,7 @@ export async function sendDecriptRequest()
     } else {
         showToast("Расшифрование прошло успешно","success");
     } 
+
 
     return
 }
@@ -327,4 +332,50 @@ export async function encriptSettings() {
 window.encriptSettings = encriptSettings
 window.preventActionButton = preventActionButton
 window.sendDecriptRequest = sendDecriptRequest
+
+
+
+function showLoadingIndicator() {
+    // Создаем элемент для индикатора загрузки, если его еще нет
+    let loader = document.getElementById('loadingIndicator');
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'loadingIndicator';
+        // loader.innerHTML = '⏳'; // или можно использовать CSS-анимацию
+        loader.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            z-index: 9999;
+            cursor: wait;
+        `;
+        document.body.appendChild(loader);
+    }
+    
+    // Устанавливаем курсор "wait" для всей страницы
+    document.body.style.cursor = 'wait';
+    loader.style.display = 'flex';
+}
+
+function hideLoadingIndicator() {
+    // Скрываем индикатор загрузки
+    const loader = document.getElementById('loadingIndicator');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+    
+    // Восстанавливаем обычный курсор
+    document.body.style.cursor = 'default';
+}
+
+
+
+
 
