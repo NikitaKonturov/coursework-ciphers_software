@@ -132,16 +132,14 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         std::wstring currentNumber;
         
         for (wchar_t ch : cipherText) {
+            // Пропускаем пробелы и другие не-цифровые символы (кроме цифр)
             if (iswdigit(ch)) {
                 currentNumber += ch;
-            } else {
-                if (!currentNumber.empty()) {
-                    if (reverseMap.count(currentNumber)) {
-                        originalText += reverseMap[currentNumber];
-                    }
-                    currentNumber.clear();
+            } else if (!currentNumber.empty()) {
+                if (reverseMap.count(currentNumber)) {
+                    originalText += reverseMap[currentNumber];
                 }
-                originalText += ch;  
+                currentNumber.clear();
             }
         }
         
