@@ -227,17 +227,18 @@ def insert_every_n(text, symbol, n=6):
     
 
 
-def save_to_docx(data: dict[str, str], docxFile: Path, fiveGrams: str):
+def save_to_docx(data: list[dict[str, str]], docxFile: Path, fiveGrams: str):
     check_file_path(docxFile.parent)
     doc = Document()
-    for key in data:
-        doc.add_paragraph(key)
-        text = data[key]
-        text = text.replace(' ', '')
-        if(fiveGrams == "true"):
-            text = insert_every_n(text, ' ', 5)
-        doc.add_paragraph(text)
-        doc.save(docxFile.__str__())
+    for dataDict in data:
+        for key in dataDict:
+            doc.add_paragraph(key)
+            text = dataDict[key]
+            text = text.replace(' ', '')
+            if(fiveGrams == "true"):
+                text = insert_every_n(text, ' ', 5)
+            doc.add_paragraph(text)
+            doc.save(docxFile.__str__())
     return
 
 EXCLUDED_DIRS = {
