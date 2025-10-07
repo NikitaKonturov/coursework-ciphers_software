@@ -43,7 +43,7 @@ std::vector<std::wstring> generateTelegrams(std::string pathToFile, int telegram
 
     // Проверка возможности генерации телеграмм
     if (telegramLength * telegramCount > fileSize) {
-        throw std::runtime_error("В файле недостаточно места для генерации указанного количества телеграмм.");
+        throw std::runtime_error("В файле недостаточное количества текста для генерации указанного количества телеграмм.");
     }
 
     // Генерация непересекающихся начальных позиций
