@@ -1,4 +1,4 @@
-# Install script for directory: C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_exceptions
+# Install script for directory: C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/cipher_exceptions
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,6 +35,6 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/cipher_exceptions/install_local_manifest.txt"
+  file(WRITE "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/cipher_exceptions/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

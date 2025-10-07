@@ -1,4 +1,4 @@
-# Install script for directory: C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher
+# Install script for directory: C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,14 +34,14 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/cmake_install.cmake")
+  include("C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/cipher_first/cmake_install.cmake")
 
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/install_local_manifest.txt"
+  file(WRITE "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -57,6 +57,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Development/course_work/temp_repo/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

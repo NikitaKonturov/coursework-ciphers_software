@@ -39,6 +39,7 @@ std::string define_language(std::wstring text)
 }
 
 std::pair<wchar_t, wchar_t> get_cipher_bigram(wchar_t firstCh, wchar_t secondCh, std::wstring key) {
+    // Замена J на I
     if(static_cast<uint16_t>(firstCh) == 74) {
         firstCh = static_cast<wchar_t>(73);
     }
@@ -46,20 +47,25 @@ std::pair<wchar_t, wchar_t> get_cipher_bigram(wchar_t firstCh, wchar_t secondCh,
         secondCh = static_cast<wchar_t>(73);
     }
 
-    size_t firstPosition;
+    // Поиск позиций с проверкой
+    size_t firstPosition = std::wstring::npos;
+    size_t secondPosition = std::wstring::npos;
+    
     for (size_t i = 0; i < key.size(); ++i) {
-        if(key[i] == firstCh) {
+        if(key[i] == firstCh && firstPosition == std::wstring::npos) {
             firstPosition = i;
+        }
+        if(key[i] == secondCh && secondPosition == std::wstring::npos) {
+            secondPosition = i;
+        }
+        if(firstPosition != std::wstring::npos && secondPosition != std::wstring::npos) {
             break;
         }
     }
     
-    size_t secondPosition;
-    for (size_t i = 0; i < key.size(); ++i) {
-        if(key[i] == secondCh) {
-            secondPosition = i;
-            break;
-        }
+    // Проверка что символы найдены
+    if(firstPosition == std::wstring::npos || secondPosition == std::wstring::npos) {
+        throw std::runtime_error("Символы не найдены в ключе");
     }
     
     size_t lineOfFirstCh = firstPosition / 5;
@@ -68,44 +74,38 @@ std::pair<wchar_t, wchar_t> get_cipher_bigram(wchar_t firstCh, wchar_t secondCh,
     size_t columnOfFirstCh = firstPosition % 5;
     size_t columnOfSecondCh = secondPosition % 5;
 
+    // Одинаковая строка
     if(lineOfFirstCh == lineOfSecondCh) {
-        ++firstPosition;
-        ++secondPosition;
+        columnOfFirstCh = (columnOfFirstCh + 1) % 5;
+        columnOfSecondCh = (columnOfSecondCh + 1) % 5;
         
-        if(firstPosition / 5 != lineOfFirstCh) {
-            firstPosition -= 5;
-        }
-        if(secondPosition / 5 != lineOfSecondCh) {
-            secondPosition -= 5;
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);
-    } else if(columnOfFirstCh == columnOfSecondCh) {
-        firstPosition += 5;
-        secondPosition += 5;
-
-        if(firstPosition >= 25) {
-            firstPosition = columnOfFirstCh;
-        }
-        if(secondPosition >= 25) {
-            secondPosition = columnOfSecondCh;
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);
-    } else {
-        if(columnOfFirstCh < columnOfSecondCh) {
-            firstPosition += columnOfSecondCh - columnOfFirstCh;
-            secondPosition -= columnOfSecondCh - columnOfFirstCh;
-        } else {
-            secondPosition += columnOfFirstCh - columnOfSecondCh;
-            firstPosition -= columnOfFirstCh - columnOfSecondCh;    
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);        
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfFirstCh], 
+            key[lineOfSecondCh * 5 + columnOfSecondCh]
+        );
+    } 
+    // Одинаковый столбец
+    else if(columnOfFirstCh == columnOfSecondCh) {
+        lineOfFirstCh = (lineOfFirstCh + 1) % 5;
+        lineOfSecondCh = (lineOfSecondCh + 1) % 5;
+        
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfFirstCh], 
+            key[lineOfSecondCh * 5 + columnOfSecondCh]
+        );
+    } 
+    // Разные строка и столбец
+    else {
+        // Меняем столбцы местами
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfSecondCh], 
+            key[lineOfSecondCh * 5 + columnOfFirstCh]
+        );        
     }   
 }
 
 std::pair<wchar_t, wchar_t> get_revers_cipher_bigram(wchar_t firstCh, wchar_t secondCh, std::wstring key) {
+    // Замена J на I
     if(static_cast<uint16_t>(firstCh) == 74) {
         firstCh = static_cast<wchar_t>(73);
     }
@@ -113,63 +113,62 @@ std::pair<wchar_t, wchar_t> get_revers_cipher_bigram(wchar_t firstCh, wchar_t se
         secondCh = static_cast<wchar_t>(73);
     }
 
-    size_t firstPosition;
+    // Поиск позиций с проверкой
+    size_t firstPosition = std::wstring::npos;
+    size_t secondPosition = std::wstring::npos;
+    
     for (size_t i = 0; i < key.size(); ++i) {
-        if(key[i] == firstCh) {
+        if(key[i] == firstCh && firstPosition == std::wstring::npos) {
             firstPosition = i;
+        }
+        if(key[i] == secondCh && secondPosition == std::wstring::npos) {
+            secondPosition = i;
+        }
+        if(firstPosition != std::wstring::npos && secondPosition != std::wstring::npos) {
             break;
         }
     }
     
-    size_t secondPosition;
-    for (size_t i = 0; i < key.size(); ++i) {
-        if(key[i] == secondCh) {
-            secondPosition = i;
-            break;
-        }
+    // Проверка что символы найдены
+    if(firstPosition == std::wstring::npos || secondPosition == std::wstring::npos) {
+        throw std::runtime_error("Символы не найдены в ключе");
     }
-
+    
     size_t lineOfFirstCh = firstPosition / 5;
     size_t lineOfSecondCh = secondPosition / 5;
 
     size_t columnOfFirstCh = firstPosition % 5;
     size_t columnOfSecondCh = secondPosition % 5;
 
-
+    // Одинаковая строка
     if(lineOfFirstCh == lineOfSecondCh) {
-        --firstPosition;
-        --secondPosition;
+        // Двигаемся влево с циклическим переходом
+        columnOfFirstCh = (columnOfFirstCh + 4) % 5; // +4 вместо -1 для избежания отрицательных чисел
+        columnOfSecondCh = (columnOfSecondCh + 4) % 5;
         
-        if(firstPosition / 5 != lineOfFirstCh) {
-            firstPosition += 5;
-        }
-        if(secondPosition / 5 != lineOfSecondCh) {
-            secondPosition += 5;
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);
-    } else if(columnOfFirstCh == columnOfSecondCh) {
-        firstPosition -= 5;
-        secondPosition -= 5;
-
-        if(firstPosition >= 25) {
-            firstPosition = 20 + columnOfFirstCh;
-        }
-        if(secondPosition >= 25) {
-            secondPosition = 20 + columnOfSecondCh;
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);
-    } else {
-        if(columnOfFirstCh < columnOfSecondCh) {
-            firstPosition += columnOfSecondCh - columnOfFirstCh;
-            secondPosition -= columnOfSecondCh - columnOfFirstCh;
-        } else {
-            secondPosition += columnOfFirstCh - columnOfSecondCh;
-            firstPosition -= columnOfFirstCh - columnOfSecondCh;    
-        }
-
-        return std::pair<wchar_t, wchar_t>(key[firstPosition], key[secondPosition]);        
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfFirstCh], 
+            key[lineOfSecondCh * 5 + columnOfSecondCh]
+        );
+    } 
+    // Одинаковый столбец
+    else if(columnOfFirstCh == columnOfSecondCh) {
+        // Двигаемся вверх с циклическим переходом
+        lineOfFirstCh = (lineOfFirstCh + 4) % 5; // +4 вместо -1
+        lineOfSecondCh = (lineOfSecondCh + 4) % 5;
+        
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfFirstCh], 
+            key[lineOfSecondCh * 5 + columnOfSecondCh]
+        );
+    } 
+    // Разные строка и столбец
+    else {
+        // Меняем столбцы местами (так же как при шифровании)
+        return std::pair<wchar_t, wchar_t>(
+            key[lineOfFirstCh * 5 + columnOfSecondCh], 
+            key[lineOfSecondCh * 5 + columnOfFirstCh]
+        );        
     }   
 }
 
@@ -189,6 +188,40 @@ std::wstring key_conversions(std::wstring key) {
     return wss.str();
 }
 
+bool checkUniqueNumbers(const std::wstring& key) {
+    std::wregex number_pattern(L"\\d+");
+    std::wsregex_iterator it(key.begin(), key.end(), number_pattern);
+    std::wsregex_iterator end;
+    
+    std::unordered_set<std::wstring> unique_numbers;
+    
+    for (; it != end; ++it) {
+        std::wstring number = it->str();
+        if (unique_numbers.find(number) != unique_numbers.end()) {
+            return false;
+        }
+        unique_numbers.insert(number);
+    }
+    return true;
+}
+
+bool checkUniqueLetters(const std::wstring& key) {
+    std::wregex letter_pattern(L"[A-Z]");
+    std::wsregex_iterator it(key.begin(), key.end(), letter_pattern);
+    std::wsregex_iterator end;
+    
+    std::unordered_set<wchar_t> unique_letters;
+    
+    for (; it != end; ++it) {
+        wchar_t letter = it->str()[0];
+        if (unique_letters.find(letter) != unique_letters.end()) {
+            return false;
+        }
+        unique_letters.insert(letter);
+    }
+    return unique_letters.size() == 25; // Должно быть ровно 25 уникальных букв
+}
+
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
@@ -197,6 +230,8 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     }
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
     
+    std::wregex completionReg(L"(^(?:\[[A-Z]{5}\]\n*)+$)");
+    std::wregex keyPermutReg(L"(^\[\d+(?: \d+)*\]$)");
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         if(text.size() % 2 != 0) {
@@ -205,9 +240,19 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         if(define_language(text) != "en") {
             throw InvalidOpenText("Неверный язык, должен быть английский...");
         }
-        Permutation key_permutation(keys[i]);
+
+        bool isPermut = std::regex_match(keys[i], keyPermutReg) && checkUniqueNumbers(keys[i]);
+        bool isCompletion = std::regex_match(keys[i], completionReg) && checkUniqueLetters(keys[i]);
+        
         std::wstring completion = get_trivial_completion();
-        key_permutation.apply(completion);
+        if(isPermut) {
+            Permutation key_permutation(keys[i]);
+            key_permutation.apply(completion);
+        } else if(isCompletion) {
+            completion = std::regex_replace(keys[i], std::wregex(L"\\W+"), L"");
+        } else {
+            throw std::runtime_error("Неверный формат ключей...");
+        }
 
         for (size_t j = 0; j < text.size(); j += 2) {
             std::pair<wchar_t, wchar_t> newBigram = get_cipher_bigram(text[j], text[j+1], completion);

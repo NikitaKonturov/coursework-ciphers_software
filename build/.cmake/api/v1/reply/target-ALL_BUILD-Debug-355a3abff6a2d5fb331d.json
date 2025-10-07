@@ -1,0 +1,54 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "DRBG_lib::@14b55bfc16e3e145abe0"
+		},
+		{
+			"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4"
+		},
+		{
+			"id" : "Homophone_cipher::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71"
+		},
+		{
+			"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656"
+		},
+		{
+			"id" : "HMAC_lib::@fd78a2f89042c08a2170"
+		},
+		{
+			"id" : "SHA-256_lib::@fc6a39af77d38f53b796"
+		}
+	],
+	"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+	"isGeneratorProvided" : true,
+	"name" : "ALL_BUILD",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

@@ -4,6 +4,7 @@
 #include "../Permutation/src/Permutation.hpp"
 #include "../cipher_exceptions/cipher_exceptions.hpp"
 #include "../permutation_generator/permutation_generator.hpp"
+#include <unordered_set>
 #include <exception>
 #include <iostream>
 #include <sstream>
