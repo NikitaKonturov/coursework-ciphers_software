@@ -1,7 +1,7 @@
 interfaceLanguage = 'ru';
 cipherLanguage = 'ru';
-encryptFolderPath = 'C:\Disk\ G\Test\Test_cipher';
-decryptFolderPath = 'C:\Disk\ G\Test\Test_cipher';
+encryptFolderPath = 'Test_cipher';
+decryptFolderPath = 'Test_cipher';
 fiveGramsEnabled = 'false'
 
 function showError(message) {
