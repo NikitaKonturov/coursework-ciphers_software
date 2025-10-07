@@ -5,6 +5,9 @@
 #include <cmath>
 
 int64_t get_random_number(const int64_t& leftBoarder, const int64_t& rightBoarder, HMAC_DRBG &gen) {
+    if (leftBoarder < 0 || rightBoarder < 0) {
+        throw std::invalid_argument("Неверное значение: граница должна быть натуральным числом.");
+    }
     if (leftBoarder > rightBoarder) {
         throw std::invalid_argument("Неверный диапазон: левая граница больше правой.");
     }
