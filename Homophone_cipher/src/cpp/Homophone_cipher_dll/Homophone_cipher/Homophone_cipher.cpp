@@ -140,17 +140,23 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         while (pos + maxNumberLength <= cipherLen) {
             std::wstring numberBlock = cipherText.substr(pos, maxNumberLength);
             
-            // Убираем ведущие нули для поиска в reverseMap
-            std::wstring numberWithoutLeadingZeros = numberBlock;
-            size_t firstNonZero = numberBlock.find_first_not_of(L'0');
-            if (firstNonZero != std::wstring::npos) {
-                numberWithoutLeadingZeros = numberBlock.substr(firstNonZero);
+            // Ищем число ТОЧНО как в ключах (с ведущими нулями)
+            if (reverseMap.count(numberBlock)) {
+                originalText += reverseMap[numberBlock];
             } else {
-                numberWithoutLeadingZeros = L"0"; // все нули
-            }
-            
-            if (reverseMap.count(numberWithoutLeadingZeros)) {
-                originalText += reverseMap[numberWithoutLeadingZeros];
+                // Если не нашли, пробуем найти без ведущих нулей
+                std::wstring numberWithoutZeros = numberBlock;
+                size_t firstNonZero = numberBlock.find_first_not_of(L'0');
+                if (firstNonZero != std::wstring::npos) {
+                    numberWithoutZeros = numberBlock.substr(firstNonZero);
+                } else {
+                    numberWithoutZeros = L"0";
+                }
+                
+                if (reverseMap.count(numberWithoutZeros)) {
+                    originalText += reverseMap[numberWithoutZeros];
+                }
+                // Если и так не нашли, пропускаем символ
             }
             
             pos += maxNumberLength;
