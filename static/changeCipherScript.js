@@ -90,6 +90,11 @@ export function checkNumber(elementValue) {
 
 export async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
+    if(Array.from(document.getElementById("text-file").files).length == 0) {
+        alert("Выберите файл с текстом...");
+        showError("Ошибка файл с тектсом не выбран");
+        return 
+    }
 
     dataToSliceTelegams.append("keysType", keysType)
     dataToSliceTelegams.forEach((fieldValue, key) => {
