@@ -101,6 +101,9 @@ std::map<wchar_t, std::vector<std::wstring>> generate_keys(
     std::string& language,
     HMAC_DRBG &gen
 ) {
+     if (leftBoarder < 0 || rightBoarder < 0) {
+        throw std::invalid_argument("Неверное значение: граница должна быть натуральным числом.");
+    }
     if (language.empty()) {
         throw std::invalid_argument("Значение языка пусто. Невозможно вычислить частоты.");
     }

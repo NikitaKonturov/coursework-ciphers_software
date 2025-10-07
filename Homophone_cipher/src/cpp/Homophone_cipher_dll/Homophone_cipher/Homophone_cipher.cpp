@@ -183,7 +183,9 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
         int64_t rightBoarder = prop["rightBoarder"].get<int64_t>();
         std::string text_language = prop["text_language"].get<std::string>(); // извоекаем используемый язык
 
-
+         if (leftBoarder < 0 || rightBoarder < 0) {
+            throw std::invalid_argument("Неверное значение: граница должна быть натуральным числом.");
+        }
         std::vector<std::wstring> result;
         for (size_t i = 0; i < count; ++i) {
             std::map<wchar_t, std::vector<std::wstring>> keys;
