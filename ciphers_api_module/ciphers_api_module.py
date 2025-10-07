@@ -104,10 +104,8 @@ class CppCiphers:
                 print(keys)
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
-                # !!!!!!!! Ошибка !!!!!!!!! не обрабатывается
                 raise AttributeError("Колличество ключей должно быть больше или равно колличеству открытых текстов...")
-                # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+                
         except Exception as err:
             # Dynamically check for cipher-specific exceptions
             for key, name in self.get_ciphers_dict().items():
@@ -122,10 +120,9 @@ class CppCiphers:
             raise Exception(err)
 
         return res
-        return res
+       
 
     # Функция получения шаблона свойств ключа
-
     def get_key_properties(self, cipher: str) -> JSONResponse | None:
         res: Optional[JSONResponse] = None
         try:
