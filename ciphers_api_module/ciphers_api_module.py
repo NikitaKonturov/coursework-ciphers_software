@@ -92,17 +92,26 @@ class CppCiphers:
     # Зашифрование телерам по ключам или с генерацией ключей
     # для включения генерации шифров нужно установить keysGeneration флаг в True
     # в keyPropertys должен быть словарь полученый из .json запроса (в fastapi скорее всего Request) на шифрование
-    def encrypt_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> dict[str, str] | None:
+    def encrypt_telegrams(self, cipher: str, openTexts: list[str], keys: list[str] | None, keyProperties: dict | None) -> list[dict[str, str]] | None:
         try:
             
-            res: Optional[dict[str, str]]
-            res = None
+            res: list[dict[str, str]]
+            res = []
+
             if (keys == None):
                 keys = sys.modules[cipher].gen_keys(
                     str(keyProperties), len(openTexts))
             if (len(openTexts) <= len(keys)):
                 print(keys)
-                res = sys.modules[cipher].encript(openTexts, keys)
+                for i in range(len(openTexts)):
+                    # Создаем списки из одного элемента
+                    single_text = [openTexts[i]]
+                    single_key = [keys[i]]
+                    
+                    # Шифруем одну пару
+                    single_result = sys.modules[cipher].encript(single_text, single_key)
+                    res.append(single_result)
+                    
             else:
                 raise AttributeError("Колличество ключей должно быть больше или равно колличеству открытых текстов...")
                 
@@ -137,15 +146,16 @@ class CppCiphers:
 
     # Функция расшифрования, в keysAndCipherText {ключ расшифровавние: о.т.}
     # cipher назание модуля шифра в текущей сесси python
-    def decrypt_telegrams(self, cipher: str, keusAndCipherText: dict[str, str]) -> dict[str, str] | None:
-        res: Optional[dict[str, str]]
-        res = None
+    def decrypt_telegrams(self, cipher: str, keusAndCipherText:list[dict[str, str]]) -> dict[str, str] | None:
+        res: list[dict[str, str]]
+        res = []
         
         try:
-            if (cipher in sys.modules):
-                res = sys.modules[cipher].decript(keusAndCipherText)
-            else:
-                raise TypeError(f"Шифр {cipher} не найден!")
+            for dictData in keusAndCipherText:
+                if (cipher in sys.modules):
+                    res.append(sys.modules[cipher].decript(dictData))
+                else:
+                    raise TypeError(f"Шифр {cipher} не найден!")
 
         except Exception as err:
             
@@ -205,7 +215,7 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
     ), reqToSileAndEncript.selfLengthTelegram, reqToSileAndEncript.selfNumberOfTelegram)
 
 
-    enc_resualt: dict = {}
+    enc_resualt: list[dict] = [{}]
 
     if (reqToSileAndEncript.selfKeysProperties):
         enc_resualt = ciphers_object.encrypt_telegrams(
@@ -216,8 +226,9 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
         regToNextKey: str = r'\\nextkey'
         regEndKeys: str = r'\\endkeys'
 
-        with open(reqToSileAndEncript.selfFileWithUsersKeys, "r") as file:
+        with open(reqToSileAndEncript.selfFileWithUsersKeys, "r", encoding="utf-8") as file:
             lines = file.read().splitlines()
+        
         
         for line in lines:
             if re.search(regEndKeys, line):
@@ -228,6 +239,10 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
 
         splitRes:list = re.split(regToNextKey, AllKeys)
         
+        for i in range(len(splitRes)):
+            splitRes[i] = re.sub(r'^[\s\n]+', '', splitRes[i])
+            splitRes[i] = re.sub(r'[\s\n]+$', '', splitRes[i])
+
         while ('' in splitRes):
             splitRes.remove('')
         
