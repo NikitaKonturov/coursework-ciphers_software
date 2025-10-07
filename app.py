@@ -167,6 +167,8 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
         save_as_txt_file(keys_file.file, pathToUsersKeys)
     elif (extension == '.docx'):
         save_docx_as_txt(keys_file.file, pathToUsersKeys)
+    else:
+        raise RuntimeError("Расширение файла должно быть либо .txt либо .docx")
 
     global requestToSliceAndEncript
     requestToSliceAndEncript = requestToSliceAndEncript.model_copy(
