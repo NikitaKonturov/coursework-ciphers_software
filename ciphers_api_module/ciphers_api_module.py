@@ -229,9 +229,14 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
                 break
             AllKeys += line + '\n'
 
-        print(re.split(regToNextKey, AllKeys))
+        splitRes:list = re.split(regToNextKey, AllKeys)
+        
+        while ('' in splitRes):
+            splitRes.remove('')
+        
+        print(splitRes)
         enc_resualt = ciphers_object.encrypt_telegrams(
-            reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
+            reqToSileAndEncript.selfCipher, telegrams, splitRes, None)
     
 
     save_to_docx(ciphers_object.decrypt_telegrams(reqToSileAndEncript.selfCipher, enc_resualt), Path(str(pathToSaveFile)[:-5:]+'PlainText.docx'), fiveGrams=False)
