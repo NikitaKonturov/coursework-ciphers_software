@@ -13,17 +13,17 @@ void checkFile(std::ifstream& fileIn)
 {
   if(!fileIn.is_open())
   {
-    throw std::runtime_error("The file could not be opened!\n");
+    throw std::runtime_error("Файл не удалось открыть!\n");
   }
 
   if(!fileIn.good())
   {
-    throw std::runtime_error("The file does not exist!\n");
+    throw std::runtime_error("Этот файл не существует!\n");
   }
 
   if(fileIn.peek() == EOF)
   {
-    throw std::runtime_error("The file is empty!\n");
+    throw std::runtime_error("Файл пуст!\n");
   }
 }
 
@@ -34,7 +34,7 @@ std::vector<std::wstring> generateTelegrams(std::string pathToFile, int telegram
     // Открываем файл
     std::ifstream file(pathToFile, std::ios::binary | std::ios::ate);
     if (!file.is_open()) {
-        throw std::runtime_error("The file could not be opened!");
+        throw std::runtime_error("Файл не удалось открыть!");
     }
 
     // Вычисляем размер файла
@@ -43,7 +43,7 @@ std::vector<std::wstring> generateTelegrams(std::string pathToFile, int telegram
 
     // Проверка возможности генерации телеграмм
     if (telegramLength * telegramCount > fileSize) {
-        throw std::runtime_error("There is not enough space in the file to generate the specified number of telegrams.");
+        throw std::runtime_error("В файле недостаточно места для генерации указанного количества телеграмм.");
     }
 
     // Генерация непересекающихся начальных позиций
@@ -77,7 +77,7 @@ std::vector<std::wstring> generateTelegrams(std::string pathToFile, int telegram
         file.read(buffer.data(), telegramLength * 2); // Чтение телеграммы
 
         if (!file) {
-            throw std::runtime_error("Error reading telegram data.");
+            throw std::runtime_error("Ошибка при чтении данных телеграммы.");
         }
 
         // Декодируем из UTF-16 в wstring
