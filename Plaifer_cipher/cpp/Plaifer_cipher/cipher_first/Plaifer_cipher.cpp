@@ -230,8 +230,8 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     }
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
     
-    std::wregex completionReg(L"(^(?:\[[A-Z]{5}\]\n*)+$)");
-    std::wregex keyPermutReg(L"(^\[\d+(?: \d+)*\]$)");
+     std::wregex completionReg(LR"(^(?:\[[A-Z]{5}\]\n*)+$)");
+    std::wregex keyPermutReg(LR"(^\[\d+(?: \d+)*\]$)");
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         if(text.size() % 2 != 0) {
