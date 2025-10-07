@@ -152,6 +152,7 @@ class CppCiphers:
         
         try:
             for dictData in keusAndCipherText:
+                print(dictData)
                 if (cipher in sys.modules):
                     res.append(sys.modules[cipher].decript(dictData))
                 else:
@@ -290,8 +291,11 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
             tempKeyAndCipherText = re.split(regToText, telegram)
             keysAndCipherText[tempKeyAndCipherText[0]
                               ] = ''.join(re.findall( r'[А-Яа-яA-Za-z0-9]', tempKeyAndCipherText[1])) 
+    newListDicts : list[dict[str, str]] = []
+    for key in keysAndCipherText:
+        newListDicts.append({key : keysAndCipherText[key]})
     
     dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
-        cipher, keysAndCipherText)
+        cipher, newListDicts)
 
     save_to_docx(dec_result, pathToSaveFile, "false")
