@@ -24,7 +24,7 @@ events:
       The output was:
       0
       ╨Т╨╡╤А╤Б╨╕╤П MSBuild 17.12.12+1cce77968 ╨┤╨╗╤П .NET Framework
-      ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:00:59.
+      ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:23:28.
       
       ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\3.31.4\\CompilerIdC\\CompilerIdC.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
       PrepareForBuild:
@@ -53,7 +53,7 @@ events:
           ╨Я╤А╨╡╨┤╤Г╨┐╤А╨╡╨╢╨┤╨╡╨╜╨╕╨╣: 0
           ╨Ю╤И╨╕╨▒╨╛╨║: 0
       
-      ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.78
+      ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:01.09
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -79,7 +79,7 @@ events:
       The output was:
       0
       ╨Т╨╡╤А╤Б╨╕╤П MSBuild 17.12.12+1cce77968 ╨┤╨╗╤П .NET Framework
-      ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:01:00.
+      ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:23:30.
       
       ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\3.31.4\\CompilerIdCXX\\CompilerIdCXX.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
       PrepareForBuild:
@@ -108,7 +108,7 @@ events:
           ╨Я╤А╨╡╨┤╤Г╨┐╤А╨╡╨╢╨┤╨╡╨╜╨╕╨╣: 0
           ╨Ю╤И╨╕╨▒╨╛╨║: 0
       
-      ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.94
+      ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.82
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -127,8 +127,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-o5s1ud"
-      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-o5s1ud"
+      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-impbvi"
+      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-impbvi"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -137,40 +137,40 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-o5s1ud'
+        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-impbvi'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_d3e60.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_e5b1e.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         ╨Т╨╡╤А╤Б╨╕╤П MSBuild 17.12.12+1cce77968 ╨┤╨╗╤П .NET Framework
-        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:01:02.
+        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:23:31.
         
-        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o5s1ud\\cmTC_d3e60.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-impbvi\\cmTC_e5b1e.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         PrepareForBuild:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_d3e60.dir\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_e5b1e.dir\\Debug\\".
           ╨б╤В╤А╤Г╨║╤В╤Г╤А╨╕╤А╨╛╨▓╨░╨╜╨╜╤Л╨╣ ╨▓╤Л╨▓╨╛╨┤ ╨▓╨║╨╗╤О╤З╨╡╨╜. ╨д╨╛╤А╨╝╨░╤В╨╕╤А╨╛╨▓╨░╨╜╨╕╨╡ ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨╕ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А╨░ ╨▒╤Г╨┤╨╡╤В ╨╛╤В╤А╨░╨╢╨░╤В╤М ╨╕╨╡╤А╨░╤А╤Е╨╕╤О ╨╛╤И╨╕╨▒╨╛╨║. ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ ╤Б╨╝. https://aka.ms/cpp/structured-output.
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o5s1ud\\Debug\\".
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_d3e60.dir\\Debug\\cmTC_d3e60.tlog\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-impbvi\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.tlog\\".
         InitializeBuildStatus:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_d3e60.dir\\Debug\\cmTC_d3e60.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_d3e60.dir\\Debug\\cmTC_d3e60.tlog\\unsuccessfulbuild".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_d3e60.dir\\Debug\\\\" /Fd"cmTC_d3e60.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e5b1e.dir\\Debug\\\\" /Fd"cmTC_e5b1e.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           ╨Ю╨┐╤В╨╕╨╝╨╕╨╖╨╕╤А╤Г╤О╤Й╨╕╨╣ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А Microsoft (R) C/C++ ╨▓╨╡╤А╤Б╨╕╨╕ 19.42.34436 ╨┤╨╗╤П x64
           (C) ╨Ъ╨╛╤А╨┐╨╛╤А╨░╤Ж╨╕╤П ╨Ь╨░╨╣╨║╤А╨╛╤Б╨╛╤Д╤В (Microsoft Corporation).  ╨Т╤Б╨╡ ╨┐╤А╨░╨▓╨░ ╨╖╨░╤Й╨╕╤Й╨╡╨╜╤Л.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_d3e60.dir\\Debug\\\\" /Fd"cmTC_d3e60.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e5b1e.dir\\Debug\\\\" /Fd"cmTC_e5b1e.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o5s1ud\\Debug\\cmTC_d3e60.exe" /INCREMENTAL /ILK:"cmTC_d3e60.dir\\Debug\\cmTC_d3e60.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-o5s1ud/Debug/cmTC_d3e60.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-o5s1ud/Debug/cmTC_d3e60.lib" /MACHINE:X64  /machine:x64 cmTC_d3e60.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_d3e60.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o5s1ud\\Debug\\cmTC_d3e60.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-impbvi\\Debug\\cmTC_e5b1e.exe" /INCREMENTAL /ILK:"cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-impbvi/Debug/cmTC_e5b1e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-impbvi/Debug/cmTC_e5b1e.lib" /MACHINE:X64  /machine:x64 cmTC_e5b1e.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_e5b1e.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-impbvi\\Debug\\cmTC_e5b1e.exe
         FinalizeBuildStatus:
-          ╨д╨░╨╣╨╗ "cmTC_d3e60.dir\\Debug\\cmTC_d3e60.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_d3e60.dir\\Debug\\cmTC_d3e60.tlog\\cmTC_d3e60.lastbuildstate".
-        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o5s1ud\\cmTC_d3e60.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+          ╨д╨░╨╣╨╗ "cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_e5b1e.dir\\Debug\\cmTC_e5b1e.tlog\\cmTC_e5b1e.lastbuildstate".
+        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-impbvi\\cmTC_e5b1e.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         
         ╨б╨▒╨╛╤А╨║╨░ ╤Г╤Б╨┐╨╡╤И╨╜╨╛ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░.
             ╨Я╤А╨╡╨┤╤Г╨┐╤А╨╡╨╢╨┤╨╡╨╜╨╕╨╣: 0
             ╨Ю╤И╨╕╨▒╨╛╨║: 0
         
-        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.91
+        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.72
         
       exitCode: 0
   -
@@ -210,8 +210,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-hwvoin"
-      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-hwvoin"
+      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-f37ydo"
+      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-f37ydo"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -221,40 +221,40 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-hwvoin'
+        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-f37ydo'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_0b0b7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_46a49.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         ╨Т╨╡╤А╤Б╨╕╤П MSBuild 17.12.12+1cce77968 ╨┤╨╗╤П .NET Framework
-        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:01:03.
+        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:23:32.
         
-        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hwvoin\\cmTC_0b0b7.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-f37ydo\\cmTC_46a49.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         PrepareForBuild:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_0b0b7.dir\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_46a49.dir\\Debug\\".
           ╨б╤В╤А╤Г╨║╤В╤Г╤А╨╕╤А╨╛╨▓╨░╨╜╨╜╤Л╨╣ ╨▓╤Л╨▓╨╛╨┤ ╨▓╨║╨╗╤О╤З╨╡╨╜. ╨д╨╛╤А╨╝╨░╤В╨╕╤А╨╛╨▓╨░╨╜╨╕╨╡ ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨╕ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А╨░ ╨▒╤Г╨┤╨╡╤В ╨╛╤В╤А╨░╨╢╨░╤В╤М ╨╕╨╡╤А╨░╤А╤Е╨╕╤О ╨╛╤И╨╕╨▒╨╛╨║. ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ ╤Б╨╝. https://aka.ms/cpp/structured-output.
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hwvoin\\Debug\\".
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.tlog\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-f37ydo\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_46a49.dir\\Debug\\cmTC_46a49.tlog\\".
         InitializeBuildStatus:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.tlog\\unsuccessfulbuild".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_46a49.dir\\Debug\\cmTC_46a49.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_46a49.dir\\Debug\\cmTC_46a49.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_0b0b7.dir\\Debug\\\\" /Fd"cmTC_0b0b7.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_46a49.dir\\Debug\\\\" /Fd"cmTC_46a49.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           ╨Ю╨┐╤В╨╕╨╝╨╕╨╖╨╕╤А╤Г╤О╤Й╨╕╨╣ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А Microsoft (R) C/C++ ╨▓╨╡╤А╤Б╨╕╨╕ 19.42.34436 ╨┤╨╗╤П x64
           (C) ╨Ъ╨╛╤А╨┐╨╛╤А╨░╤Ж╨╕╤П ╨Ь╨░╨╣╨║╤А╨╛╤Б╨╛╤Д╤В (Microsoft Corporation).  ╨Т╤Б╨╡ ╨┐╤А╨░╨▓╨░ ╨╖╨░╤Й╨╕╤Й╨╡╨╜╤Л.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_0b0b7.dir\\Debug\\\\" /Fd"cmTC_0b0b7.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_46a49.dir\\Debug\\\\" /Fd"cmTC_46a49.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hwvoin\\Debug\\cmTC_0b0b7.exe" /INCREMENTAL /ILK:"cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-hwvoin/Debug/cmTC_0b0b7.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-hwvoin/Debug/cmTC_0b0b7.lib" /MACHINE:X64  /machine:x64 cmTC_0b0b7.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_0b0b7.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hwvoin\\Debug\\cmTC_0b0b7.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-f37ydo\\Debug\\cmTC_46a49.exe" /INCREMENTAL /ILK:"cmTC_46a49.dir\\Debug\\cmTC_46a49.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-f37ydo/Debug/cmTC_46a49.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-f37ydo/Debug/cmTC_46a49.lib" /MACHINE:X64  /machine:x64 cmTC_46a49.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_46a49.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-f37ydo\\Debug\\cmTC_46a49.exe
         FinalizeBuildStatus:
-          ╨д╨░╨╣╨╗ "cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_0b0b7.dir\\Debug\\cmTC_0b0b7.tlog\\cmTC_0b0b7.lastbuildstate".
-        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hwvoin\\cmTC_0b0b7.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+          ╨д╨░╨╣╨╗ "cmTC_46a49.dir\\Debug\\cmTC_46a49.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_46a49.dir\\Debug\\cmTC_46a49.tlog\\cmTC_46a49.lastbuildstate".
+        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-f37ydo\\cmTC_46a49.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         
         ╨б╨▒╨╛╤А╨║╨░ ╤Г╤Б╨┐╨╡╤И╨╜╨╛ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░.
             ╨Я╤А╨╡╨┤╤Г╨┐╤А╨╡╨╢╨┤╨╡╨╜╨╕╨╣: 0
             ╨Ю╤И╨╕╨▒╨╛╨║: 0
         
-        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.81
+        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.72
         
       exitCode: 0
   -
@@ -299,8 +299,8 @@ events:
     checks:
       - "Performing Test HAS_MSVC_GL_LTCG"
     directories:
-      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-p19o6c"
-      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-p19o6c"
+      source: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-seqmne"
+      binary: "C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-seqmne"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -310,48 +310,48 @@ events:
       variable: "HAS_MSVC_GL_LTCG"
       cached: true
       stdout: |
-        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-p19o6c'
+        Change Dir: 'C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-seqmne'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_72842.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_3982f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         ╨Т╨╡╤А╤Б╨╕╤П MSBuild 17.12.12+1cce77968 ╨┤╨╗╤П .NET Framework
-        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:01:06.
+        ╨б╨▒╨╛╤А╨║╨░ ╨╜╨░╤З╨░╤В╨░ 07.10.2025 20:23:35.
         
-        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\cmTC_72842.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+        ╨Я╤А╨╛╨╡╨║╤В "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\cmTC_3982f.vcxproj" ╨▓ ╤Г╨╖╨╗╨╡ 1 (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         PrepareForBuild:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_72842.dir\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_3982f.dir\\Debug\\".
           ╨б╤В╤А╤Г╨║╤В╤Г╤А╨╕╤А╨╛╨▓╨░╨╜╨╜╤Л╨╣ ╨▓╤Л╨▓╨╛╨┤ ╨▓╨║╨╗╤О╤З╨╡╨╜. ╨д╨╛╤А╨╝╨░╤В╨╕╤А╨╛╨▓╨░╨╜╨╕╨╡ ╨┤╨╕╨░╨│╨╜╨╛╤Б╤В╨╕╨║╨╕ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А╨░ ╨▒╤Г╨┤╨╡╤В ╨╛╤В╤А╨░╨╢╨░╤В╤М ╨╕╨╡╤А╨░╤А╤Е╨╕╤О ╨╛╤И╨╕╨▒╨╛╨║. ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ ╤Б╨╝. https://aka.ms/cpp/structured-output.
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\Debug\\".
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_72842.dir\\Debug\\cmTC_72842.tlog\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\Debug\\".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨░╤В╨░╨╗╨╛╨│╨░ "cmTC_3982f.dir\\Debug\\cmTC_3982f.tlog\\".
         InitializeBuildStatus:
-          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_72842.dir\\Debug\\cmTC_72842.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_72842.dir\\Debug\\cmTC_72842.tlog\\unsuccessfulbuild".
+          ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ "cmTC_3982f.dir\\Debug\\cmTC_3982f.tlog\\unsuccessfulbuild", ╤В╨░╨║ ╨║╨░╨║ ╨▒╤Л╨╗╨╛ ╨╖╨░╨┤╨░╨╜╨╛ "AlwaysCreate".
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_3982f.dir\\Debug\\cmTC_3982f.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D HAS_MSVC_GL_LTCG /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++20 /Fo"cmTC_72842.dir\\Debug\\\\" /Fd"cmTC_72842.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\src.cxx"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D HAS_MSVC_GL_LTCG /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++20 /Fo"cmTC_3982f.dir\\Debug\\\\" /Fd"cmTC_3982f.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\src.cxx"
           ╨Ю╨┐╤В╨╕╨╝╨╕╨╖╨╕╤А╤Г╤О╤Й╨╕╨╣ ╨║╨╛╨╝╨┐╨╕╨╗╤П╤В╨╛╤А Microsoft (R) C/C++ ╨▓╨╡╤А╤Б╨╕╨╕ 19.42.34436 ╨┤╨╗╤П x64
           (C) ╨Ъ╨╛╤А╨┐╨╛╤А╨░╤Ж╨╕╤П ╨Ь╨░╨╣╨║╤А╨╛╤Б╨╛╤Д╤В (Microsoft Corporation).  ╨Т╤Б╨╡ ╨┐╤А╨░╨▓╨░ ╨╖╨░╤Й╨╕╤Й╨╡╨╜╤Л.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D HAS_MSVC_GL_LTCG /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++20 /Fo"cmTC_72842.dir\\Debug\\\\" /Fd"cmTC_72842.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\src.cxx"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D HAS_MSVC_GL_LTCG /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++20 /Fo"cmTC_3982f.dir\\Debug\\\\" /Fd"cmTC_3982f.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\src.cxx"
           src.cxx
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\Debug\\cmTC_72842.exe" /INCREMENTAL /ILK:"cmTC_72842.dir\\Debug\\cmTC_72842.ilk" /NOLOGO "-LTCG" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-p19o6c/Debug/cmTC_72842.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-p19o6c/Debug/cmTC_72842.lib" /MACHINE:X64  /machine:x64 cmTC_72842.dir\\Debug\\src.obj
-        LINK : warning LNK4075: ╨╜╨╡ ╤Г╤З╨╕╤В╤Л╨▓╨░╨╡╤В╤Б╤П "/INCREMENTAL" ╨╕╨╖-╨╖╨░ ╤Б╨┐╨╡╤Ж╨╕╤Д╨╕╨║╨░╤Ж╨╕╨╕ "/LTCG" [C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\cmTC_72842.vcxproj]
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\Debug\\cmTC_3982f.exe" /INCREMENTAL /ILK:"cmTC_3982f.dir\\Debug\\cmTC_3982f.ilk" /NOLOGO "-LTCG" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-seqmne/Debug/cmTC_3982f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Development/course_work/coursework-ciphers_software/Plaifer_cipher/cpp/Plaifer_cipher/build/CMakeFiles/CMakeScratch/TryCompile-seqmne/Debug/cmTC_3982f.lib" /MACHINE:X64  /machine:x64 cmTC_3982f.dir\\Debug\\src.obj
+        LINK : warning LNK4075: ╨╜╨╡ ╤Г╤З╨╕╤В╤Л╨▓╨░╨╡╤В╤Б╤П "/INCREMENTAL" ╨╕╨╖-╨╖╨░ ╤Б╨┐╨╡╤Ж╨╕╤Д╨╕╨║╨░╤Ж╨╕╨╕ "/LTCG" [C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\cmTC_3982f.vcxproj]
           ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨╛╨┤╨░
           ╨б╨╛╨╖╨┤╨░╨╜╨╕╨╡ ╨║╨╛╨┤╨░ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨╛
-          cmTC_72842.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\Debug\\cmTC_72842.exe
+          cmTC_3982f.vcxproj -> C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\Debug\\cmTC_3982f.exe
         FinalizeBuildStatus:
-          ╨д╨░╨╣╨╗ "cmTC_72842.dir\\Debug\\cmTC_72842.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
-          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_72842.dir\\Debug\\cmTC_72842.tlog\\cmTC_72842.lastbuildstate".
-        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\cmTC_72842.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
+          ╨д╨░╨╣╨╗ "cmTC_3982f.dir\\Debug\\cmTC_3982f.tlog\\unsuccessfulbuild" ╤Г╨┤╨░╨╗╤П╨╡╤В╤Б╤П.
+          ╨Ю╨▒╤А╨░╤Й╨╡╨╜╨╕╨╡ ╨║ "cmTC_3982f.dir\\Debug\\cmTC_3982f.tlog\\cmTC_3982f.lastbuildstate".
+        ╨б╨▒╨╛╤А╨║╨░ ╨┐╤А╨╛╨╡╨║╤В╨░ "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\cmTC_3982f.vcxproj" ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░ (╤Ж╨╡╨╗╨╡╨▓╤Л╨╡ ╨╛╨▒╤К╨╡╨║╤В╤Л ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О).
         
         ╨б╨▒╨╛╤А╨║╨░ ╤Г╤Б╨┐╨╡╤И╨╜╨╛ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░.
         
-        "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\cmTC_72842.vcxproj" (╤Ж╨╡╨╗╨╡╨▓╨╛╨╣ ╨╛╨▒╤К╨╡╨║╤В ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О) (1) ->
+        "C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\cmTC_3982f.vcxproj" (╤Ж╨╡╨╗╨╡╨▓╨╛╨╣ ╨╛╨▒╤К╨╡╨║╤В ╨┐╨╛ ╤Г╨╝╨╛╨╗╤З╨░╨╜╨╕╤О) (1) ->
         (╨ж╨╡╨╗╨╡╨▓╨╛╨╣ ╨╛╨▒╤К╨╡╨║╤В Link) -> 
-          LINK : warning LNK4075: ╨╜╨╡ ╤Г╤З╨╕╤В╤Л╨▓╨░╨╡╤В╤Б╤П "/INCREMENTAL" ╨╕╨╖-╨╖╨░ ╤Б╨┐╨╡╤Ж╨╕╤Д╨╕╨║╨░╤Ж╨╕╨╕ "/LTCG" [C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-p19o6c\\cmTC_72842.vcxproj]
+          LINK : warning LNK4075: ╨╜╨╡ ╤Г╤З╨╕╤В╤Л╨▓╨░╨╡╤В╤Б╤П "/INCREMENTAL" ╨╕╨╖-╨╖╨░ ╤Б╨┐╨╡╤Ж╨╕╤Д╨╕╨║╨░╤Ж╨╕╨╕ "/LTCG" [C:\\Development\\course_work\\coursework-ciphers_software\\Plaifer_cipher\\cpp\\Plaifer_cipher\\build\\CMakeFiles\\CMakeScratch\\TryCompile-seqmne\\cmTC_3982f.vcxproj]
         
             ╨Я╤А╨╡╨┤╤Г╨┐╤А╨╡╨╢╨┤╨╡╨╜╨╕╨╣: 1
             ╨Ю╤И╨╕╨▒╨╛╨║: 0
         
-        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.75
+        ╨Я╤А╨╛╤И╨╗╨╛ ╨▓╤А╨╡╨╝╨╡╨╜╨╕ 00:00:00.79
         
       exitCode: 0
 ...
