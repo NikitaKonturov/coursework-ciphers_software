@@ -135,11 +135,10 @@ def save_open_text_as_bin_file(language: str, file: BinaryIO, pathToSaveTxt: Pat
 
 
 def save_as_txt_file(file: BinaryIO, pathToSaveTxtFile: Path, bufferSize: int = 20):
-    with open(pathToSaveTxtFile, "bw", encoding="utf-8") as resTxtFile:
-        dataBuffer = b' '
-        while dataBuffer.decode('utf-8') != '':
-            dataBuffer = file.read(bufferSize)
-            resTxtFile.write(dataBuffer)
+    with open(pathToSaveTxtFile, "w", encoding="utf-8") as resTxtFile:
+        dataBuffer = file.read().decode("utf-8")
+        resTxtFile.write(dataBuffer)
+        print(dataBuffer)
     return
 
 

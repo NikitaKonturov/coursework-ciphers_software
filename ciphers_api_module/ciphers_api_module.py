@@ -101,6 +101,7 @@ class CppCiphers:
                 keys = sys.modules[cipher].gen_keys(
                     str(keyProperties), len(openTexts))
             if (len(openTexts) <= len(keys)):
+                print(keys)
                 res = sys.modules[cipher].encript(openTexts, keys)
             else:
                 # !!!!!!!! Ошибка !!!!!!!!! не обрабатывается
@@ -219,15 +220,16 @@ def start_encryption(reqToSileAndEncript: RequToSliceAndEncript, pathToSaveFile:
         regEndKeys: str = r'\\endkeys'
 
         with open(reqToSileAndEncript.selfFileWithUsersKeys, "r") as file:
-            tempLine = file.readline()
-            while (tempLine):
-                if (re.search(regEndKeys, tempLine)):
-                    tempLine = re.sub(regEndKeys, "", tempLine)
-                    AllKeys = AllKeys + tempLine
-                    break
-                AllKeys = AllKeys + tempLine
-                tempLine = file.readline()
+            lines = file.read().splitlines()
+        
+        for line in lines:
+            if re.search(regEndKeys, line):
+                line = re.sub(regEndKeys, "", line)
+                AllKeys += line
+                break
+            AllKeys += line + '\n'
 
+        print(re.split(regToNextKey, AllKeys))
         enc_resualt = ciphers_object.encrypt_telegrams(
             reqToSileAndEncript.selfCipher, telegrams, re.split(regToNextKey, AllKeys), None)
     
@@ -253,8 +255,7 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
     if (fileExtension == '.txt'):
         dataLine: str = ""
         while (dataLine):
-            dataLine = str(fileWithCipherTextAndKeys.readline()
-                           ).encode("utf-8")
+            dataLine = str(fileWithCipherTextAndKeys.readline()).encode("utf-8")
             allDataFromFile += dataLine
     elif (fileExtension == '.docx'):
         doc = Document(fileWithCipherTextAndKeys)
@@ -272,7 +273,7 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
             tempKeyAndCipherText = re.split(regToText, telegram)
             keysAndCipherText[tempKeyAndCipherText[0]
                               ] = ''.join(re.findall( r'[А-Яа-яA-Za-z0-9]', tempKeyAndCipherText[1])) 
-
+    
     dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
         cipher, keysAndCipherText)
 
