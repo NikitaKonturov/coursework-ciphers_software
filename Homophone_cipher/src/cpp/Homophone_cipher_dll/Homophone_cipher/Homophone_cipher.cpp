@@ -17,8 +17,9 @@ bool is_valid_key_format(const std::wstring& key) {
     std::set<std::wstring> seen_numbers;
     bool has_valid_lines = false;
     
-    // Регулярное выражение для проверки строки: буква + пробел + числа через пробел
-    std::wregex line_pattern(L"^[A-ZА-ЯЁ]\\s+([0-9]+\\s+)*[0-9]*$");
+    // Упрощенное регулярное выражение - проверяем только общую структуру
+    // Вместо конкретных диапазонов букв, проверяем что первый символ - буква
+    std::wregex line_pattern(L"^[[:alpha:]]\\s+([0-9]+\\s+)*[0-9]*$");
     std::wregex number_pattern(L"^[0-9]+$");
     
     while (std::getline(keyStream, line)) {
@@ -45,6 +46,11 @@ bool is_valid_key_format(const std::wstring& key) {
         }
         
         wchar_t charKey = letter[0];
+        
+        // Проверяем, что символ является буквой (русской или английской)
+        if (!iswalpha(charKey)) {
+            return false;
+        }
         
         // Проверяем, что буква не повторяется
         if (seen_letters.count(charKey)) {
