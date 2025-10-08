@@ -71,7 +71,7 @@ export async function addBlockOfKeysSettings() {
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
-            
+        
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
         
     } catch (error) {  
@@ -90,9 +90,19 @@ export function checkNumber(elementValue) {
 
 export async function sendEncriptRequest(formID, keysType) {
     let dataToSliceTelegams = new FormData(document.getElementById("slice-telegrmas-form"))
+    if(document.getElementById("ciphersList").value == "Empty_tag") {
+            alert("Выберите шифр!")
+            showError("Выберите шифр!")
+            return 
+        } else if(!isValidNaturalNumber(document.getElementById("count-of-tg").value)  || !isValidNaturalNumber(document.getElementById("lenght-of-tg").value)) {
+                alert("Колличество телеграм и их размер должны быть натуральными и не содержать 'e'!")
+                showError("Колличество телеграм и их размер должны быть натуральными и не содержать 'e'!");
+                return
+        } 
+
     if(Array.from(document.getElementById("text-file").files).length == 0) {
-        alert("Выберите файл с текстом...");
-        showError("Ошибка файл с тектсом не выбран");
+        alert("Выберите файл с текстом!");
+        showError("Ошибка файл с тектсом не выбран!");
         return 
     }
 
@@ -287,13 +297,21 @@ export async function preventActionButton() {
     event.preventDefault()
 }
 
+function isValidNaturalNumber(value) {
+    // Проверяем, что строка состоит только из цифр и не начинается с 0 (кроме самого 0)
+    return /^([1-9]\d*)$/.test(value) && parseInt(value) > 0;
+}
+
 export async function encriptSettings() {
     try {
         if(document.getElementById("ciphersList").value == "Empty_tag") {
             alert("Выберите шифр!")
-        } else if(document.getElementById("count-of-tg").value <= 0 || document.getElementById("lenght-of-tg").value <= 0) {
-                alert("Колличество телеграм и их размер должны быть натуральными")
+            showError("Выберите шифр!")
+        } else if(!isValidNaturalNumber(document.getElementById("count-of-tg").value)  || !isValidNaturalNumber(document.getElementById("lenght-of-tg").value)) {
+                alert("Колличество телеграм и их размер должны быть натуральными не содержать 'e' в своей записи")
+                showError("Колличество телеграм и их размер должны быть натуральными не содержать 'e' в своей записи")
         } else if(Array.from(document.getElementById("text-file").files).length == 0) {
+                alert("Выберите файл с текстом")
                 alert("Выберите файл с текстом")
         }else {
             let selectKyesTypeBlock = document.createElement("div")

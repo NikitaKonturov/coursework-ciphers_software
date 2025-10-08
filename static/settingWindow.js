@@ -1,5 +1,5 @@
 interfaceLanguage = 'ru';
-cipherLanguage = 'en';
+cipherLanguage = 'ru';
 encryptFolderPath = 'course_work';
 decryptFolderPath = 'course_work';
 fiveGramsEnabled = 'false'
