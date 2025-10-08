@@ -2,18 +2,101 @@
 #include <iomanip>
 #include <codecvt>
 #include <locale>
+#include <regex>
+#include <set>
 
+bool is_valid_key_format(const std::wstring& key) {
+    // Проверяем, что ключ не пустой
+    if (key.empty()) {
+        return false;
+    }
+    
+    std::wistringstream keyStream(key);
+    std::wstring line;
+    std::set<wchar_t> seen_letters;
+    std::set<std::wstring> seen_numbers;
+    bool has_valid_lines = false;
+    
+    // Регулярное выражение для проверки строки: буква + пробел + числа через пробел
+    std::wregex line_pattern(L"^[A-ZА-ЯЁ]\\s+([0-9]+\\s+)*[0-9]*$");
+    std::wregex number_pattern(L"^[0-9]+$");
+    
+    while (std::getline(keyStream, line)) {
+        // Убираем пробелы в начале и конце строки
+        size_t start = line.find_first_not_of(L" \t");
+        if (start == std::wstring::npos) continue; // Пропускаем пустые строки
+        size_t end = line.find_last_not_of(L" \t");
+        line = line.substr(start, end - start + 1);
+        
+        // Проверяем общий формат строки
+        if (!std::regex_match(line, line_pattern)) {
+            return false;
+        }
+        
+        std::wistringstream lineStream(line);
+        std::wstring letter;
+        if (!(lineStream >> letter)) {
+            return false;
+        }
+        
+        // Проверяем, что первый токен - одна буква
+        if (letter.length() != 1) {
+            return false;
+        }
+        
+        wchar_t charKey = letter[0];
+        
+        // Проверяем, что буква не повторяется
+        if (seen_letters.count(charKey)) {
+            return false;
+        }
+        seen_letters.insert(charKey);
+        
+        // Проверяем числа
+        std::wstring number;
+        bool has_numbers = false;
+        while (lineStream >> number) {
+            // Проверяем формат числа
+            if (!std::regex_match(number, number_pattern)) {
+                return false;
+            }
+            
+            // Проверяем, что числа не повторяются
+            if (seen_numbers.count(number)) {
+                return false;
+            }
+            seen_numbers.insert(number);
+            has_numbers = true;
+        }
+        
+        // Каждая буква должна иметь хотя бы одно число
+        if (!has_numbers) {
+            return false;
+        }
+        
+        has_valid_lines = true;
+    }
+    
+    // Ключ должен содержать хотя бы одну корректную строку
+    return has_valid_lines;
+}
 
 // Шифрует открытый текст с использованием ключей.
 // Каждая буква текста заменяется на случайный ключ из списка, связанного с этой буквой.
 // Индекс для выбора ключа обновляется после каждого использования.
 // Возвращает map, где ключ — обновленный ключ шифрования, а значение — зашифрованный текст.
-std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys) {
+std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)  {
     std::map<std::wstring, std::wstring> result;
 
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         std::wstring key = keys[i];
+        
+        // Проверяем формат ключа
+        if (!is_valid_key_format(key)) {
+            throw std::invalid_argument("Неверный формат ключа. Ожидается формат: буква пробел числа_через_пробел. Проверьте отсутствие повторений букв а так же шифробозначений");
+        }
+
         std::wistringstream keyStream(key);
         std::map<wchar_t, std::vector<std::wstring>> substitutionMap;
         std::map<wchar_t, size_t> letterIndices;
@@ -82,7 +165,11 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
                 cipherText += substitutionMap[ch][index];
                 index = (index + 1) % substitutionMap[ch].size();
             } else {
-                cipherText += ch;
+                // Если символа нет в ключе, выбрасываем ошибку
+                std::wstring error_msg = L"Символ '";
+                error_msg += ch;
+                error_msg += L"' отсутствует в ключе шифрования";
+                throw std::invalid_argument(std::string(error_msg.begin(), error_msg.end()));
             }
         }
 
@@ -111,6 +198,11 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     std::map<std::wstring, std::wstring> decryptedTexts;
 
     for (const auto& [key, cipherText] : keysAndText) {
+        // Проверяем формат ключа
+        if (!is_valid_key_format(key)) {
+            throw std::invalid_argument("Неверный формат ключа при дешифровании");
+        }
+
         std::wistringstream keyStream(key);
         std::map<std::wstring, wchar_t> reverseMap;  // Число → буква
         std::wstring line;
@@ -131,7 +223,10 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
                 }
             }
         }
-
+        // Проверяем, что обратный словарь не пустой
+        if (reverseMap.empty()) {
+            throw std::invalid_argument("Ключ не содержит чисел для дешифрования");
+}
         std::wstring originalText;
         size_t pos = 0;
         size_t cipherLen = cipherText.length();
@@ -208,8 +303,15 @@ std::vector<std::wstring> gen_keys(std::wstring keyPropertys, size_t count) {
                 }
                 wss << L"\n";
             }
-
-            result.push_back(wss.str());
+            
+            std::wstring generated_key = wss.str();
+            
+            // Проверяем сгенерированный ключ
+            if (!is_valid_key_format(generated_key)) {
+                throw std::runtime_error("Сгенерирован некорректный ключ");
+            }
+            
+            result.push_back(generated_key);
         }
         return result;
 
