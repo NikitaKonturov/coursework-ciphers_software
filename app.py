@@ -157,7 +157,7 @@ async def catchKeysProperties(keyPropReq: Request):
     os.remove(requestToSliceAndEncript.selfTextFile)
 
     return JSONResponse({"Status": 200})
-
+    
 
 @app.post("/startEncoder/pushUserKeys")
 async def catchUsersKeys(keys_file: UploadFile = File(...)):
