@@ -62,9 +62,9 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     {
         std::wstring text = openTexts[i];
 
-        if (keys[i].size() != text.size())
+        if (keys[i].size() > text.size())
         {
-            throw KeyPropertyError("Размер гаммы должен соответствовать размеру открытого текста!");
+            throw KeyPropertyError("Размер гаммы должен быть меньше или равен размеру открытого текста!");
         }
 
         std::wcout << "Text: " << text << std::endl;
@@ -90,7 +90,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
                 throw InvalidOpenText("Открытый текст содержит недопустимый символ.");
             }
 
-            wchar_t gammaCh = gamma[j];
+            wchar_t gammaCh = gamma[j % gamma.size()];
             size_t gammaChPos = alphabet.find(gammaCh);
             if (gammaChPos == std::wstring::npos)
             {
@@ -117,9 +117,9 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         std::wstring gamma = pair.first;
         std::wstring cipherText = pair.second;
 
-        if (gamma.size() != cipherText.size())
+        if (gamma.size() > cipherText.size())
         {
-            throw KeyPropertyError("Размер гаммы должен соответствовать размеру открытого текста!");
+            throw KeyPropertyError("Размер гаммы должен быть меньше или равен размеру открытого текста!");
         }
 
         if (gamma.empty())
@@ -141,7 +141,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
                 throw InvalidOpenText("Зашифрованный текст содержит недопустимый символ.");
             }
 
-            wchar_t gammaCh = gamma[j];
+            wchar_t gammaCh = gamma[j % gamma.size()];
             size_t gammaChPos = alphabet.find(gammaCh);
             if (gammaChPos == std::wstring::npos)
             {
