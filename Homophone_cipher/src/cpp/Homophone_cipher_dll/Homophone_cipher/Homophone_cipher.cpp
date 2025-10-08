@@ -6,7 +6,6 @@
 #include <set>
 
 bool is_valid_key_format(const std::wstring& key) {
-    // Проверяем, что ключ не пустой
     if (key.empty()) {
         return false;
     }
@@ -17,27 +16,18 @@ bool is_valid_key_format(const std::wstring& key) {
     std::set<std::wstring> seen_numbers;
     bool has_valid_lines = false;
     
-    // Упрощенное регулярное выражение - проверяем только общую структуру
-    // Вместо конкретных диапазонов букв, проверяем что первый символ - буква
-    std::wregex line_pattern(L"^[[:alpha:]]\\s+([0-9]+\\s+)*[0-9]*$");
-    std::wregex number_pattern(L"^[0-9]+$");
-    
     while (std::getline(keyStream, line)) {
         // Убираем пробелы в начале и конце строки
         size_t start = line.find_first_not_of(L" \t");
-        if (start == std::wstring::npos) continue; // Пропускаем пустые строки
+        if (start == std::wstring::npos) continue;
         size_t end = line.find_last_not_of(L" \t");
         line = line.substr(start, end - start + 1);
-        
-        // Проверяем общий формат строки
-        if (!std::regex_match(line, line_pattern)) {
-            return false;
-        }
+        if (line.empty()) continue;
         
         std::wistringstream lineStream(line);
         std::wstring letter;
         if (!(lineStream >> letter)) {
-            return false;
+            continue;
         }
         
         // Проверяем, что первый токен - одна буква
@@ -62,8 +52,15 @@ bool is_valid_key_format(const std::wstring& key) {
         std::wstring number;
         bool has_numbers = false;
         while (lineStream >> number) {
-            // Проверяем формат числа
-            if (!std::regex_match(number, number_pattern)) {
+            // Проверяем, что токен состоит только из цифр
+            bool all_digits = true;
+            for (wchar_t c : number) {
+                if (!iswdigit(c)) {
+                    all_digits = false;
+                    break;
+                }
+            }
+            if (!all_digits) {
                 return false;
             }
             
