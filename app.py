@@ -8,6 +8,9 @@ from pathlib import Path
 import time
 
 
+# ШГП, ШПЗ проверки ключей
+
+
 from ciphers_api_module.ciphers_api_module import (CppCiphers,
                                                    form_cipher_select_options,
                                                    start_decryption,
