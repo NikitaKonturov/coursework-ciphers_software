@@ -131,7 +131,6 @@ export async function sendEncriptRequest(formID, keysType) {
         }
         return;
     } 
-
     if(keysType == 'keys_settings') {
         let dataFromKeySettingForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
         console.log(dataFromKeySettingForm)
@@ -147,6 +146,8 @@ export async function sendEncriptRequest(formID, keysType) {
                 credentials: 'omit'
             });
         hideLoadingIndicator();
+        document.getElementById("text-file").value = "";
+        document.getElementById("custom-file-label").textContent ="Выберите файл";
         if (!keyPropertiesResponse.ok) {
             try {
                 const errorData = await keyPropertiesResponse.json();
@@ -173,6 +174,10 @@ export async function sendEncriptRequest(formID, keysType) {
                 body: dataFromUserKeysForm
             })
         hideLoadingIndicator();
+        document.getElementById("text-file").value = "";
+        document.getElementById("custom-file-label").textContent ="Выберите файл";
+        document.getElementById("keys-file").value = "";
+        document.getElementById("custom-file-label-keys").textContent ="Выберите файл c ключами";
         if(!userKeysResponse.ok) {
             try {
                 const errorData = await userKeysResponse.json();
@@ -219,6 +224,8 @@ export async function sendDecriptRequest()
         }
     )
     hideLoadingIndicator();
+    document.getElementById("text-file").value = "";
+    document.getElementById("custom-file-label").textContent ="Выберите файл";
     if(!responseFromDecript.ok) {
         try {
             const errorData = await responseFromDecript.json();
