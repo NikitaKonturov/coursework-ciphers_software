@@ -5,6 +5,15 @@
 /*=============== Шифр горизонтальной перестановки ===================*/
 /*================================================================*/
 
+bool validateString(const std::wstring& input) {
+    // Регулярное выражение для проверки формата
+    // Проверяет строку вида: [число число число ... число ]
+    std::wregex pattern(LR"(^\[\s*(\d+\s+)+\d+\s*\]$)");
+    
+    return std::regex_match(input, pattern);
+}
+
+
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
@@ -19,7 +28,10 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstringstream tempss;
         text = openTexts[i];
-        
+        if(!validateString(keys[i])) {
+            throw std::runtime_error("Ключи имеют не верный формат...");
+        }
+
         permut = Permutation((keys[i]));
         if(text.size() % permut.size() != 0) {
             throw InvalidOpenText("Размер открытого текста должен быть разделен на размер ключа...");
@@ -37,6 +49,9 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
 std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring> keysAndText)
 {
     for (auto& [key, text]: keysAndText) {
+        if(!validateString(key)) {
+            throw std::runtime_error("Ключи имеют не верный формат...");
+        }
         Permutation keyPermut(key);
         if(text.size() % keyPermut.size() != 0) {
             throw InvalidKey("Длина зашифрованного текста должна быть кратна перестановке размеров...");
