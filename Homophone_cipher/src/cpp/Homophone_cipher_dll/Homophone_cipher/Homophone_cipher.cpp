@@ -215,6 +215,24 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             letterIndices[charKey] = hasIndex ? detectedIndex : 0;
         }
 
+        std::set<wchar_t> missing_letters;
+        for (wchar_t ch : text) {
+            if (substitutionMap.count(ch) == 0 || substitutionMap[ch].empty()) {
+                missing_letters.insert(ch);
+            }
+        }
+        
+        if (!missing_letters.empty()) {
+            std::wstring error_msg = L"В ключе отсутствуют шифробозначения для букв: ";
+            for (wchar_t missing : missing_letters) {
+                error_msg += missing;
+                error_msg += L", ";
+            }
+            error_msg.pop_back(); // Убираем последнюю запятую
+            error_msg.pop_back(); // Убираем последний пробел
+            throw std::invalid_argument(std::string(error_msg.begin(), error_msg.end()));
+        }
+        
         // Шифрование текста
         std::wstring cipherText;
         for (wchar_t ch : text) {
