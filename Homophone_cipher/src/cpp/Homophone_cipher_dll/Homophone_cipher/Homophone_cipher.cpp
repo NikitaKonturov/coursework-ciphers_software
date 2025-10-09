@@ -9,52 +9,54 @@ std::wstring normalize_key(const std::wstring& key) {
     std::wstringstream normalized;
     std::wistringstream keyStream(key);
     std::wstring line;
-    std::set<wchar_t> seen_letters;
-    std::set<std::wstring> seen_numbers;
     
     while (std::getline(keyStream, line)) {
-        // Пропускаем пустые строки
-        if (line.empty()) {
-            continue;
-        }
+        if (line.empty()) continue;
         
-        // Убираем пробелы в начале и конце строки
+        // Убираем пробелы в начале и конце
         size_t start = line.find_first_not_of(L" \t");
-        if (start == std::wstring::npos) {
-            continue;
-        }
+        if (start == std::wstring::npos) continue;
         size_t end = line.find_last_not_of(L" \t");
-        line = line.substr(start, end - start + 1);
+        std::wstring cleaned_line = line.substr(start, end - start + 1);
         
-        // Обрабатываем каждую строку как последовательность "буква-числа"
-        std::wregex pattern(L"([А-Яа-яA-Za-z])\\s*(\\d+(?:\\s+\\d+)*)");
-        std::wsregex_iterator it(line.begin(), line.end(), pattern);
-        std::wsregex_iterator end_it;
-        
-        for (; it != end_it; ++it) {
-            std::wsmatch match = *it;
-            std::wstring letter_str = match[1].str();
-            std::wstring numbers_str = match[2].str();
+        // Обрабатываем посимвольно
+        for (size_t i = 0; i < cleaned_line.length(); ) {
+            wchar_t ch = cleaned_line[i];
             
-            wchar_t charKey = letter_str[0];
-            
-            // Разбираем числа
-            std::wregex number_pattern(L"\\d+");
-            std::wsregex_iterator num_it(numbers_str.begin(), numbers_str.end(), number_pattern);
-            std::wsregex_iterator num_end;
-            
-            // Формируем нормализованную строку
-            normalized << charKey << L" ";
-            bool first_number = true;
-            for (; num_it != num_end; ++num_it) {
-                std::wstring number = (*num_it).str();
-                if (!first_number) {
-                    normalized << L" ";
+            if (iswalpha(ch)) {
+                // Нашли букву - начинаем новую строку
+                normalized << ch << L" ";
+                
+                // Ищем числа после буквы
+                i++;
+                std::wstring numbers;
+                while (i < cleaned_line.length()) {
+                    wchar_t next_ch = cleaned_line[i];
+                    if (iswdigit(next_ch)) {
+                        numbers += next_ch;
+                        i++;
+                    } else if (iswalpha(next_ch)) {
+                        // Новая буква - заканчиваем текущую строку
+                        break;
+                    } else {
+                        // Пробел или другой символ - добавляем пробел между числами
+                        if (!numbers.empty() && numbers.back() != L' ') {
+                            numbers += L' ';
+                        }
+                        i++;
+                    }
                 }
-                normalized << number;
-                first_number = false;
+                
+                // Убираем лишний пробел в конце и добавляем строку
+                if (!numbers.empty()) {
+                    if (numbers.back() == L' ') {
+                        numbers.pop_back();
+                    }
+                    normalized << numbers << L"\n";
+                }
+            } else {
+                i++; // Пропускаем не-буквенные символы в начале
             }
-            normalized << L"\n";
         }
     }
     
@@ -68,6 +70,11 @@ bool is_valid_key_format(const std::wstring& key) {
     
     // Сначала нормализуем ключ
     std::wstring normalized_key = normalize_key(key);
+    
+    // Если после нормализации ключ пустой - невалидный
+    if (normalized_key.empty()) {
+        return false;
+    }
     
     std::set<wchar_t> seen_letters;
     std::set<std::wstring> seen_numbers;
