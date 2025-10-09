@@ -66,15 +66,28 @@ uint32_t BoolMatrix::size() {return this->m_size;}
 
 void BoolMatrix::check()
 {
+    size_t holeCount = 0;
+    
+    // Проверяем только первую четверть матрицы
     for (size_t i = 0; i < m_size/2; ++i)
     {
         for (size_t j = 0; j < m_size/2; ++j)
         {
             if (b_matrix[i][j] == true)
             {
-                if (b_matrix[j][m_size-i-1] || b_matrix[m_size-i-1][m_size-j-1] || b_matrix[m_size-j-1][i]) throw InvalidKey("Обнаружены пересечения в решетке Кордано!!!"); 
+                holeCount++;
+                
+                if (b_matrix[j][m_size-i-1] || b_matrix[m_size-i-1][m_size-j-1] || b_matrix[m_size-j-1][i]) 
+                {
+                    throw InvalidKey("Обнаружены пересечения в решетке Кардано!!!");
+                }
             }
         }
+    }
+    
+    // Проверяем что количество вырезов равно 1/4 площади матрицы
+    if (holeCount != m_size * m_size / 4) {
+        throw InvalidKey("Количество вырезов в решетке Кардано должно быть равно 1/4 от площади матрицы!");
     }
 }
 
