@@ -6,9 +6,7 @@
 /*================================================================*/
 
 bool validateString(const std::wstring& input) {
-    // Регулярное выражение для проверки формата
-    // Проверяет строку вида: [число число число ... число ]
-    std::wregex pattern(LR"(^\[\s*(\d+\s+)+\d+\s*\]$)");
+    std::wregex pattern(LR"(^\s*(\d+\s+)+\d+\s*$)");
     
     return std::regex_match(input, pattern);
 }
