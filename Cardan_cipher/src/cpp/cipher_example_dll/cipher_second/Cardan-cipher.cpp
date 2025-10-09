@@ -18,7 +18,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         BoolMatrix matrix(keys[i]);
-
+        matrix.check();
         std::wcout << L"Open text: " << text << std::endl;
         text = matrix.encryption(text);
         keysAndCipherTexts[keys[i]] = text;
@@ -32,7 +32,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 {
     for (auto& [key, text] : keysAndText) {
         BoolMatrix keyMatrix(key);  
-
+        keyMatrix.check();
         if (text.size() % keyMatrix.size() != 0) {
             throw InvalidKey("Длина зашифрованного текста должна быть кратна размеру ключа...");
         }
