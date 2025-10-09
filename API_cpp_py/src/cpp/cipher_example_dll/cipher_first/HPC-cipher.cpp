@@ -6,7 +6,7 @@
 /*================================================================*/
 
 bool validateString(const std::wstring& input) {
-    std::wregex pattern(LR"(^\s*(\d+\s+)+\d+\s*$)");
+    std::wregex pattern(LR"(^\s+\[\s*(\d+\s+)+\d+\s*\]$)");
     
     return std::regex_match(input, pattern);
 }
@@ -93,9 +93,11 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 
         std::vector<std::string> result;
         for (auto permut: all_permut) {
-            std::ostringstream oss;
-            std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(oss, " "));
-            result.push_back(oss.str().substr(0, oss.str().size() - 1));
+            std::stringstream ss;
+            ss << "[";
+            std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(ss, " "));
+            ss << "]";
+            result.push_back(ss.str().substr(0, ss.str().size() - 1));
         }
         
         return result;
