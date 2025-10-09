@@ -5,6 +5,49 @@
 #include <regex>
 #include <set>
 
+// Функция для определения языка текста (только верхний регистр, без Ё)
+std::string detect_language(const std::wstring& text) {
+    bool has_cyrillic = false;
+    bool has_latin = false;
+    
+    for (wchar_t c : text) {
+        if (iswalpha(c)) {
+            // Кириллические символы в верхнем регистре (А-Я, без Ё)
+            if (c >= L'А' && c <= L'Я') {
+                has_cyrillic = true;
+            }
+            // Латинские символы в верхнем регистре
+            else if (c >= L'A' && c <= L'Z') {
+                has_latin = true;
+            }
+        }
+    }
+    
+    if (has_cyrillic && has_latin) {
+        return "mixed";
+    } else if (has_cyrillic) {
+        return "ru";
+    } else if (has_latin) {
+        return "en";
+    } else {
+        return "unknown";
+    }
+}
+
+// Функция для проверки совпадения языков
+void check_language_compatibility(const std::wstring& text, const std::wstring& key) {
+    std::string text_lang = detect_language(text);
+    std::string key_lang = detect_language(key);
+    
+    // Если оба текста содержат смешанные языки или несовместимые языки
+    if ((text_lang == "mixed" && key_lang != "mixed") || 
+        (key_lang == "mixed" && text_lang != "mixed") ||
+        (text_lang == "ru" && key_lang == "en") || 
+        (text_lang == "en" && key_lang == "ru")) {
+        throw std::invalid_argument("Язык текста и ключа не совпадают. Текст: " + text_lang + ", Ключ: " + key_lang);
+    }
+}
+
 std::wstring normalize_key(const std::wstring& key) {
     std::wstringstream normalized;
     std::wistringstream keyStream(key);
@@ -148,6 +191,9 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         std::wstring key = keys[i];
+        
+        // Проверяем совместимость языков
+        check_language_compatibility(text, key);
         
         // Нормализуем ключ перед использованием
         std::wstring normalized_key = normalize_key(key);
@@ -428,7 +474,7 @@ void chekRequest(nlohmann::json keyPropertys) {
             throw InvalidKey("Левая граница должна быть меньше правой границы.");
         }
         if(!keyPropertys.at("text_language").is_string()) {
-            throw KeyPropertyError("Значени text_language должно иметь строковое значение...");
+            throw KeyPropertyError("Значение text_language должно иметь строковое значение...");
         }
         if(keyPropertys["text_language"] != "ru" && keyPropertys["text_language"] != "en") {
             throw InvalidKey("Значение language должно быть или ru или en...");
