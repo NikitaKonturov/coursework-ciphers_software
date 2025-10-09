@@ -10,34 +10,34 @@ bool is_valid_key_format(const std::wstring& key) {
         return false;
     }
     
-    std::wistringstream keyStream(key);
-    std::wstring line;
     std::set<wchar_t> seen_letters;
     std::set<std::wstring> seen_numbers;
     bool has_valid_lines = false;
     
-    while (std::getline(keyStream, line)) {
-        // Убираем пробелы в начале и конце строки
-        size_t start = line.find_first_not_of(L" \t");
-        if (start == std::wstring::npos) continue;
-        size_t end = line.find_last_not_of(L" \t");
-        line = line.substr(start, end - start + 1);
-        if (line.empty()) continue;
+    // Регулярное выражение для поиска пар "буква-числа"
+    // Ищет букву, затем пробелы/табы, затем последовательность чисел через пробелы
+    std::wregex line_pattern(L"([[:alpha:]])\\s+([\\d\\s]+)");
+    std::wsregex_iterator it(key.begin(), key.end(), line_pattern);
+    std::wsregex_iterator end;
+    
+    // Если нет ни одного совпадения - невалидный формат
+    if (it == end) {
+        return false;
+    }
+    
+    for (; it != end; ++it) {
+        std::wsmatch match = *it;
+        std::wstring letter_str = match[1].str();
+        std::wstring numbers_str = match[2].str();
         
-        std::wistringstream lineStream(line);
-        std::wstring letter;
-        if (!(lineStream >> letter)) {
-            continue;
-        }
-        
-        // Проверяем, что первый токен - одна буква
-        if (letter.length() != 1) {
+        // Проверяем, что первый символ - одна буква
+        if (letter_str.length() != 1) {
             return false;
         }
         
-        wchar_t charKey = letter[0];
+        wchar_t charKey = letter_str[0];
         
-        // Проверяем, что символ является буквой (русской или английской)
+        // Проверяем, что символ является буквой
         if (!iswalpha(charKey)) {
             return false;
         }
@@ -48,21 +48,15 @@ bool is_valid_key_format(const std::wstring& key) {
         }
         seen_letters.insert(charKey);
         
-        // Проверяем числа
-        std::wstring number;
+        // Разбираем числа
+        std::wregex number_pattern(L"\\d+");
+        std::wsregex_iterator num_it(numbers_str.begin(), numbers_str.end(), number_pattern);
+        std::wsregex_iterator num_end;
+        
         bool has_numbers = false;
-        while (lineStream >> number) {
-            // Проверяем, что токен состоит только из цифр
-            bool all_digits = true;
-            for (wchar_t c : number) {
-                if (!iswdigit(c)) {
-                    all_digits = false;
-                    break;
-                }
-            }
-            if (!all_digits) {
-                return false;
-            }
+        
+        for (; num_it != num_end; ++num_it) {
+            std::wstring number = (*num_it).str();
             
             // Проверяем, что числа не повторяются
             if (seen_numbers.count(number)) {
