@@ -356,6 +356,12 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         throw InvalidKey("Количество ключей должно быть как минимум равно количеству открытых текстов...");
     }
 
+    for (i = 0; i < openTexts.size(); ++i) {
+        if (define_language(keys[i]) != define_language(openTexts[i])) {
+            throw InvalidKey("Ключи должны иметь одинаковый язык с телеграммами...")
+        }
+    }
+
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
 
     for (size_t i = 0; i < keys.size(); ++i) {
@@ -406,7 +412,11 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     for(auto& keyAndCipherText : keysAndCipherTexts) {
         std::wstring key = keyAndCipherText.first;
         std::wstring cipherText = keyAndCipherText.second;  
-        
+    
+        if (define_language(key) != define_language(cipherText)) {
+            throw InvalidKey("Ключи должны иметь одинаковый язык с телеграммами...")
+        }
+
         keysAndOpenTexts[key] = put_viginer_off_text(cipherText, key);
 
     }
