@@ -268,7 +268,7 @@ def check_encryption_telegram(telegram: str) -> bool:
 
 
 def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, cipher: str, ciphers_object: CppCiphers, pathToSaveFile: Path):
-    keysAndCipherText: dict[str, str] = {}
+    keysAndCipherText: list[dict[str, str]] = []
     allDataFromFile: str = ""
     if (fileExtension == '.txt'):
         dataLine: str = ""
@@ -289,13 +289,10 @@ def start_decryption(fileWithCipherTextAndKeys: BinaryIO, fileExtension: str, ci
     for telegram in listOfTheEncriptTelegrams:
         if (check_encryption_telegram(telegram)):
             tempKeyAndCipherText = re.split(regToText, telegram)
-            keysAndCipherText[tempKeyAndCipherText[0]
-                              ] = ''.join(re.findall( r'[А-Яа-яA-Za-z0-9]', tempKeyAndCipherText[1])) 
-    newListDicts : list[dict[str, str]] = []
-    for key in keysAndCipherText:
-        newListDicts.append({key : keysAndCipherText[key]})
-    
+            keysAndCipherText.append({tempKeyAndCipherText[0]: ''.join(re.findall( r'[А-Яа-яA-Za-z0-9]', tempKeyAndCipherText[1]))})
+                              
+
     dec_result: dict[str, str] = ciphers_object.decrypt_telegrams(
-        cipher, newListDicts)
+        cipher, keysAndCipherText)
 
     save_to_docx(dec_result, pathToSaveFile, "false")
