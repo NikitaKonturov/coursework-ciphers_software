@@ -37,7 +37,7 @@ from settings.config import (NoCacheMiddleware, Settings, match, search_director
                             
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.requests import Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -110,6 +110,10 @@ templates = Jinja2Templates(
 
 # ================================= EndPoints ===================================
 
+
+@app.get("/favicon.ico")
+async def favicon():
+    return FileResponse("logo.ico")
 
 @app.post("/startEncoder/pushTelegramsCuttingData")
 async def catchTelegramsCuttinngData(
