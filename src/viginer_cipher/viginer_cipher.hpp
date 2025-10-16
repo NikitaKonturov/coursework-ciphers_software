@@ -3,7 +3,6 @@
 #include "../include/nlohmann/json.hpp"
 #include "../HMAC_DRBG/DRBG/DRBG.hpp"
 #include "../cipher_exceptions/cipher_exceptions.hpp"
-#include "sqlite3.h"
 #include <exception>
 #include <iostream>
 #include <sstream>
