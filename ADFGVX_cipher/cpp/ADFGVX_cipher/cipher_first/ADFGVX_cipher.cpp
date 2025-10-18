@@ -250,6 +250,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         std::wstringstream wss;
         wss << key_conversions(substitutionTable)
             << L"The transpositional key: " << keysE[i].transpositionKey;
+        wss << "User key: " << substitutionTable + L"|" + keysE[i].transpositionKey;
         keysAndCiphersTexts[wss.str()] = cipher;
     }
     
@@ -311,7 +312,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         
         std::vector<int32_t> trivialLetters(26);
         for (size_t i = 0; i < 26; ++i) {
-            trivialLetters[i] = static_cast<int32_t>(i + 1);
+            trivialLetters[i] = static_cast<int32_t>(i);
         }
         
         std::vector<uint8_t> entropy = get_entropy();
