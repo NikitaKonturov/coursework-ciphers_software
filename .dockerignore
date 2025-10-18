@@ -1,0 +1,8 @@
+pycache
+.git/
+Dockerfile
+README.md
+.gitignore
+cleanup-large-files.sh
+Ciphers App Manual.docx
+cpp/
