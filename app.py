@@ -163,7 +163,19 @@ async def catchKeysProperties(keyPropReq: Request):
 
     os.remove(requestToSliceAndEncript.selfTextFile)
 
-    return JSONResponse({"Status": 200})
+    #   Архивируем результаты перед отправкой на загрузку
+    with zipfile.ZipFile('encription_results.zip', 'w') as zip_file:
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), 
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + '.docx')
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx'),
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx')
+    #
+     
+    return FileResponse(
+        path=Path('encription_results.zip'), 
+        status_code=200, 
+        media_type='application/zip',
+        filename='encription-result.zip')
     
 
 @app.post("/startEncoder/pushUserKeys")
@@ -186,7 +198,19 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     os.remove(requestToSliceAndEncript.selfTextFile)
     os.remove(pathToUsersKeys)
 
-    return JSONResponse({"Status": 200})
+    #   Архивируем результаты перед отправкой на загрузку
+    with zipfile.ZipFile('encription_results.zip', 'w') as zip_file:
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), 
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + '.docx')
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx'),
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx')
+    
+
+    return FileResponse(
+        path=Path('encription_results.zip'), 
+        status_code=200, 
+        media_type='application/zip',
+        filename='encription-result.zip')
 
 
 @app.post('/startDecoder')
@@ -198,8 +222,11 @@ async def catchDecriptRequest(
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
         settings.decript_results_path, 'decription-result-' + cipher + '.docx'))
 
-    return JSONResponse({"Status": 200})
-
+   return FileResponse(
+        path=Path(settings.decript_results_path, 'decription-result-' + cipher + '.docx'), 
+        status_code=200, 
+        media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        filename='decription-result-' + cipher + '.docx')
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):
@@ -211,24 +238,6 @@ async def save_settings(reqToSetting: Request):
     settingJson: dict = dict(await reqToSetting.json())
     print(settingJson)
     
-    encryptFolderPath = search_directory(BASE_DIR, settingJson['encryptFolderPath'])
-    if encryptFolderPath is None:
-        raise FileExistsError(f'Папка для шифрования "{settingJson["encryptFolderPath"]}" не найдена. Выберите папку в диске C')
-    if not encryptFolderPath.exists() or match(str(encryptFolderPath)) or not os.access(encryptFolderPath, os.X_OK):
-        raise FileExistsError(f'Неверная папка с результатом зашифрования.')
-    settingJson['encryptFolderPath'] = str(encryptFolderPath)
-    
-    decryptFolderPath = search_directory(BASE_DIR, settingJson['decryptFolderPath'])
-    if decryptFolderPath is None:
-        raise FileExistsError(f'Папка для расшифрования "{settingJson["decryptFolderPath"]}" не найдена. Выберите папку в диске C')
-    if not decryptFolderPath.exists() or match(str(decryptFolderPath)) or not os.access(decryptFolderPath, os.X_OK):
-        raise FileExistsError('Неверная папка с результатом расшифрования.')
-    settingJson['decryptFolderPath'] = str(decryptFolderPath)
-    
-    settings.update_settings("encript_results_path",
-                             settingJson['encryptFolderPath'])
-    settings.update_settings("decript_results_path",
-                             settingJson['decryptFolderPath'])
     settings.update_settings("interface_language",
                              settingJson['interfaceLanguage'])
     settings.update_settings("ciphers_language", settingJson['cipherLanguage'])

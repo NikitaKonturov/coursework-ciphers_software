@@ -123,35 +123,7 @@ async function createSettingsWindow() {
     const folderPathEncryptLabel = document.createElement('label');
     folderPathEncryptLabel.textContent = 'Путь к папке с результатами зашифрования:';
     settingsWindow.appendChild(folderPathEncryptLabel);
-
-    const folderPathEncryptButton = document.createElement('button');
-    folderPathEncryptButton.textContent = encryptFolderPath;
-    folderPathEncryptButton.dataset.encriptFolderPath = encryptFolderPath
-    folderPathEncryptButton.onclick = async () => {
-        const folderHandle = await selectFolder();
-        if (folderHandle) {
-            folderPathEncryptButton.dataset.encriptFolderPath = folderHandle.name;
-            folderPathEncryptButton.textContent = `Selected: ${folderHandle.name}`;
-        }
-    };
-    settingsWindow.appendChild(folderPathEncryptButton);
-
-    const folderPathDecryptLabel = document.createElement('label');
-    folderPathDecryptLabel.textContent = 'Путь к папке с результатами расшифрования:';
-    settingsWindow.appendChild(folderPathDecryptLabel);
-
-    const folderPathDecryptButton = document.createElement('button');
-    folderPathDecryptButton.textContent = decryptFolderPath;
-    folderPathDecryptButton.dataset.decriptFolderPath = decryptFolderPath
-    folderPathDecryptButton.onclick = async () => {
-        const folderHandle = await selectFolder();
-        if (folderHandle) {
-            folderPathDecryptButton.dataset.decriptFolderPath = folderHandle.name;
-            folderPathDecryptButton.textContent = `Selected: ${folderHandle.name}`;
-        }
-    };
-    settingsWindow.appendChild(folderPathDecryptButton);
-
+  
     const saveButton = document.createElement('button');
     saveButton.id = 'saveSettings';
     saveButton.textContent = 'Сохранить';
@@ -208,15 +180,11 @@ function closeSettings() {
 async function saveSettings() {
     interfaceLanguage = "ru";
     cipherLanguage = document.getElementById('cipherLanguage').value;
-    encryptFolderPath = document.querySelector('button[data-encript-folder-path]').dataset.encriptFolderPath;
-    decryptFolderPath = document.querySelector('button[data-decript-folder-path]').dataset.decriptFolderPath;
     fiveGramsEnabled = document.getElementById('fiveGramsCheckboxId').checked;
 
     const data = {
         "interfaceLanguage": interfaceLanguage,
         "cipherLanguage": cipherLanguage,
-        "encryptFolderPath": encryptFolderPath,
-        "decryptFolderPath": decryptFolderPath,
         "fiveGramsEnabled": fiveGramsEnabled 
     };
 
