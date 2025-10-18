@@ -63,6 +63,7 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, Permuta
         std::wstring temp = ru_alfabet;
         languagePermut.apply(temp);
         languagePermut.apply(ru_alfabet);
+        permut.apply(temp);
         for (size_t i = 0; i < permut.size(); ++i) {
             alfabetSubstitution[ru_alfabet[i]] = temp[i];
         }
@@ -176,6 +177,8 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
             wss << trivialDisksPermutation[j] << L'\n';
         }
         
+        std::wcout << cipherText << std::endl;
+
         keysAndCiphersTexts[wss.str()] = cipherText;
     }
     
