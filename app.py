@@ -6,7 +6,7 @@ import sys
 import threading
 from pathlib import Path
 import time
-
+import zipfile
 
 # ШГП, ШПЗ проверки ключей
 
@@ -162,8 +162,20 @@ async def catchKeysProperties(keyPropReq: Request):
                      'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), ciphers_obj, settings.fiveGramsEnabled)
 
     os.remove(requestToSliceAndEncript.selfTextFile)
-
-    return JSONResponse({"Status": 200})
+    
+    #   Архивируем результаты перед отправкой на загрузку
+    with zipfile.ZipFile('encription_results.zip', 'w') as zip_file:
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), 
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + '.docx')
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx'),
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx')
+    #
+     
+    return FileResponse(
+        path=Path('encription_results.zip'), 
+        status_code=200, 
+        media_type='application/zip',
+        filename='encription-result.zip')
     
 
 @app.post("/startEncoder/pushUserKeys")
@@ -186,7 +198,19 @@ async def catchUsersKeys(keys_file: UploadFile = File(...)):
     os.remove(requestToSliceAndEncript.selfTextFile)
     os.remove(pathToUsersKeys)
 
-    return JSONResponse({"Status": 200})
+    #   Архивируем результаты перед отправкой на загрузку
+    with zipfile.ZipFile('encription_results.zip', 'w') as zip_file:
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + '.docx'), 
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + '.docx')
+        zip_file.write(Path(settings.encript_results_path,'encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx'),
+                       arcname='encription-result-' + requestToSliceAndEncript.selfCipher + 'PlainText.docx')
+    #
+
+    return FileResponse(
+        path=Path('encription_results.zip'), 
+        status_code=200, 
+        media_type='application/zip',
+        filename='encription-result.zip')
 
 
 @app.post('/startDecoder')
@@ -198,7 +222,11 @@ async def catchDecriptRequest(
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
         settings.decript_results_path, 'decription-result-' + cipher + '.docx'))
 
-    return JSONResponse({"Status": 200})
+    return FileResponse(
+        path=Path(settings.decript_results_path, 'decription-result-' + cipher + '.docx'), 
+        status_code=200, 
+        media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        filename='decription-result-' + cipher + '.docx')
 
 
 @app.post('/selectCipher')

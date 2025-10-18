@@ -162,6 +162,29 @@ export async function sendEncriptRequest(formID, keysType) {
             return;
         }
         else{
+
+            const blob = await keyPropertiesResponse.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            
+            // Get filename from response headers or use a default
+            //const contentDisposition = keyPropertiesResponse.headers.get('content-disposition');
+            let filename = 'encryption-result.zip';
+            /*
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                if (filenameMatch) filename = filenameMatch[1];
+            }
+            filename = filename.substring(0,filename.length - 1)
+            */
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
             showToast("Зашифрование прошло успешно!","success");
         }
     } else if (keysType == 'users_keys') {
@@ -192,6 +215,29 @@ export async function sendEncriptRequest(formID, keysType) {
             return;
         }
         else{
+
+            const blob = await userKeysResponse.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            
+            // Get filename from response headers or use a default
+            //const contentDisposition = keyPropertiesResponse.headers.get('content-disposition');
+            let filename = 'encryption-result.zip';
+            /*
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                if (filenameMatch) filename = filenameMatch[1];
+            }
+            filename = filename.substring(0,filename.length - 1)
+            */
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
             showToast("Зашифрование прошло успешно","success");
         }
     } 
@@ -239,6 +285,29 @@ export async function sendDecriptRequest()
         }
         return;
     } else {
+
+        const blob = await responseFromDecript.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+            
+        // Get filename from response headers or use a default
+        const contentDisposition = responseFromDecript.headers.get('content-disposition');
+        let filename = 'decryption-result.docx';
+        
+        if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+            if (filenameMatch) filename = filenameMatch[1];
+        }
+        filename = filename.substring(0,filename.length - 1)
+
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
         showToast("Расшифрование прошло успешно","success");
     } 
 
