@@ -25,7 +25,6 @@ __pycache__/
 *.pch
 
 # Compiled Dynamic libraries
-
 *.dylib
 *.dll
 
@@ -43,3 +42,16 @@ __pycache__/
 *.exe
 *.out
 *.app
+
+# Logs
+*.log
+
+# Test files
+usersKeys.txt
+
+# Temp Python file
+*.pkg
+*.pdb
+
+# Data Base files
+*.db
