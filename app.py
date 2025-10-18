@@ -210,25 +210,6 @@ async def select_cipher(reqToKeyProperty: Request):
 async def save_settings(reqToSetting: Request):
     settingJson: dict = dict(await reqToSetting.json())
     print(settingJson)
-    
-    encryptFolderPath = search_directory(BASE_DIR, settingJson['encryptFolderPath'])
-    if encryptFolderPath is None:
-        raise FileExistsError(f'Папка для шифрования "{settingJson["encryptFolderPath"]}" не найдена. Выберите папку в диске C')
-    if not encryptFolderPath.exists() or match(str(encryptFolderPath)) or not os.access(encryptFolderPath, os.X_OK):
-        raise FileExistsError(f'Неверная папка с результатом зашифрования.')
-    settingJson['encryptFolderPath'] = str(encryptFolderPath)
-    
-    decryptFolderPath = search_directory(BASE_DIR, settingJson['decryptFolderPath'])
-    if decryptFolderPath is None:
-        raise FileExistsError(f'Папка для расшифрования "{settingJson["decryptFolderPath"]}" не найдена. Выберите папку в диске C')
-    if not decryptFolderPath.exists() or match(str(decryptFolderPath)) or not os.access(decryptFolderPath, os.X_OK):
-        raise FileExistsError('Неверная папка с результатом расшифрования.')
-    settingJson['decryptFolderPath'] = str(decryptFolderPath)
-    
-    settings.update_settings("encript_results_path",
-                             settingJson['encryptFolderPath'])
-    settings.update_settings("decript_results_path",
-                             settingJson['decryptFolderPath'])
     settings.update_settings("interface_language",
                              settingJson['interfaceLanguage'])
     settings.update_settings("ciphers_language", settingJson['cipherLanguage'])
