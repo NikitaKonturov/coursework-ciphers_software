@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <script src="static/SettingWindow.js" type="text/javascript">
+  </script>
+  <script src="static/changeCipherScript.js" type="module">
+  </script>
+  <script src="static/errorHandler.js" type="module">
+  </script>
+  <title>
+   Document
+  </title>
+  <link href="{{ url_for('static', path='/style.css')}}" rel="stylesheet"/>
+ </head>
+ <body>
+  <canvas id="matrix">
+  </canvas>
+  <script>
+   const canvas = document.getElementById("matrix");
+          const ctx = canvas.getContext("2d");
+  
+          let columns, drops;
+          const speedFactor = 3;
+  
+          function resizeCanvas() {
+              const dpr = window.devicePixelRatio || 1;
+              canvas.width = window.innerWidth * dpr;
+              canvas.height = window.innerHeight * dpr;
+              ctx.scale(dpr, dpr);
+  
+              columns = Math.floor(window.innerWidth / 20);
+              drops = new Array(columns).fill(0);
+          }
+  
+          window.addEventListener("resize", resizeCanvas);
+          resizeCanvas();
+  
+          const symbols = "0123456789ABCDEF";
+  
+          function drawMatrix() {
+              ctx.fillStyle = "rgba(0, 0, 50, 0.2)";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.fillStyle = "#00ccff";
+              ctx.font = "16px monospace";
+  
+              drops.forEach((y, x) => {
+                  const text = symbols[Math.floor(Math.random() * symbols.length)];
+                  ctx.fillText(text, x * 20, y);
+                  drops[x] = y > window.innerHeight || Math.random() > 0.975 ? 0 : y + 5;
+              });
+  
+              setTimeout(drawMatrix, speedFactor * 30); 
+          }
+  
+          drawMatrix();
+  </script>
+  <div class="main-block" id="main-block">
+   <form enctype="multipart/form-data" id="slice-telegrmas-form">
+    <div class="settings-section">
+     <button id="Setting" onclick="preventActionButton(); openSettings()">
+      Настройки
+     </button>
+     <select id="ciphersList" name="cipher">
+      <option disabled="True" selected="True" value="Empty_tag">
+       Выберите шифр
+      </option>
+      <option value="ADFGVX_cipher">
+       Шифр ADFGVX
+      </option>
+      <option value="Cardan_cipher">
+       Шифр Кардано
+      </option>
+      <option value="Gamut_cipher">
+       Шифр гаммирования
+      </option>
+      <option value="Hill_cipher">
+       Шифр Хила
+      </option>
+      <option value="Homophone_cipher">
+       Омофонный шифр
+      </option>
+      <option value="HPC_cipher">
+       Шифр горизонтальной перестановки
+      </option>
+      <option value="jb_cipher">
+       Шифр Джефферсона-Базери
+      </option>
+      <option value="Plaifer_cipher">
+       Шифр Плейфера
+      </option>
+      <option value="Simple_substitution_cipher">
+       Шифр простой замены
+      </option>
+      <option value="Viginer_cipher">
+       Шифр Виженера
+      </option>
+     </select>
+    </div>
+    <label class="input-file">
+     <span id="custom-file-label">
+      Выберите файл
+     </span>
+     <input accept=".doc,.docx,application/msword, text/plain" id="text-file" name="textFile" onchange="document.getElementById('custom-file-label').textContent = this.files[0].name;" required="" style="display: none;" type="file"/>
+    </label>
+    <label id="file-validity">
+    </label>
+    <label for="length">
+     Количество символов в телеграмме:
+    </label>
+    <input id="lenght-of-tg" name="length" placeholder="Введите количество символов в телеграмме" type="number"/>
+    <label for="number">
+     Количество телеграмм:
+    </label>
+    <input id="count-of-tg" name="number" placeholder="Введите количество телеграмм" type="number"/>
+    <div class="button-container">
+     <button id="encrypt" onclick="preventActionButton(); encriptSettings()">
+      Зашифрование
+     </button>
+     <button id="decrypt" onclick="preventActionButton(); sendDecriptRequest()">
+      Расшифрование
+     </button>
+    </div>
+   </form>
+  </div>
+ </body>
+</html>

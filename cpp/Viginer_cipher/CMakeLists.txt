@@ -1,0 +1,51 @@
+cmake_minimum_required(VERSION 3.12)
+project(dynamicLib)
+
+set(CMAKE_CXX_STANDARD 20) 
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(PYBIND11_FINDPYTHON ON)
+set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded" CACHE STRING "Runtime Library" FORCE)
+set(pybind11_DIR "C:/Users/SuprimPlay/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/share/cmake/pybind11")
+set(Python3_EXECUTABLE "C:/Users/SuprimPlay/AppData/Local/Programs/Python/Python312/python.exe")
+# Чтобы получить путь устанавливаем через pip install pybind11
+# И выполняем команду python pip -m pybind11 --cmakedir она вернёт нам путь к папке который мы и подставляем в set(pybind11_DIR <path>)
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+# путь заменить на свой 
+set(Python3_LIBRARY "C:/Users/SuprimPlay/AppData/Local/Programs/Python/Python312/libs/python312.lib")
+find_package(pybind11 REQUIRED)
+# добавляем поддиреторию для поиска нашей ипортируемой библиотеки шифра
+add_subdirectory("viginer_cipher" "${CMAKE_BINARY_DIR}/src/viginer_cipher")
+#add_subdirectory("cipher_key_gen" "${CMAKE_BINARY_DIR}/cipher_key_gen")
+
+# создаём библиотеку главное внимание обратите на MODULE именно этот параметр указывает га создагие динамической библиотеки
+add_library(viginer_cipher MODULE main_cipher_file.cpp)
+target_link_libraries(viginer_cipher PRIVATE ${Python3_LIBRARY})
+# подключаем библиотеку для экспорта функции в python
+target_link_libraries(viginer_cipher PRIVATE pybind11::pybind11)
+
+#link_directories("C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python311\\libs")
+
+#install(TARGETS Cardan_cipher DESTINATION "${CMAKE_SOURCE_DIR}/../py")
+# подключаем библиотеку шифра
+target_link_libraries(viginer_cipher PUBLIC viginer_cipher_lib)
+#target_link_libraries(viginer_cipher PUBLIC viginer_key_gen_lib)
+
+
+# настройки выходного файла
+set_target_properties(viginer_cipher PROPERTIES
+    PREFIX ""
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}\\..\\py"
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}\\..\\py\\include_ciphers"
+    OUTPUT_NAME "Viginer_cipher" # имя должно совпадать с именем модуля указываемым в PYBIND11_MODULE
+)
+
+# обеспечиваем кросплатформенность динамичесих библиотек(может будет достатточно одного .pyd)
+if(WIN32)
+    set_target_properties(viginer_cipher PROPERTIES SUFFIX ".pyd")
+    set(PYTHON_DLL_PATH "C:/Users/SuprimPlay/AppData/Local/Programs/Python/Python312/python312.dll")
+elseif(APPLE)
+    set_target_properties(viginer_cipher PROPERTIES SUFFIX ".dylib")
+else()
+    set_target_properties(viginer_cipher PROPERTIES SUFFIX ".so")
+endif()
