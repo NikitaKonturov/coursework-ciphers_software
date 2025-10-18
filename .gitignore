@@ -11,6 +11,9 @@ build/
 # Prerequisites
 *.d
 
+# pycash
+__pycache__/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -22,7 +25,6 @@ build/
 *.pch
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 *.dll
 
@@ -40,3 +42,16 @@ build/
 *.exe
 *.out
 *.app
+
+# Logs
+*.log
+
+# Test files
+usersKeys.txt
+
+# Temp Python file
+*.pkg
+*.pdb
+
+# Data Base files
+*.db
