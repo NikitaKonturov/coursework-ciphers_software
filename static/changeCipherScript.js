@@ -1,5 +1,7 @@
 import { showError } from './errorHandler.js'
 
+let URL = window.location.origin
+
 function showErrorAndLog(error) {
     const message = "Ошибка: " + error.message;
     showError(message); 
@@ -9,8 +11,9 @@ function showErrorAndLog(error) {
 
 export async function addBlockOfKeysSettings() {
     try {
-        showLoadingIndicator();
-        let serverResponse = await fetch("http://127.0.0.1:8000/selectCipher", 
+	console.log(window.location.origin);
+	showLoadingIndicator();
+        let serverResponse = await fetch(URL + "/selectCipher", 
             {
                 method: "POST",
                 headers: {
@@ -111,7 +114,7 @@ export async function sendEncriptRequest(formID, keysType) {
         console.log(key, fieldValue)
     })
     showLoadingIndicator();
-    let telegramCuttingResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushTelegramsCuttingData",
+    let telegramCuttingResponse = await fetch(URL + "/startEncoder/pushTelegramsCuttingData",
         {
             method: "POST",
             body: dataToSliceTelegams
@@ -136,7 +139,7 @@ export async function sendEncriptRequest(formID, keysType) {
         console.log(dataFromKeySettingForm)
 
         showLoadingIndicator();
-        let keyPropertiesResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushKeysProperties", 
+        let keyPropertiesResponse = await fetch(URL +  "/startEncoder/pushKeysProperties", 
             {
                 method: "POST",
                 headers: {
@@ -168,7 +171,7 @@ export async function sendEncriptRequest(formID, keysType) {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
         Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)}) 
         showLoadingIndicator();
-        let userKeysResponse = await fetch("http://127.0.0.1:8000/startEncoder/pushUserKeys",
+        let userKeysResponse = await fetch(URL + "/startEncoder/pushUserKeys",
             {
                 method: "POST",
                 body: dataFromUserKeysForm
@@ -197,7 +200,7 @@ export async function sendEncriptRequest(formID, keysType) {
     } 
 }
 
-export async function sendDecriptRequest() 
+export async function sendDecriptRequest()
 {
     let dataAboutCipherTextAndKeys = new FormData(document.getElementById("slice-telegrmas-form"))
     
@@ -217,7 +220,7 @@ export async function sendDecriptRequest()
     }
 
     showLoadingIndicator();
-    let responseFromDecript = await fetch("http://127.0.0.1:8000/startDecoder", 
+    let responseFromDecript = await fetch(URL + "/startDecoder", 
         {
             method: "POST",
             body: dataAboutCipherTextAndKeys

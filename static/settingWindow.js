@@ -1,7 +1,7 @@
 let interfaceLanguage = 'ru';
 let cipherLanguage = 'ru';
-let encryptFolderPath = 'coursework\-ciphers_software';
-let decryptFolderPath = 'coursework\-ciphers_software';
+let encryptFolderPath = 'dest';
+let decryptFolderPath = 'dest';
 let fiveGramsEnabled = 'false'
 
 function showError(message) {
@@ -190,7 +190,8 @@ async function saveSettings() {
 
     showLoadingIndicator();
     try {
-        let response = await fetch('http://127.0.0.1:8000/settings', {
+	let url = window.location.origin;
+        let response = await fetch(url + '/settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

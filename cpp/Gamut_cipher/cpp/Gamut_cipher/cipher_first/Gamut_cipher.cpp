@@ -50,8 +50,7 @@ std::string define_language(const std::wstring& text)
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-    std::locale::global(std::locale("ru_RU.UTF-8")); 
-    std::wcout.imbue(std::locale()); 
+
     if (keys.size() < openTexts.size()) {
         throw InvalidKey("Количество ключей должно быть как минимум равно количеству открытых текстов...");
     }

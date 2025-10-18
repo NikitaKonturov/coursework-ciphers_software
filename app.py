@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import zipfile
 import threading
 from pathlib import Path
 import time
@@ -222,11 +223,7 @@ async def catchDecriptRequest(
     start_decryption(textFile.file, extension, cipher, ciphers_obj, Path(
         settings.decript_results_path, 'decription-result-' + cipher + '.docx'))
 
-   return FileResponse(
-        path=Path(settings.decript_results_path, 'decription-result-' + cipher + '.docx'), 
-        status_code=200, 
-        media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        filename='decription-result-' + cipher + '.docx')
+    return FileResponse(path=Path(settings.decript_results_path, 'decription-result-' + cipher + '.docx'), status_code=200, media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document', filename=('decription-result-' + cipher + '.docx'))
 
 @app.post('/selectCipher')
 async def select_cipher(reqToKeyProperty: Request):

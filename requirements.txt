@@ -1,6 +1,7 @@
 beautifulsoup4==4.14.2
 fastapi==0.119.0
 pydantic==2.12.3
+python-multipart==0.0.9
 pydantic_settings==2.11.0
 python-dotenv==1.1.1
 python_docx==1.2.0
