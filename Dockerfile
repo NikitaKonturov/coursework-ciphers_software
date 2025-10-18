@@ -6,13 +6,16 @@ RUN pacman -Syu --noconfirm
 
 RUN pacman -S --noconfirm python python-pip
 
-WORKDIR/app
-COPY ..
+WORKDIR /app
+COPY . .
 
-RUN python -m venv/app/venv
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip install -r requirements.txt
 	
-RUN/app/venv/bin/pip install -r requirements.txt
+#RUN pip install -r requirements.txt
 
-CMD["/app/venv/bin/python", "app.py"]
+CMD ["python", "app.py"]
 
 
