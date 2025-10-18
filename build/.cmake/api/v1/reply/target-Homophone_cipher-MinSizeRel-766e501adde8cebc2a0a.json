@@ -1,0 +1,281 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/py/MinSizeRel/Homophone_cipher.pyd"
+		},
+		{
+			"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/py/MinSizeRel/Homophone_cipher.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"Homophone_cipher/CMakeLists.txt",
+			"homophone_generator/CMakeLists.txt",
+			"HMAC_DRBG/DRBG/CMakeLists.txt",
+			"HMAC_DRBG/HMAC/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 15,
+				"parent" : 4
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 16,
+				"parent" : 4
+			},
+			{
+				"file" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 2,
+				"line" : 7,
+				"parent" : 7
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 1,
+				"file" : 3,
+				"line" : 6,
+				"parent" : 9
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 1,
+				"file" : 4,
+				"line" : 6,
+				"parent" : 11
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O1 /Ob1 /DNDEBUG -std:c++20"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "Homophone_cipher_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/Homophone_cipher"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/Homophone_cipher/../include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/cipher_exceptions"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/homophone_generator"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/HMAC_DRBG/DRBG"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/HMAC_DRBG/HMAC"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/HMAC_DRBG/SHA-256"
+				},
+				{
+					"backtrace" : 13,
+					"isSystem" : true,
+					"path" : "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/include"
+				},
+				{
+					"backtrace" : 13,
+					"isSystem" : true,
+					"path" : "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					13,
+					13,
+					13
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "DRBG_lib::@14b55bfc16e3e145abe0"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "HMAC_lib::@fd78a2f89042c08a2170"
+		},
+		{
+			"backtrace" : 3,
+			"id" : "SHA-256_lib::@fc6a39af77d38f53b796"
+		}
+	],
+	"id" : "Homophone_cipher::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/machine:x64 /INCREMENTAL:NO",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "\"C:\\Users\\Lenovo IdeaPad5\\AppData\\Local\\Programs\\Python\\Python312\\libs\\python312.lib\"",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "Homophone_cipher\\MinSizeRel\\Homophone_cipher_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "Homophone_cipher\\cipher_exceptions\\MinSizeRel\\cipher_exceptions_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "Homophone_cipher\\Homophone_generator\\MinSizeRel\\homophone_generator_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "Homophone_cipher\\Homophone_generator\\DRBG\\MinSizeRel\\DRBG_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 10,
+				"fragment" : "DRBG\\HMAC\\MinSizeRel\\HMAC_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 12,
+				"fragment" : "HMAC\\SHA-256\\MinSizeRel\\SHA-256_lib.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "Homophone_cipher",
+	"nameOnDisk" : "Homophone_cipher.pyd",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "main_cipher_file.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "MODULE_LIBRARY"
+}

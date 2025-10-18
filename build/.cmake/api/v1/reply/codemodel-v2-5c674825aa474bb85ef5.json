@@ -1,0 +1,924 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"build" : "Homophone_cipher",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"jsonFile" : "directory-Homophone_cipher-Debug-1a65c99cf317acf3b088.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Homophone_cipher",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Homophone_cipher/cipher_exceptions",
+					"jsonFile" : "directory-Homophone_cipher.cipher_exceptions-Debug-414720a72e33ad55a02d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "cipher_exceptions",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator-Debug-c0f642db9b0b859578df.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "homophone_generator",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator/DRBG",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator.DRBG-Debug-84133876eca801cc27e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/DRBG",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "DRBG/HMAC",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-DRBG.HMAC-Debug-e1991668112292c5ecbf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/HMAC",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "HMAC/SHA-256",
+					"jsonFile" : "directory-HMAC.SHA-256-Debug-b7b7d0be5d77343427a0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/SHA-256",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "dynamicLib",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-355a3abff6a2d5fb331d.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "DRBG_lib::@14b55bfc16e3e145abe0",
+					"jsonFile" : "target-DRBG_lib-Debug-b88c540cc5a4c2ab62ea.json",
+					"name" : "DRBG_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "HMAC_lib::@fd78a2f89042c08a2170",
+					"jsonFile" : "target-HMAC_lib-Debug-b1850e283eb626c8db34.json",
+					"name" : "HMAC_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Homophone_cipher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Homophone_cipher-Debug-3b2701671a4a945c41e9.json",
+					"name" : "Homophone_cipher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71",
+					"jsonFile" : "target-Homophone_cipher_lib-Debug-082fee2b04d54dc7084a.json",
+					"name" : "Homophone_cipher_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "SHA-256_lib::@fc6a39af77d38f53b796",
+					"jsonFile" : "target-SHA-256_lib-Debug-3edc416288db49361608.json",
+					"name" : "SHA-256_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-5df19e0b28cb63b412ab.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4",
+					"jsonFile" : "target-cipher_exceptions_lib-Debug-4bafbfa3db81642721d9.json",
+					"name" : "cipher_exceptions_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656",
+					"jsonFile" : "target-homophone_generator_lib-Debug-91974bb73bfddc0af200.json",
+					"name" : "homophone_generator_lib",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"build" : "Homophone_cipher",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"jsonFile" : "directory-Homophone_cipher-Release-1a65c99cf317acf3b088.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Homophone_cipher",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Homophone_cipher/cipher_exceptions",
+					"jsonFile" : "directory-Homophone_cipher.cipher_exceptions-Release-414720a72e33ad55a02d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "cipher_exceptions",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator-Release-c0f642db9b0b859578df.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "homophone_generator",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator/DRBG",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator.DRBG-Release-84133876eca801cc27e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/DRBG",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "DRBG/HMAC",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-DRBG.HMAC-Release-e1991668112292c5ecbf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/HMAC",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "HMAC/SHA-256",
+					"jsonFile" : "directory-HMAC.SHA-256-Release-b7b7d0be5d77343427a0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/SHA-256",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "dynamicLib",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-355a3abff6a2d5fb331d.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "DRBG_lib::@14b55bfc16e3e145abe0",
+					"jsonFile" : "target-DRBG_lib-Release-7a1e68922c3e3998d661.json",
+					"name" : "DRBG_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "HMAC_lib::@fd78a2f89042c08a2170",
+					"jsonFile" : "target-HMAC_lib-Release-579e6e3dc85a5399a87a.json",
+					"name" : "HMAC_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Homophone_cipher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Homophone_cipher-Release-fd3bd31dec90797f0223.json",
+					"name" : "Homophone_cipher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71",
+					"jsonFile" : "target-Homophone_cipher_lib-Release-17e17be85203aa8b796a.json",
+					"name" : "Homophone_cipher_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "SHA-256_lib::@fc6a39af77d38f53b796",
+					"jsonFile" : "target-SHA-256_lib-Release-2467af0ec9ee01819862.json",
+					"name" : "SHA-256_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-5df19e0b28cb63b412ab.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4",
+					"jsonFile" : "target-cipher_exceptions_lib-Release-86115587947438691a9a.json",
+					"name" : "cipher_exceptions_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656",
+					"jsonFile" : "target-homophone_generator_lib-Release-c454514053df87fe7a4d.json",
+					"name" : "homophone_generator_lib",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-MinSizeRel-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"build" : "Homophone_cipher",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"jsonFile" : "directory-Homophone_cipher-MinSizeRel-1a65c99cf317acf3b088.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Homophone_cipher",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Homophone_cipher/cipher_exceptions",
+					"jsonFile" : "directory-Homophone_cipher.cipher_exceptions-MinSizeRel-414720a72e33ad55a02d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "cipher_exceptions",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator-MinSizeRel-c0f642db9b0b859578df.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "homophone_generator",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator/DRBG",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator.DRBG-MinSizeRel-84133876eca801cc27e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/DRBG",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "DRBG/HMAC",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-DRBG.HMAC-MinSizeRel-e1991668112292c5ecbf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/HMAC",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "HMAC/SHA-256",
+					"jsonFile" : "directory-HMAC.SHA-256-MinSizeRel-b7b7d0be5d77343427a0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/SHA-256",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "MinSizeRel",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "dynamicLib",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-355a3abff6a2d5fb331d.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "DRBG_lib::@14b55bfc16e3e145abe0",
+					"jsonFile" : "target-DRBG_lib-MinSizeRel-fa580fce927d84dd5187.json",
+					"name" : "DRBG_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "HMAC_lib::@fd78a2f89042c08a2170",
+					"jsonFile" : "target-HMAC_lib-MinSizeRel-35a19d2edb253861d695.json",
+					"name" : "HMAC_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Homophone_cipher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Homophone_cipher-MinSizeRel-766e501adde8cebc2a0a.json",
+					"name" : "Homophone_cipher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71",
+					"jsonFile" : "target-Homophone_cipher_lib-MinSizeRel-a37f426ce100bf3a5b87.json",
+					"name" : "Homophone_cipher_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "SHA-256_lib::@fc6a39af77d38f53b796",
+					"jsonFile" : "target-SHA-256_lib-MinSizeRel-c50c3979947fa812b028.json",
+					"name" : "SHA-256_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-5df19e0b28cb63b412ab.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4",
+					"jsonFile" : "target-cipher_exceptions_lib-MinSizeRel-1d7092d113bd3ebffbc8.json",
+					"name" : "cipher_exceptions_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656",
+					"jsonFile" : "target-homophone_generator_lib-MinSizeRel-26f7d94f6b9a8a8b4bf1.json",
+					"name" : "homophone_generator_lib",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-RelWithDebInfo-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"build" : "Homophone_cipher",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"jsonFile" : "directory-Homophone_cipher-RelWithDebInfo-1a65c99cf317acf3b088.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Homophone_cipher",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "Homophone_cipher/cipher_exceptions",
+					"jsonFile" : "directory-Homophone_cipher.cipher_exceptions-RelWithDebInfo-414720a72e33ad55a02d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "cipher_exceptions",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator",
+					"childIndexes" : 
+					[
+						4
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator-RelWithDebInfo-c0f642db9b0b859578df.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "homophone_generator",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "Homophone_cipher/Homophone_generator/DRBG",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-Homophone_cipher.Homophone_generator.DRBG-RelWithDebInfo-84133876eca801cc27e7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/DRBG",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "DRBG/HMAC",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-DRBG.HMAC-RelWithDebInfo-e1991668112292c5ecbf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/HMAC",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "HMAC/SHA-256",
+					"jsonFile" : "directory-HMAC.SHA-256-RelWithDebInfo-b7b7d0be5d77343427a0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 0,
+					"source" : "HMAC_DRBG/SHA-256",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					],
+					"name" : "dynamicLib",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-355a3abff6a2d5fb331d.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "DRBG_lib::@14b55bfc16e3e145abe0",
+					"jsonFile" : "target-DRBG_lib-RelWithDebInfo-b7ffe05ffd5ca26d3270.json",
+					"name" : "DRBG_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "HMAC_lib::@fd78a2f89042c08a2170",
+					"jsonFile" : "target-HMAC_lib-RelWithDebInfo-aeae2b24f6da2bd887ce.json",
+					"name" : "HMAC_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Homophone_cipher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Homophone_cipher-RelWithDebInfo-2f73a75f32bd8bcaffea.json",
+					"name" : "Homophone_cipher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Homophone_cipher_lib::@9353b7b91afb8f86ee71",
+					"jsonFile" : "target-Homophone_cipher_lib-RelWithDebInfo-a2e46b011b82ff65741c.json",
+					"name" : "Homophone_cipher_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "SHA-256_lib::@fc6a39af77d38f53b796",
+					"jsonFile" : "target-SHA-256_lib-RelWithDebInfo-5a66c3c65d8b0d133f8a.json",
+					"name" : "SHA-256_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-5df19e0b28cb63b412ab.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "cipher_exceptions_lib::@ae75687843bb767f6bb4",
+					"jsonFile" : "target-cipher_exceptions_lib-RelWithDebInfo-b8292e02a865cc2eaf49.json",
+					"name" : "cipher_exceptions_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "homophone_generator_lib::@6b8b2e80c9e26d96f656",
+					"jsonFile" : "target-homophone_generator_lib-RelWithDebInfo-65d39c7bfe630e9717ed.json",
+					"name" : "homophone_generator_lib",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Development/course_work/coursework-ciphers_software/build",
+		"source" : "C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

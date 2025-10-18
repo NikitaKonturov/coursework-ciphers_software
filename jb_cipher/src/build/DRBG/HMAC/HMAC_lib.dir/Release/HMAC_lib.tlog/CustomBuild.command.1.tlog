@@ -1,0 +1,10 @@
+^C:\DEVELOPMENT\COURSE_WORK\TEMP_REPO\COURSEWORK-CIPHERS_SOFTWARE\JB_CIPHER\SRC\HMAC_DRBG\HMAC\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/jb_cipher/src -BC:/Development/course_work/temp_repo/coursework-ciphers_software/jb_cipher/src/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/jb_cipher/src/build/DRBG/HMAC/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

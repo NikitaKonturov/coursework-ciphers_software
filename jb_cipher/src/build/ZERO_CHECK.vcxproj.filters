@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\jb_cipher\src\build\CMakeFiles\90d4150670f8d1ac6bbd18f7d0700c58\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{51E26678-C496-33AD-9DE1-C3C91BAD75B9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

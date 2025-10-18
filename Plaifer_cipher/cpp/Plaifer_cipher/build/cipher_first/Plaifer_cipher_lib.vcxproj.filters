@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Development\course_work\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\Plaifer_cipher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Development\course_work\coursework-ciphers_software\Plaifer_cipher\cpp\Plaifer_cipher\cipher_first\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{439E219A-292B-32A3-B580-2C50E5391363}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

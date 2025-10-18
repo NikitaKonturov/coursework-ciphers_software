@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Development\course_work\temp_repo\coursework-ciphers_software\Cardan_cipher\src\cpp\cipher_example_dll\build\CMakeFiles\d4d621297a49913f69e3053c0a0bd95a\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{772B2547-6DB3-3895-AA02-D6875206A954}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

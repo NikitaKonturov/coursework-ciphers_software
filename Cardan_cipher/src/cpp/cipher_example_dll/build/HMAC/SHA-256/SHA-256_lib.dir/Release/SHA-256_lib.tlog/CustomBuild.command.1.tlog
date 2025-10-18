@@ -1,0 +1,10 @@
+^C:\DEVELOPMENT\COURSE_WORK\TEMP_REPO\COURSEWORK-CIPHERS_SOFTWARE\CARDAN_CIPHER\SRC\CPP\CIPHER_EXAMPLE_DLL\HMAC_DRBG\SHA-256\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/temp_repo/coursework-ciphers_software/Cardan_cipher/src/cpp/cipher_example_dll -BC:/Development/course_work/temp_repo/coursework-ciphers_software/Cardan_cipher/src/cpp/cipher_example_dll/build --check-stamp-file C:/Development/course_work/temp_repo/coursework-ciphers_software/Cardan_cipher/src/cpp/cipher_example_dll/build/HMAC/SHA-256/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

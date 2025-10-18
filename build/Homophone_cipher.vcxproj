@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E7F24344-5CD0-3D90-A41B-24A4DE260998}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>Homophone_cipher</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\py\include_ciphers\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Homophone_cipher.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Homophone_cipher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.pyd</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\py\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Homophone_cipher.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Homophone_cipher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.pyd</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\py\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Homophone_cipher.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Homophone_cipher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.pyd</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\py\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Homophone_cipher.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Homophone_cipher</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.pyd</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/include" /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\libs\python312.lib;Homophone_cipher\Debug\Homophone_cipher_lib.lib;Homophone_cipher\cipher_exceptions\Debug\cipher_exceptions_lib.lib;Homophone_cipher\Homophone_generator\Debug\homophone_generator_lib.lib;Homophone_cipher\Homophone_generator\DRBG\Debug\DRBG_lib.lib;DRBG\HMAC\Debug\HMAC_lib.lib;HMAC\SHA-256\Debug\SHA-256_lib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Development/course_work/coursework-ciphers_software/build/Debug/Homophone_cipher.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/py/include_ciphers/Homophone_cipher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/include" /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization></Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Release";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR=\"Release\";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\libs\python312.lib;Homophone_cipher\Release\Homophone_cipher_lib.lib;Homophone_cipher\cipher_exceptions\Release\cipher_exceptions_lib.lib;Homophone_cipher\Homophone_generator\Release\homophone_generator_lib.lib;Homophone_cipher\Homophone_generator\DRBG\Release\DRBG_lib.lib;DRBG\HMAC\Release\HMAC_lib.lib;HMAC\SHA-256\Release\SHA-256_lib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Development/course_work/coursework-ciphers_software/build/Release/Homophone_cipher.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/py/Release/Homophone_cipher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/include" /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\libs\python312.lib;Homophone_cipher\MinSizeRel\Homophone_cipher_lib.lib;Homophone_cipher\cipher_exceptions\MinSizeRel\cipher_exceptions_lib.lib;Homophone_cipher\Homophone_generator\MinSizeRel\homophone_generator_lib.lib;Homophone_cipher\Homophone_generator\DRBG\MinSizeRel\DRBG_lib.lib;DRBG\HMAC\MinSizeRel\HMAC_lib.lib;HMAC\SHA-256\MinSizeRel\SHA-256_lib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Development/course_work/coursework-ciphers_software/build/MinSizeRel/Homophone_cipher.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/py/MinSizeRel/Homophone_cipher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/Lib/site-packages/pybind11/include" /external:I "C:/Users/Lenovo IdeaPad5/AppData/Local/Programs/Python/Python312/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";Homophone_cipher_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\Homophone_cipher\..\include;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\cipher_exceptions;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\homophone_generator;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\DRBG;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\HMAC;C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\HMAC_DRBG\SHA-256;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\include;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\libs\python312.lib;Homophone_cipher\RelWithDebInfo\Homophone_cipher_lib.lib;Homophone_cipher\cipher_exceptions\RelWithDebInfo\cipher_exceptions_lib.lib;Homophone_cipher\Homophone_generator\RelWithDebInfo\homophone_generator_lib.lib;Homophone_cipher\Homophone_generator\DRBG\RelWithDebInfo\DRBG_lib.lib;DRBG\HMAC\RelWithDebInfo\HMAC_lib.lib;HMAC\SHA-256\RelWithDebInfo\SHA-256_lib.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Development/course_work/coursework-ciphers_software/build/RelWithDebInfo/Homophone_cipher.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/py/RelWithDebInfo/Homophone_cipher.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll -BC:/Development/course_work/coursework-ciphers_software/build --check-stamp-file C:/Development/course_work/coursework-ciphers_software/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCXXCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeRCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Common.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Config.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11ConfigVersion.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11NewTools.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Targets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll -BC:/Development/course_work/coursework-ciphers_software/build --check-stamp-file C:/Development/course_work/coursework-ciphers_software/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCXXCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeRCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Common.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Config.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11ConfigVersion.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11NewTools.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Targets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll -BC:/Development/course_work/coursework-ciphers_software/build --check-stamp-file C:/Development/course_work/coursework-ciphers_software/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCXXCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeRCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Common.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Config.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11ConfigVersion.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11NewTools.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Targets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Development/course_work/coursework-ciphers_software/Homophone_cipher/src/cpp/Homophone_cipher_dll -BC:/Development/course_work/coursework-ciphers_software/build --check-stamp-file C:/Development/course_work/coursework-ciphers_software/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeCXXCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeRCCompiler.cmake;C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\3.31.4\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython\Support.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\FindPython3.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Common.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Config.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11ConfigVersion.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11NewTools.cmake;C:\Users\Lenovo IdeaPad5\AppData\Local\Programs\Python\Python312\Lib\site-packages\pybind11\share\cmake\pybind11\pybind11Targets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Development\course_work\coursework-ciphers_software\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Development\course_work\coursework-ciphers_software\Homophone_cipher\src\cpp\Homophone_cipher_dll\main_cipher_file.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\ZERO_CHECK.vcxproj">
+      <Project>{EF1F1432-9AC6-3866-BF66-75C20D921692}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\Homophone_cipher\Homophone_generator\DRBG\DRBG_lib.vcxproj">
+      <Project>{7AF02989-BE20-309F-9165-6E0FF32B8B1C}</Project>
+      <Name>DRBG_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\DRBG\HMAC\HMAC_lib.vcxproj">
+      <Project>{6AB2141C-560D-3589-B3EB-81E550D668DD}</Project>
+      <Name>HMAC_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\Homophone_cipher\Homophone_cipher_lib.vcxproj">
+      <Project>{2EE0DCB1-DC18-34DD-BCF0-0B562705DCB2}</Project>
+      <Name>Homophone_cipher_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\HMAC\SHA-256\SHA-256_lib.vcxproj">
+      <Project>{9FCF5FA6-5FF2-3E4B-A796-4ED22E4F7857}</Project>
+      <Name>SHA-256_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\Homophone_cipher\cipher_exceptions\cipher_exceptions_lib.vcxproj">
+      <Project>{D6937220-8FC8-3DCD-95F1-5349FF1436BA}</Project>
+      <Name>cipher_exceptions_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Development\course_work\coursework-ciphers_software\build\Homophone_cipher\Homophone_generator\homophone_generator_lib.vcxproj">
+      <Project>{0AFAAEB6-85D6-373D-B725-8B25C6B96BA4}</Project>
+      <Name>homophone_generator_lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
