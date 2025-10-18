@@ -5,8 +5,8 @@ std::string get_random_word(const std::string& wordsPath) {
     std::locale::global(std::locale("ru_RU.UTF-8"));
     std::wcout.imbue(std::locale());
     
-    std::ifstream file(wordsPath);
-    if (!file.is_open()) {
+    std::ifstream cnt(wordsPath);
+    if (!cnt.is_open()) {
         throw std::runtime_error("Не получилось открыть файл: " + wordsPath);
     }
 
@@ -17,16 +17,28 @@ std::string get_random_word(const std::string& wordsPath) {
 
     size_t randomNum = convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(9).value());
 
-    std::string word = "";
-    while (randomNum != 0) {
-        while (std::getline(file, word)) {
-            if (randomNum != 0) {
-                randomNum -= 1;
-            } else {
-                return word;
-            }
+    size_t totalLines = 0;
+    std::string temp;
+    while (std::getline(cnt, temp)) {
+        totalLines++;
+    }
+    cnt.close();
+
+    if (totalLines == 0) {
+        throw std::runtime_error("Нет слов данной длины...");
+    }
+
+    size_t targetIndex = randomNum % totalLines;
+
+    std::ifstream file(wordsPath);
+    std::string result;
+    for (size_t i = 0; i <= targetIndex; ++i) {
+        if (!std::getline(file, result)) {
+            throw std::runtime_error("Ошибка чтения файла...");
         }
     }
+    
+    return result;
 }
 
 /*================================================================*/
