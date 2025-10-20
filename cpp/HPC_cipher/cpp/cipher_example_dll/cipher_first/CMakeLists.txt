@@ -13,6 +13,8 @@ target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # Добавляем директорию для поиска файлов библиотеки nlohmann::json
 target_include_directories(HPC-cipher_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
+
+
 target_link_libraries(HPC-cipher_lib PUBLIC permutation_lib)
 target_link_libraries(HPC-cipher_lib PUBLIC cipher_exceptions_lib)
 target_link_libraries(HPC-cipher_lib PUBLIC permutation_generator_lib)
