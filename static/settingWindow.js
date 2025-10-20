@@ -2,7 +2,14 @@ let interfaceLanguage = 'ru';
 let cipherLanguage = 'ru';
 let encryptFolderPath = 'dest';
 let decryptFolderPath = 'dest';
-let fiveGramsEnabled = 'false'
+let fiveGramsEnabled = 'True';
+
+let URL = window.location.origin
+
+
+export async function preventActionButton() {
+    event.preventDefault()
+}
 
 function showError(message) {
     console.log("showError вызван с сообщением:", message);
@@ -191,7 +198,7 @@ async function saveSettings() {
     showLoadingIndicator();
     try {
 	let url = window.location.origin;
-        let response = await fetch(url + '/settings', {
+        let response = await fetch(URL + '/settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -261,6 +268,8 @@ function hideLoadingIndicator() {
 window.openSettings = openSettings
 window.closeSettings = closeSettings
 window.saveSettings = saveSettings
+window.preventActionButton = preventActionButton
+
 
 
 

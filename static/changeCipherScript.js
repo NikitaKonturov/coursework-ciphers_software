@@ -1,19 +1,21 @@
+
 import { showError } from './errorHandler.js'
 
 let URL = window.location.origin
 
+
+
 function showErrorAndLog(error) {
     const message = "Ошибка: " + error.message;
-    showError(message); 
-    console.error("Response error: ", error);  
+    showError(message);
+    console.error("Response error: ", error);
 }
 
 
 export async function addBlockOfKeysSettings() {
     try {
-	console.log(window.location.origin);
-	showLoadingIndicator();
-        let serverResponse = await fetch(URL + "/selectCipher", 
+        showLoadingIndicator();
+        let serverResponse = await fetch(URL + "/selectCipher",
             {
                 method: "POST",
                 headers: {
@@ -26,7 +28,7 @@ export async function addBlockOfKeysSettings() {
             const errorData = await serverResponse.json();
             const errorMessage = errorData.error || "Неизвестная ошибка на сервере";
             const errorDetail = errorData.detail || "Нет дополнительных данных";
-            
+
             throw new Error(`${errorMessage}: ${errorDetail}`);
         }
 
@@ -36,7 +38,7 @@ export async function addBlockOfKeysSettings() {
         keysSettingBlock.id = "keys-settings-block"
         keysSettingBlock.className = "keys-settings-block-class"
         keysSettingBlock.enctype = "multipart/form-data"
-        
+
         let blockName = document.createElement("label");
         blockName.textContent = (document.getElementById("ciphersList").value + ' параметры ключа:')
         keysSettingBlock.appendChild(blockName)
@@ -56,7 +58,7 @@ export async function addBlockOfKeysSettings() {
                 inputLabel.min = param.min
                 inputLabel.max = param.max
             }
-            
+
             divParametr.appendChild(nameLabel)
             divParametr.appendChild(inputLabel)
             keysSettingBlock.appendChild(divParametr)
@@ -67,26 +69,26 @@ export async function addBlockOfKeysSettings() {
         let buttonConfirm = document.createElement("button")
         buttonConfirm.textContent = "Подтвердить"
         buttonConfirm.addEventListener("click", function(){event.preventDefault(); sendEncriptRequest("keys-settings-block", "keys_settings")}, true);
-        blockConfirmKey.appendChild(buttonConfirm)    
+        blockConfirmKey.appendChild(buttonConfirm)
         keysSettingBlock.appendChild(blockConfirmKey)
 
         Array.from(document.getElementsByClassName("keys-settings-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("keys-choose-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
         Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
-        
+
         document.getElementById("main-keys-block").appendChild(keysSettingBlock)
-        
-    } catch (error) {  
+
+    } catch (error) {
         showErrorAndLog(error);
     }
 }
 
 export function checkNumber(elementValue) {
     if (isNaN(Number(elementValue))) {
-        return elementValue;  
+        return elementValue;
     } else {
-        return Number(elementValue); 
+        return Number(elementValue);
     }
 }
 
@@ -96,17 +98,17 @@ export async function sendEncriptRequest(formID, keysType) {
     if(document.getElementById("ciphersList").value == "Empty_tag") {
             alert("Выберите шифр!")
             showError("Выберите шифр!")
-            return 
+            return
         } else if(!isValidNaturalNumber(document.getElementById("count-of-tg").value)  || !isValidNaturalNumber(document.getElementById("lenght-of-tg").value)) {
                 alert("Колличество телеграм и их размер должны быть натуральными и не содержать 'e'!")
                 showError("Колличество телеграм и их размер должны быть натуральными и не содержать 'e'!");
                 return
-        } 
+        }
 
     if(Array.from(document.getElementById("text-file").files).length == 0) {
         alert("Выберите файл с текстом!");
         showError("Ошибка файл с тектсом не выбран!");
-        return 
+        return
     }
 
     dataToSliceTelegams.append("keysType", keysType)
@@ -133,13 +135,13 @@ export async function sendEncriptRequest(formID, keysType) {
             showError(`Ошибка: ${telegramCuttingResponse.statusText}`);
         }
         return;
-    } 
+    }
     if(keysType == 'keys_settings') {
         let dataFromKeySettingForm = Array.from(document.querySelectorAll(('#' + formID + ' input'))).reduce((anyFields, thisField) => ({...anyFields, [thisField.name]: checkNumber(thisField.value)}), {})
         console.log(dataFromKeySettingForm)
 
         showLoadingIndicator();
-        let keyPropertiesResponse = await fetch(URL +  "/startEncoder/pushKeysProperties", 
+        let keyPropertiesResponse = await fetch(URL + "/startEncoder/pushKeysProperties",
             {
                 method: "POST",
                 headers: {
@@ -165,11 +167,34 @@ export async function sendEncriptRequest(formID, keysType) {
             return;
         }
         else{
+
+            const blob = await keyPropertiesResponse.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+
+            // Get filename from response headers or use a default
+            //const contentDisposition = keyPropertiesResponse.headers.get('content-disposition');
+            let filename = 'encryption-result.zip';
+            /*
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                if (filenameMatch) filename = filenameMatch[1];
+            }
+            filename = filename.substring(0,filename.length - 1)
+            */
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
             showToast("Зашифрование прошло успешно!","success");
         }
     } else if (keysType == 'users_keys') {
         let dataFromUserKeysForm = new FormData(document.getElementById(formID))
-        Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)}) 
+        Array.from(dataFromUserKeysForm).forEach(element => {console.log(element)})
         showLoadingIndicator();
         let userKeysResponse = await fetch(URL + "/startEncoder/pushUserKeys",
             {
@@ -195,22 +220,45 @@ export async function sendEncriptRequest(formID, keysType) {
             return;
         }
         else{
+
+            const blob = await userKeysResponse.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+
+            // Get filename from response headers or use a default
+            //const contentDisposition = keyPropertiesResponse.headers.get('content-disposition');
+            let filename = 'encryption-result.zip';
+            /*
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+                if (filenameMatch) filename = filenameMatch[1];
+            }
+            filename = filename.substring(0,filename.length - 1)
+            */
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
             showToast("Зашифрование прошло успешно","success");
         }
-    } 
+    }
 }
 
 export async function sendDecriptRequest()
 {
     let dataAboutCipherTextAndKeys = new FormData(document.getElementById("slice-telegrmas-form"))
-    
+
     dataAboutCipherTextAndKeys.delete("length")
     dataAboutCipherTextAndKeys.delete("number")
 
     if(document.getElementById("ciphersList").value == "Empty_tag") {
         alert("Выберите шифр")
         return
-    } 
+    }
 
     const fileInput = document.getElementById("text-file");
 
@@ -220,7 +268,7 @@ export async function sendDecriptRequest()
     }
 
     showLoadingIndicator();
-    let responseFromDecript = await fetch(URL + "/startDecoder", 
+    let responseFromDecript = await fetch(URL + "/startDecoder",
         {
             method: "POST",
             body: dataAboutCipherTextAndKeys
@@ -242,8 +290,31 @@ export async function sendDecriptRequest()
         }
         return;
     } else {
+
+        const blob = await responseFromDecript.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+
+        // Get filename from response headers or use a default
+        const contentDisposition = responseFromDecript.headers.get('content-disposition');
+        let filename = 'decryption-result.docx';
+
+        if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+            if (filenameMatch) filename = filenameMatch[1];
+        }
+        filename = filename.substring(0,filename.length - 1)
+
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
         showToast("Расшифрование прошло успешно","success");
-    } 
+    }
 
 
     return
@@ -253,7 +324,7 @@ export async function addBlockOfGetUsersKeys() {
     try {
         let blockWithChooseKey = document.createElement("div")
         blockWithChooseKey.className = "keys-choose-block-class"
-        
+
         let formChooseKeysFile = document.createElement("form")
         formChooseKeysFile.enctype="multipart/form-data"
         formChooseKeysFile.className = "keys-choose-block"
@@ -277,7 +348,7 @@ export async function addBlockOfGetUsersKeys() {
         inputUsersKeys.required = ""
         inputUsersKeys.style = "display: none;"
         inputUsersKeys.type = "file"
-        
+
         let blockConfirmKey = document.createElement("div")
         blockConfirmKey.className = "keys-choose-block-class"
 
@@ -341,7 +412,7 @@ export async function encriptSettings() {
             rigthBlock.id = "main-keys-block"
             rigthBlock.className = "main-keys-block-class"
             rigthBlock.appendChild(selectKyesTypeBlock)
-            
+
             Array.from(document.getElementsByClassName("main-keys-block-class")).forEach(elem => {elem.remove();})
             Array.from(document.getElementsByClassName("decript-block-class")).forEach(elem => { elem.remove(); });
             Array.from(document.getElementsByClassName("settingWindow-class")).forEach(elem => { elem.remove(); });
@@ -365,7 +436,10 @@ export async function encriptSettings() {
 window.encriptSettings = encriptSettings
 window.preventActionButton = preventActionButton
 window.sendDecriptRequest = sendDecriptRequest
-
+window.encriptSettings = encriptSettings
+window.addBlockOfKeysSettings = addBlockOfKeysSettings
+window.addBlockOfGetUsersKeys = addBlockOfGetUsersKeys
+window.encriptSettings = encriptSettings
 
 
 function showLoadingIndicator() {
@@ -391,7 +465,7 @@ function showLoadingIndicator() {
         `;
         document.body.appendChild(loader);
     }
-    
+
     // Устанавливаем курсор "wait" для всей страницы
     document.body.style.cursor = 'wait';
     loader.style.display = 'flex';
@@ -403,7 +477,7 @@ function hideLoadingIndicator() {
     if (loader) {
         loader.style.display = 'none';
     }
-    
+
     // Восстанавливаем обычный курсор
     document.body.style.cursor = 'default';
 }
