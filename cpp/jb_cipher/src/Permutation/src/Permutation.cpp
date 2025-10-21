@@ -135,6 +135,8 @@ void Permutation::apply(std::wstring& str)
 
     // Проверка: длина строки должна быть кратна размеру перестановки
     if (str.size() % permSize != 0) {
+        std::cout << "permSize: " << permSize << '\n';
+        std::cout << "strSize: " << str.size() << '\n';
         throw std::invalid_argument("Длина строки должна быть кратна размеру перестановки!");
     }
 
@@ -167,12 +169,12 @@ size_t Permutation::size()
     return this->SourcePermut.size();
 }
 
-uint32_t Permutation::operator()(int32_t& index)
+uint32_t Permutation::operator()(int32_t index)
 {
     // Проверка на допустимый индекс
     if (SourcePermut.find(index) == SourcePermut.end()) 
         throw std::out_of_range("Индекс находится вне диапазона для перестановки.");
-    if (index <= 0) 
+    if (index < 0) 
             throw std::invalid_argument("Числа должны быть положительными и ненулевыми!");
     // Возвращаем элемент по индексу
     return SourcePermut.at(index);

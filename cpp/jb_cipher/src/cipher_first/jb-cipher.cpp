@@ -62,8 +62,7 @@ std::map<wchar_t, wchar_t> get_alfabet_substitution(Permutation& permut, Permuta
     if(languagePermut.size() == 32 && permut.size() == ru_alfabet.size()) {
         std::wstring temp = ru_alfabet;
         languagePermut.apply(temp);
-        languagePermut.apply(ru_alfabet);
-        permut.apply(temp);
+        languagePermut.apply(en_alfabet);
         for (size_t i = 0; i < permut.size(); ++i) {
             alfabetSubstitution[ru_alfabet[i]] = temp[i];
         }
@@ -112,74 +111,97 @@ std::vector<int32_t> get_left_cyclic_substitution(const std::vector<int32_t>& tr
     return res;
 }
 
+std::wstring get_alfabet(std::string lang){
+    std::wstring alfabet;
+    if(lang == "ru"){
+        for (size_t i = 1040; i < 1072; ++i){
+            alfabet.push_back(static_cast<wchar_t>(i));
+        }
+    }
+    else if(lang == "en") {
+        for (size_t i = 65; i < 91; ++i){
+            alfabet.push_back(static_cast<wchar_t>(i));
+        }
+    }
+    return alfabet;
+}
+
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-    std::locale::global(std::locale("ru_RU.UTF-8")); 
-    std::wcout.imbue(std::locale()); 
+
     if (keys.size() < openTexts.size()) {
         throw InvalidKey("Количество ключей должно быть как минимум равно количеству открытых текстов...");
     }
     
-    
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
 
     for (size_t i = 0; i < keys.size(); ++i) {
-        std::wstringstream wss(keys[i]);
-        std::uint32_t barShift = 0;
- 
-        std::wstring permutStr;
+        std::wstring key = keys[i];
+        std::wstring cipherText = openTexts[i];  
 
-        if (!(wss >> barShift)) {
-            throw InvalidKey("Неверный формат ключа: отсутствует значение сдвига.");
-        }
-        std::getline(wss, permutStr);
-        Permutation key(permutStr);
-        
-        if(openTexts[i].size() % key.size() != 0) {
-            throw InvalidOpenText("Размер открытого текста должен быть кратен количеству дисков...");
-        }
-        std::vector<int32_t> trivialPermut(((define_language(openTexts[i]) == "en") ? 26 : 32));
+        std::wstringstream wss(key);
 
-        for (size_t j = 0; j < trivialPermut.size(); ++j) {
-            trivialPermut[j] = j + 1;
-        }
-        
-        HMAC_DRBG gen(get_entropy(), get_entropy());
-        Permutation cyclic_permut(get_right_cyclic_substitution(trivialPermut, barShift)); 
-        std::wcout << cyclic_permut << std::endl;
-        std::vector<std::map<wchar_t, wchar_t>> substitutionsOnDisks(key.size());
-        std::vector<Permutation> trivialDisksPermutation(key.size()); 
-        for (size_t j = 0; j < substitutionsOnDisks.size(); ++j) {
-            trivialDisksPermutation[j] = Permutation(generat_permutation(trivialPermut, gen));
-            substitutionsOnDisks[j] = get_alfabet_substitution(trivialDisksPermutation[j], cyclic_permut);
-        }
-        
-        std::vector<std::map<wchar_t, wchar_t>> disksPermutation(substitutionsOnDisks.size());
         std::wcout << key << std::endl;
-        for (int32_t j = 0; j < disksPermutation.size(); ++j) {
-            std::cout << key(j) << " ";
-            disksPermutation[key(j)] = substitutionsOnDisks[j]; 
-        }
-        std::cout << std::endl;
 
-        std::wstring cipherText = openTexts[i];
-        std::wcout << cipherText << L' ' << disksPermutation.size() << std::endl;
-        for (size_t j = 0; j < cipherText.size(); ++j) {
-            std::wcout << j % disksPermutation.size() << L' ';
-            cipherText[j] = disksPermutation[j % disksPermutation.size()][cipherText[j]];
-        }
-        std::wcout << std::endl;
+        int32_t barShift = 0;
+        wss >> barShift;
 
-        wss.clear();
+        std::cout << "barShift: " << barShift << std::endl;
+    
+        std::wcout << L"Key after get barShift: " << key << std::endl;
+        std::wregex permutReg(LR"(\[\s*\d+(?:\s+\d+)*\])");
 
-        wss << keys[i] << L"\n";
-        for (size_t j = 0; j < trivialDisksPermutation.size(); ++j) {
-            wss << trivialDisksPermutation[j] << L'\n';
+        std::wregex re(LR"(\[(.*?)\])");  // Регулярка для поиска массивов
+        std::wsmatch match;               // Объект для хранения совпадений
+        std::wstring::const_iterator searchStart(key.cbegin());
+
+        std::vector<Permutation> trivialPermutationOfpermutationsOnDisks;
+        while (std::regex_search(searchStart, key.cend(), match, re)) {
+            trivialPermutationOfpermutationsOnDisks.push_back(Permutation(match[1]));
+            searchStart = match.suffix().first;  // Продолжить поиск после найденного совпадения
         }
         
-        std::wcout << cipherText << std::endl;
+        if(trivialPermutationOfpermutationsOnDisks.empty()){
+            throw std::runtime_error("Не верный формат ключей...");
+        }
 
-        keysAndCiphersTexts[wss.str()] = cipherText;
+        std::wcout << "All permutation: " << trivialPermutationOfpermutationsOnDisks.size() << std::endl;
+        
+        Permutation keyPermutation = trivialPermutationOfpermutationsOnDisks[0];
+        std::wcout << L"Key permutation: " << keyPermutation << std::endl;
+        trivialPermutationOfpermutationsOnDisks.erase(trivialPermutationOfpermutationsOnDisks.begin());
+
+        if(trivialPermutationOfpermutationsOnDisks.empty()){
+            throw std::runtime_error("Не верный формат ключей...");
+        }
+        std::wcout << "Count of disks permutation: " << trivialPermutationOfpermutationsOnDisks.size() << std::endl;
+        
+        std::vector<std::wstring> alfabets(trivialPermutationOfpermutationsOnDisks.size());
+        
+        std::string lang = (trivialPermutationOfpermutationsOnDisks[0].size() == 32 ? "ru" : "en");
+        std::cout << lang << '\n';
+        for (size_t j = 0; j < trivialPermutationOfpermutationsOnDisks.size(); ++j) {
+            alfabets[j] = get_alfabet(lang);
+        }
+        for (size_t i = 0; i < alfabets.size(); ++i) {
+            std::wcout << alfabets[i] << " " << alfabets[i].size() << '\n'; 
+        
+        }
+        
+        for (int32_t j = 0; j < trivialPermutationOfpermutationsOnDisks.size(); ++j) {
+            trivialPermutationOfpermutationsOnDisks[keyPermutation(j)].apply(alfabets[j]);
+        }
+        
+        for (size_t j = 0; j < cipherText.size(); ++j) {
+            std::wstring alfabet = alfabets[j % alfabets.size()]; 
+            int newIndex = static_cast<int>(alfabet.find(cipherText[j])) + barShift;
+            if(newIndex >= alfabet.size()) {
+                newIndex -= alfabet.size();
+            }
+            cipherText[j] = alfabet[newIndex];
+        }
+        
+        keysAndCiphersTexts[key] = cipherText;
     }
     
     return keysAndCiphersTexts;
@@ -201,16 +223,10 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 
         std::cout << "barShift: " << barShift << std::endl;
 
-        key.clear();
-        std::wstring line;
-        while (std::getline(wss >> std::ws, line)){
-            key.append(line);
-        }
-    
+
         std::wcout << L"Key after get barShift: " << key << std::endl;
         std::wregex permutReg(LR"(\[\s*\d+(?:\s+\d+)*\])");
-
-
+        
         std::wregex re(LR"(\[(.*?)\])");  // Регулярка для поиска массивов
         std::wsmatch match;               // Объект для хранения совпадений
         std::wstring::const_iterator searchStart(key.cbegin());
@@ -220,40 +236,48 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
             trivialPermutationOfpermutationsOnDisks.push_back(Permutation(match[1]));
             searchStart = match.suffix().first;  // Продолжить поиск после найденного совпадения
         }
+        
+        if(trivialPermutationOfpermutationsOnDisks.empty()){
+            throw std::runtime_error("Не верный формат ключей...");
+        }
 
         std::wcout << "All permutation: " << trivialPermutationOfpermutationsOnDisks.size() << std::endl;
-
+        
         Permutation keyPermutation = trivialPermutationOfpermutationsOnDisks[0];
         std::wcout << L"Key permutation: " << keyPermutation << std::endl;
         trivialPermutationOfpermutationsOnDisks.erase(trivialPermutationOfpermutationsOnDisks.begin());
-
+        
+        if(trivialPermutationOfpermutationsOnDisks.empty()){
+            throw std::runtime_error("Не верный формат ключей...");
+        }
         std::wcout << "Count of disks permutation: " << trivialPermutationOfpermutationsOnDisks.size() << std::endl;
 
         std::vector<Permutation> permutationOfpermutationsOnDisks(trivialPermutationOfpermutationsOnDisks.size());
 
-        for (int32_t j = 0; j < permutationOfpermutationsOnDisks.size(); ++j) {
-            permutationOfpermutationsOnDisks[keyPermutation(j)] = trivialPermutationOfpermutationsOnDisks[j];
+       std::vector<std::wstring> alfabets(trivialPermutationOfpermutationsOnDisks.size());
+       
+       std::string lang = (trivialPermutationOfpermutationsOnDisks[0].size() == 32 ? "ru" : "en");
+       std::cout << lang << '\n';
+       for (size_t j = 0; j < trivialPermutationOfpermutationsOnDisks.size(); ++j) {
+           alfabets[j] = get_alfabet(lang);
+        }
+        for (size_t i = 0; i < alfabets.size(); ++i) {
+            std::wcout << alfabets[i] << '\n'; 
         }
         
-        std::vector<std::map<wchar_t, wchar_t>> permutationOfsubstitutionsOnDisks(permutationOfpermutationsOnDisks.size());
-
-        std::vector<int32_t> trivialPermut(permutationOfpermutationsOnDisks[0].size());
-
-        for (size_t j = 0; j < trivialPermut.size(); ++j) {
-            trivialPermut[j] = j + 1;
-        }
-
-        Permutation cyclic_permutation(get_right_cyclic_substitution(trivialPermut, barShift));
-        std::wcout << cyclic_permutation << std::endl;
-        for (size_t j = 0; j < permutationOfsubstitutionsOnDisks.size(); ++j) {
-            permutationOfsubstitutionsOnDisks[j] = revert_substitution(get_alfabet_substitution(permutationOfpermutationsOnDisks[j], cyclic_permutation));
+        for (int32_t j = 0; j < trivialPermutationOfpermutationsOnDisks.size(); ++j) {
+            trivialPermutationOfpermutationsOnDisks[keyPermutation(j)].apply(alfabets[j]);
         }
         
         for (size_t j = 0; j < cipherText.size(); ++j) {
-            cipherText[j] = permutationOfsubstitutionsOnDisks[j % permutationOfsubstitutionsOnDisks.size()][cipherText[j]];
+            std::wstring alfabet = alfabets[j % alfabets.size()]; 
+            int newIndex = static_cast<int>(alfabet.find(cipherText[j])) - barShift;
+            if(newIndex < 0) {
+                newIndex += alfabet.size();
+            }
+            cipherText[j] = alfabet[newIndex];
         }
         
-
         keysAndOpenTexts[keyAndCipherText.first] = cipherText;
     }
 
@@ -270,7 +294,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 
         prop = nlohmann::json::parse(keyPropertys);
         chekRequest(prop);
-        
+        size_t permutSize = (prop["text_language"] == "en" ? 26 : 32);
         int32_t diskCount = prop["disk_count"];
 
         std::vector<int32_t> trivialPermut(diskCount);
@@ -283,24 +307,47 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         
         HMAC_DRBG gen(entropy, nonce, {'J', 'B', 'C', '-', 'c', 'i', 'p', 'h', 'e', 'r'});
         
-        // Все ключи
-        std::vector<std::vector<int32_t>> allKeys(count);
+        
+        // Все ключи 
+        std::vector<std::vector<int32_t>> allKeysPermutOfDisk(count);
         for (size_t i = 0; i < count; ++i) {
-            allKeys[i] = generat_permutation(trivialPermut, gen);
+            allKeysPermutOfDisk[i] = generat_permutation(trivialPermut, gen);
+        }
+        std::vector<int32_t> trivialPermutOnDisk;
+        for (size_t i = 0; i < permutSize; ++i) {
+            trivialPermutOnDisk.push_back(i + 1);
         }
 
+        for (size_t i = 0; i < trivialPermutOnDisk.size(); ++i) {
+            std::cout << trivialPermutOnDisk[i] << " ";
+        }
+        std::cout << "\n";
+
         std::vector<std::string> res;
-        for(auto key: allKeys) {
+        for(auto permutKey: allKeysPermutOfDisk) {
             if(gen.HMAC_DRBG_Ressed_Check()) {
                 gen.HMAC_DRBG_Ressed(get_entropy());
             }
             std::stringstream ss;
-            ss << convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) %  (prop["text_language"] == "en" ? 27 : 33)<< " ";
+            ss << convert_bytes_to_ddword(gen.HMAC_DRBG_Generate_algorithm(256).value()) %  (prop["text_language"] == "en" ? 27 : 32)<< " ";
             ss << "[";
-            for (auto number: key) {
+            for (auto number: permutKey) {
                 ss << number << " ";
             }
-            ss << "]";
+            ss << "]\n";
+            std::vector<int32_t> temp(diskCount);
+            for (size_t i = 0; i < diskCount; ++i) {
+                ss << "[";
+                std::wcout << "[";
+                temp = generat_permutation(trivialPermutOnDisk, gen);    
+                for (size_t j = 0; j < permutSize; ++j) {
+                    ss << temp[j] << " ";
+                    std::wcout << temp[j] << " ";
+                }
+                std::wcout << "]\n";
+                ss << "]\n";
+            }
+            
             res.push_back(ss.str());
         }            
     

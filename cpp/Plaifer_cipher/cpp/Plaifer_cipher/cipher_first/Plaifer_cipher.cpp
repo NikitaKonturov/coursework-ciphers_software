@@ -231,7 +231,7 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
     std::map<std::wstring, std::wstring> keysAndCiphersTexts;
     
     std::wregex completionReg(LR"(^[\s\n]*(?:\[[A-Z]{5}\]\n*)+$)");
-    std::wregex keyPermutReg(LR"(^\[\d+(?: \d+)*\]$)");
+    std::wregex keyPermutReg(LR"(^\[\s*\d+(?:\s+\d+)*\s*\]$)");
     for (size_t i = 0; i < openTexts.size(); ++i) {
         std::wstring text = openTexts[i];
         if(text.size() % 2 != 0) {
@@ -321,7 +321,7 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         for (auto permut: all_permut) {
             std::ostringstream oss;
             std::copy(permut.begin(), permut.end(), std::ostream_iterator<int32_t>(oss, " "));
-            result.push_back(oss.str().substr(0, oss.str().size() - 1));
+            result.push_back(std::string("[") + oss.str() + "]");
         }
         
         return result;

@@ -1,5 +1,5 @@
 let interfaceLanguage = 'ru';
-let cipherLanguage = 'ru';
+let cipherLanguage = 'en';
 let encryptFolderPath = 'dest';
 let decryptFolderPath = 'dest';
 let fiveGramsEnabled = 'True';

@@ -1,9 +1,7 @@
 #include "viginer_cipher.hpp"
 
 std::string get_random_word(const std::string& wordsPath) {
-    
-    std::locale::global(std::locale("ru_RU.UTF-8"));
-    std::wcout.imbue(std::locale());
+
     
     std::ifstream cnt(wordsPath);
     if (!cnt.is_open()) {
@@ -102,8 +100,7 @@ std::wstring put_viginer_on_text(const std::wstring& openText, const std::wstrin
 
 std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts, std::vector<std::wstring> keys)
 {
-    std::locale::global(std::locale("ru_RU.UTF-8"));
-    std::wcout.imbue(std::locale());   
+ 
     if (keys.size() < openTexts.size()) {
         throw InvalidKey("Количество ключей должно быть как минимум равно количеству открытых текстов...");
     }
@@ -181,8 +178,7 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
 
 std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
-    std::locale::global(std::locale("ru_RU.UTF-8"));
-    std::wcout.imbue(std::locale());
+
     nlohmann::json prop;
     try{
         std::replace(keyPropertys.begin(), keyPropertys.end(), '\'', '\"');
@@ -200,11 +196,11 @@ std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
         std::string keyLenStr = ss.str();
         
         std::string wordsPath = viginerPath;
-        wordsPath.push_back('\\');
+        wordsPath.push_back('/');
         wordsPath.append(lang);
-        wordsPath.push_back('\\');
+        wordsPath.push_back('/');
         wordsPath.append(keyLenStr);
-        wordsPath.push_back('\\');
+        wordsPath.push_back('/');
         wordsPath.append("words");
         wordsPath.append(".txt");
 
