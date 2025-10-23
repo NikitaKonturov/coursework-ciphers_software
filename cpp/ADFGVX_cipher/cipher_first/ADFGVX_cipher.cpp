@@ -248,10 +248,8 @@ std::map<std::wstring, std::wstring> encript(std::vector<std::wstring> openTexts
         std::wstring cipher = columnar_transposition_encrypt(intermediate, keysE[i].transpositionKey);
         
         std::wstringstream wss;
-        wss << key_conversions(substitutionTable)
-            << L"The transpositional key: " << keysE[i].transpositionKey;
-        wss << "User key: " << substitutionTable + L"|" + keysE[i].transpositionKey;
-        keysAndCiphersTexts[wss.str()] = cipher;
+        std::wstring userKeyFormat = keysE[i].substitutionKeyData + L"|" + keysE[i].transpositionKey;
+        keysAndCiphersTexts[userKeyFormat] = cipher;
     }
     
     return keysAndCiphersTexts;
@@ -268,10 +266,18 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
         }
         std::wstring cipherText = pair.second;
         std::wstring keyStr = pair.first;
+        size_t delimPos = keyStr.find(L'|');
+        if (delimPos == std::wstring::npos) {
+            throw InvalidKey("Неверный формат ключа в дешифровке. Ожидается 'числа|ключ'.");
+        }
 
-        std::wstring substitutionTable = parse_substitution_table(keyStr);
-        std::wstring transpositionKey = parse_transposition_key(keyStr);
-        
+        std::wstring substitutionPermStr = keyStr.substr(0, delimPos);
+        std::wstring transpositionKey = keyStr.substr(delimPos + 1);
+
+        std::wstring substitutionTable = get_trivial_completion();
+        Permutation key_permutation(substitutionPermStr);
+        key_permutation.apply(substitutionTable);
+
         if (substitutionTable.empty()) {
             throw InvalidKey("Извлечена пустая таблица подстановки.");
         }
@@ -293,7 +299,6 @@ std::map<std::wstring, std::wstring> decript(std::map<std::wstring, std::wstring
     
     return keysAndOpenTexts;
 }
-
 
 std::vector<std::string> gen_keys(std::string keyPropertys, size_t count)
 {
