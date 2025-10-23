@@ -26,8 +26,9 @@ for cipher_dir in ${CIPHER_DIRS}; do
         BUILD_DIR="${cipher_dir}/${BUILD_DIR_NAME}"
 
         echo "🚀 Сборка шифра: ${CIPHER_NAME}"
-
-        # Создаём директорию для сборки
+	
+        # Создаём директорию для сборк
+        rm -rf "${BUILD_DIR}"
         mkdir -p "${BUILD_DIR}"
         cd "${BUILD_DIR}"
 
