@@ -120,6 +120,11 @@ void chekRequest(nlohmann::json keyProperties)
         if (keyProperties["matrix_size"] <= 0) {
             throw InvalidKey("Значение \"Размер матрицы\" должно быть натуральным...");
         }
+        std::cout << keyProperties["matrix_size"] << '\n';
+        if ((static_cast<int>(keyProperties["matrix_size"]) % 2) != 0) {
+            std::cout << keyProperties["matrix_size"] << '\n';
+            throw std::runtime_error("Размер матрицы должен быть четным.");
+        }
     } catch (nlohmann::json::type_error &err) {
         throw KeyPropertyError(err.what());
     }
