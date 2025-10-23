@@ -3,14 +3,27 @@ import { showError } from './errorHandler.js'
 
 let URL = window.location.origin
 
+function showToast(message, type, duration = 3000) {
+    console.log(`showToast called with: ${message}, type: ${type}`);
 
+    const container = document.getElementById("toast-container");
+    if (!container) {
+        console.error("Toast container not found!");
+        return;
+    }
 
-function showErrorAndLog(error) {
-    const message = "Ошибка: " + error.message;
-    showError(message);
-    console.error("Response error: ", error);
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("hide");
+        setTimeout(() => toast.remove(), 500);
+    }, duration);
+
 }
-
 
 export async function addBlockOfKeysSettings() {
     try {

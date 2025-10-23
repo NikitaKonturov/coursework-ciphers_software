@@ -27,14 +27,15 @@ std::string define_language(std::wstring text) {
 
 Matrix get_cipher_block(std::wstring block, std::string lang) {
     std::vector<int64_t> cipher_block;
-    int64_t alfabetOffset = (lang == "ru" ? 1040 : 65);
+    std::wstring alfabet = (lang == "ru" ? L"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" : L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
     for (size_t i = 0; i < block.size(); ++i) {
-        cipher_block.push_back(static_cast<int64_t>(block[i]) - alfabetOffset);
-        std::cout << static_cast<int64_t>(block[i]) - alfabetOffset << " ";
+        cipher_block.push_back(alfabet.find(block[i]));
+        std::cout << alfabet.find(block[i]) << " ";
     }
     std::cout << std::endl;
     
+
     Matrix res(std::vector<std::vector<int64_t>>{cipher_block});
     res.transpose();
     std::cout << res << std::endl;
@@ -42,14 +43,14 @@ Matrix get_cipher_block(std::wstring block, std::string lang) {
 }
 
 std::wstring get_string_cipher_block(double* intCipherBlock, size_t lenght, std::string lang) {
-    size_t alfabetSize = (lang == "ru" ? 32 : 26);
-    size_t alfabetOffset = (lang == "ru" ? 1040 : 65);
+    size_t alfabetSize = (lang == "ru" ? 32 :26);
+    std::wstring alfabet = (lang == "ru" ? L"АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" : L"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     std::wstring res;
 
     for (size_t i = 0; i < lenght; ++i) {
         int64_t rounded_value = static_cast<int64_t>(std::round(intCipherBlock[i])); // Округление
         int64_t mod_value = ((rounded_value % alfabetSize) + alfabetSize) % alfabetSize; // Коррекция по модулю
-        res.push_back(static_cast<wchar_t>(alfabetOffset + mod_value));
+        res.push_back(alfabet[mod_value]);
     }
 
     return res;
