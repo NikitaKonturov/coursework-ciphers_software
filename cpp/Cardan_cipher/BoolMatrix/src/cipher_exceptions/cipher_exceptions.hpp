@@ -5,7 +5,7 @@
 #include <string>
 
 
-class KeyPropertyError : public std::exception  
+class KeyPropertyError : public std::runtime_error  
 {
 protected:
     std::string message;
@@ -21,7 +21,7 @@ public:
 };
 
 
-class InvalidKey : public std::exception  
+class InvalidKey : public std::runtime_error  
 {
 protected:
     std::string message;
@@ -37,7 +37,7 @@ public:
 };
 
 
-class InvalidOpenText : public std::exception  
+class InvalidOpenText : public std::runtime_error  
 {
 protected:
     std::string message;

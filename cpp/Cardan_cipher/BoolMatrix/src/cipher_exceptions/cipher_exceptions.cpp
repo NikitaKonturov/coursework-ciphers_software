@@ -6,17 +6,17 @@
 /*============================= Не валидный ключ ===============================*/
 /*==============================================================================*/
 
-InvalidKey::InvalidKey() noexcept : std::exception()
+InvalidKey::InvalidKey() noexcept : std::runtime_error("")
 {
     this->message = "Ошибка в свойстве ключа";
 }
 
-InvalidKey::InvalidKey(const char* mes) noexcept : std::exception(mes)
+InvalidKey::InvalidKey(const char* mes) noexcept : std::runtime_error(mes)
 {
     this->message = mes;
 }
 
-InvalidKey::InvalidKey(const InvalidKey& source) noexcept : std::exception() 
+InvalidKey::InvalidKey(const InvalidKey& source) noexcept : std::runtime_error("") 
 {
     this->message = source.message;
 }
@@ -31,17 +31,17 @@ const char *InvalidKey::what() const noexcept
 /*======================== Не валидные параметры ключа =========================*/
 /*==============================================================================*/
 
-KeyPropertyError::KeyPropertyError() noexcept : std::exception()
+KeyPropertyError::KeyPropertyError() noexcept : std::runtime_error("")
 {
     this->message = "Ошибка в свойстве ключа";
 }
 
-KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::exception(mes)
+KeyPropertyError::KeyPropertyError(const char* mes) noexcept : std::runtime_error(mes)
 {
     this->message = mes;
 }
 
-KeyPropertyError::KeyPropertyError(const KeyPropertyError& source) noexcept : std::exception() 
+KeyPropertyError::KeyPropertyError(const KeyPropertyError& source) noexcept : std::runtime_error("") 
 {
     this->message = source.message;
 }
@@ -57,17 +57,17 @@ const char *KeyPropertyError::what() const noexcept
 /*===============================================================================*/
 
 
-InvalidOpenText::InvalidOpenText() noexcept : std::exception()
+InvalidOpenText::InvalidOpenText() noexcept : std::runtime_error("")
 {
     this->message = "Ошибка в свойстве ключа";
 }
 
-InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::exception(mes)
+InvalidOpenText::InvalidOpenText(const char* mes) noexcept : std::runtime_error(mes)
 {
     this->message = mes;
 }
 
-InvalidOpenText::InvalidOpenText(const InvalidOpenText& source) noexcept : std::exception() 
+InvalidOpenText::InvalidOpenText(const InvalidOpenText& source) noexcept : std::runtime_error("") 
 {
     this->message = source.message;
 }
