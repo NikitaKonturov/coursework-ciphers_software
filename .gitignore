@@ -49,6 +49,7 @@ venv/
 
 # Test files
 usersKeys.txt
+.docx
 
 # Temp Python file
 *.pkg
